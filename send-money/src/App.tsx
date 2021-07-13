@@ -3,19 +3,14 @@
 import { useState, useEffect, useRef } from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ThemeProvider } from '@material-ui/core/styles';
-import Switch from '@material-ui/core/Switch';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-
 import Grid from '@material-ui/core/Grid';
-import AppBar from '@material-ui/core/AppBar';
 
 import { Connection } from '@solana/web3.js';
 
 import theme from 'theme';
-
+import Header from 'components/header';
 import { getTransactions, TransactionWithSignature } from '_coreActions/transaction';
 
 import Sender from 'components/sender';
@@ -23,22 +18,7 @@ import Transactions from 'components/transactions';
 
 import { initWallet, WalletAdapter } from './_coreActions/wallet';
 
-const useStyles = makeStyles({
-    root: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingRight: '10px',
-        height: '55px',
-    },
-    title: {
-        color: '#eeeeee',
-    },
-});
-
 function App() {
-    const classes = useStyles();
-
     const [dark, setDarkState] = useState<boolean>(useMediaQuery('(prefers-color-scheme: dark)'));
     const [transactions, setTransactions] = useState<Array<TransactionWithSignature>>();
     const conn = useRef<Connection>();
@@ -59,9 +39,11 @@ function App() {
     }, []);
 
     const didSendMoney = () => {
-        getTransactions(conn.current!, wall.current!.publicKey!).then(trans => {
-            setTransactions(trans);
-        });
+        conn.current &&
+            wall?.current?.publicKey &&
+            getTransactions(conn.current!, wall.current!.publicKey!).then(trans => {
+                setTransactions(trans);
+            });
     };
 
     const handleThemeChange = () => {
@@ -71,12 +53,7 @@ function App() {
     return (
         <ThemeProvider theme={theme(dark)}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.root}>
-                <Switch checked={dark} onChange={handleThemeChange} />
-                <Typography variant="h6" gutterBottom className={classes.title}>
-                    Send Money on Solana
-                </Typography>
-            </AppBar>
+            <Header dark={dark} handleThemeChange={handleThemeChange} />
             <Container maxWidth="md">
                 <Grid container spacing={3}>
                     <Grid item xs={12}>

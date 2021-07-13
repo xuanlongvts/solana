@@ -39,7 +39,7 @@ export const signAndSendTransaction = async (wallet: WalletAdapter, trans: Trans
     return signature;
 };
 
-export const sendMoney = async (destPubkeyStr: string, lamports: number) => {
+export const sendMoney = async (destPubkeyStr: string, lamports: number): Promise<any> => {
     try {
         const destPubkey = new PublicKey(destPubkeyStr);
         // const walletAccountInfor = await connect.getAccountInfo(wallet!.publicKey!);
@@ -54,8 +54,9 @@ export const sendMoney = async (destPubkeyStr: string, lamports: number) => {
         const signature = await signAndSendTransaction(wallet, trans);
         console.log('trans: ', trans);
         const result = await connect.confirmTransaction(signature, 'singleGossip');
-        console.log('money had sent', result);
+        return result ? result : false;
     } catch (err) {
         console.warn('Catch err: ', err);
+        return false;
     }
 };
