@@ -32,17 +32,17 @@ body {
 
 .trans-list {
     padding: 15px;
-}
 
-.trans-list span {
-    display: inline-block;
-    max-width: calc(100% - 90px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: top;
-}
+    span {
+        display: inline-block;
+        max-width: calc(100% - 90px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: top;
+    }
 
-.trans-list strong {
-    margin-right: 10px;
-    display: inline-block;
+    strong {
+        margin-right: 10px;
+        display: inline-block;
+    }
 }
