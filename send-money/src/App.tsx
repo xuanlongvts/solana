@@ -6,6 +6,9 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Skeleton from '@material-ui/lab/Skeleton';
+import { makeStyles } from '@material-ui/core/styles';
+import { Box } from '@material-ui/core';
 
 import { Connection } from '@solana/web3.js';
 
@@ -18,9 +21,24 @@ import Transactions from 'components/transactions';
 
 import { initWallet, WalletAdapter } from './_coreActions/wallet';
 
+const useStyles = makeStyles({
+    root: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    box: {
+        width: 300,
+    },
+});
+
 function App() {
+    const classes = useStyles();
+
     const [dark, setDarkState] = useState<boolean>(useMediaQuery('(prefers-color-scheme: dark)'));
     const [transactions, setTransactions] = useState<Array<TransactionWithSignature>>();
+    const [loadingConn, setLoadingConn] = useState<boolean>(false);
     const conn = useRef<Connection>();
     const wall = useRef<WalletAdapter>();
 
@@ -28,10 +46,13 @@ function App() {
         initWallet().then(([connection, wallet]: [Connection, WalletAdapter]) => {
             console.log('connection: ', connection);
             console.log('wallet: ', wallet);
+            setLoadingConn(true);
             conn.current = connection;
             wall.current = wallet;
             if (wallet.publicKey) {
                 getTransactions(connection, wallet.publicKey).then(trans => {
+                    setLoadingConn(false);
+
                     setTransactions(trans);
                 });
             }
@@ -61,6 +82,15 @@ function App() {
                     </Grid>
                     <Grid item xs={12}>
                         {transactions && <Transactions trans={transactions} />}
+                        {loadingConn ? (
+                            <div className={classes.root}>
+                                <Box className={classes.box} m={10}>
+                                    <Skeleton />
+                                    <Skeleton animation={false} />
+                                    <Skeleton animation="wave" />
+                                </Box>
+                            </div>
+                        ) : null}
                     </Grid>
                 </Grid>
             </Container>

@@ -1,13 +1,25 @@
 import { ChangeEvent, SyntheticEvent, FC, ReactElement, useState } from 'react';
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Backdrop from '@material-ui/core/Backdrop';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 import useSpacing from '_styles/useSpacing';
 
 import { sendMoney } from '_coreActions/wallet';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        backdrop: {
+            zIndex: theme.zIndex.drawer + 1,
+            color: '#fff',
+        },
+    }),
+);
 
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -23,6 +35,8 @@ const errMess = {
 };
 
 const Sender: FC<SenderProps> = ({ didSendMoney }): ReactElement => {
+    const classes = useStyles();
+
     const spacing = useSpacing();
 
     const [errAmount, setErrAmount] = useState<string | boolean>('');
@@ -30,6 +44,7 @@ const Sender: FC<SenderProps> = ({ didSendMoney }): ReactElement => {
 
     const [address, setAddress] = useState<string>('');
     const [amount, setAmount] = useState<number>(0);
+    const [openBackDrop, setOpenBackDrop] = useState<boolean>(false);
 
     const [openAlert, setOpenAlert] = useState<number>(0);
 
@@ -54,10 +69,13 @@ const Sender: FC<SenderProps> = ({ didSendMoney }): ReactElement => {
     };
 
     const handleSubmit = async () => {
+        setOpenBackDrop(true);
         if (errAmount !== false || errAddress !== false) {
+            setOpenBackDrop(false);
             return;
         }
         const result = await sendMoney(address, amount);
+        setOpenBackDrop(false);
         if (result) {
             setOpenAlert(1);
 
@@ -107,6 +125,10 @@ const Sender: FC<SenderProps> = ({ didSendMoney }): ReactElement => {
                     {openAlert && openAlert === 1 ? 'Send success' : 'Send error'}
                 </Alert>
             </Snackbar>
+
+            <Backdrop className={classes.backdrop} open={openBackDrop}>
+                <CircularProgress color="inherit" />
+            </Backdrop>
         </>
     );
 };

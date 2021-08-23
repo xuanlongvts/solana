@@ -1,5 +1,4 @@
 import { createTheme } from '@material-ui/core/styles';
-import { orange, lightBlue, deepPurple, deepOrange } from '@material-ui/core/colors';
 
 // Create a theme instance.
 const theme = (dark: boolean) =>
@@ -7,10 +6,10 @@ const theme = (dark: boolean) =>
         palette: {
             type: dark ? 'dark' : 'light',
             primary: {
-                main: dark ? orange[500] : lightBlue[500],
+                main: dark ? '#0276aa' : '#35baf6',
             },
             secondary: {
-                main: dark ? deepOrange[900] : deepPurple[500],
+                main: dark ? '#00a0b2' : '#33eaff',
             },
         },
     });

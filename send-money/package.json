@@ -1,66 +1,66 @@
 {
-	"name": "send-money",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"@material-ui/core": "^4.12.1",
-		"@material-ui/icons": "^4.11.2",
-		"@material-ui/lab": "^4.0.0-alpha.60",
-		"@material-ui/pickers": "^3.3.10",
-		"@material-ui/styles": "^4.11.4",
-		"@project-serum/sol-wallet-adapter": "^0.2.5",
-		"@solana/web3.js": "^1.20.2",
-		"@testing-library/jest-dom": "^5.14.1",
-		"@testing-library/react": "^12.0.0",
-		"@testing-library/user-event": "^13.1.9",
-		"@types/jest": "^26.0.24",
-		"@types/node": "^16.3.1",
-		"@types/react": "^17.0.14",
-		"@types/react-dom": "^17.0.9",
-		"borsh": "^0.4.0",
-		"eventemitter3": "^4.0.7",
-		"react": "^17.0.2",
-		"react-dom": "^17.0.2",
-		"react-scripts": "4.0.3",
-		"sass": "^1.35.2",
-		"typescript": "^4.3.5",
-		"web-vitals": "^2.1.0"
-	},
-	"devDependencies": {
-		"@typescript-eslint/eslint-plugin": "^4.28.2",
-		"cross-env": "^7.0.3",
-		"eslint-config-airbnb-typescript": "^12.3.1",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-import": "^2.23.4",
-		"eslint-plugin-jsx-a11y": "^6.4.1",
-		"eslint-plugin-prettier": "^3.4.0",
-		"eslint-plugin-react": "^7.24.0",
-		"eslint-plugin-react-hooks": "^4.2.0",
-		"lint-staged": "^11.0.0",
-		"prettier": "^2.3.2"
-	},
-	"scripts": {
-		"dev": "cross-env react-scripts start",
-		"build": "cross-env react-scripts build",
-		"test": "cross-env react-scripts test",
-		"prettier": "cross-env find . \\( -name node_modules -o -name contracts -o -name __generated__ -o -name .next \\) -prune -or \\( -name '*.js' -o -name '*.jsx' -o -name '*.tsx' -o -name '*.ts' -o -name '*.tsx' -o -name '*.ts' -o -name '*.html' -o -name '*.scss' -o -name '*.css' -o -name '*.json' -o -name '*.md' \\) -print | xargs prettier --write"
-	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
-	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
-	}
+    "name": "send-money",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@material-ui/core": "^4.12.3",
+        "@material-ui/icons": "^4.11.2",
+        "@material-ui/lab": "4.0.0-alpha.60",
+        "@material-ui/pickers": "^3.3.10",
+        "@material-ui/styles": "^4.11.4",
+        "@project-serum/sol-wallet-adapter": "^0.2.5",
+        "@solana/web3.js": "^1.24.1",
+        "@testing-library/jest-dom": "^5.14.1",
+        "@testing-library/react": "^12.0.0",
+        "@testing-library/user-event": "^13.2.1",
+        "@types/jest": "^27.0.1",
+        "@types/node": "^16.7.1",
+        "@types/react": "^17.0.19",
+        "@types/react-dom": "^17.0.9",
+        "borsh": "^0.6.0",
+        "eventemitter3": "^4.0.7",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-scripts": "4.0.3",
+        "sass": "^1.38.0",
+        "typescript": "^4.3.5",
+        "web-vitals": "^2.1.0"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^4.29.2",
+        "cross-env": "^7.0.3",
+        "eslint-config-airbnb-typescript": "^13.0.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.24.1",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-prettier": "^3.4.1",
+        "eslint-plugin-react": "^7.24.0",
+        "eslint-plugin-react-hooks": "^4.2.0",
+        "lint-staged": "^11.1.2",
+        "prettier": "^2.3.2"
+    },
+    "scripts": {
+        "dev": "cross-env react-scripts start",
+        "build": "cross-env react-scripts build",
+        "test": "cross-env react-scripts test",
+        "prettier": "cross-env find . \\( -name node_modules -o -name contracts -o -name __generated__ -o -name .next \\) -prune -or \\( -name '*.js' -o -name '*.jsx' -o -name '*.tsx' -o -name '*.ts' -o -name '*.tsx' -o -name '*.ts' -o -name '*.html' -o -name '*.scss' -o -name '*.css' -o -name '*.json' -o -name '*.md' \\) -print | xargs prettier --write"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }
