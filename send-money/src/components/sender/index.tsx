@@ -121,8 +121,11 @@ const Sender: FC<SenderProps> = ({ didSendMoney }): ReactElement => {
             </Button>
 
             <Snackbar open={openAlert > 0} autoHideDuration={6000} onClose={handleAlertClose}>
-                <Alert onClose={handleAlertClose} severity={openAlert && openAlert === 1 ? 'success' : 'error'}>
-                    {openAlert && openAlert === 1 ? 'Send success' : 'Send error'}
+                <Alert
+                    onClose={handleAlertClose}
+                    severity={openAlert && openAlert === 1 ? 'success' : openAlert === 2 ? 'error' : undefined}
+                >
+                    {openAlert && openAlert === 1 ? 'Send success' : openAlert === 2 ? 'Send error' : undefined}
                 </Alert>
             </Snackbar>
 
