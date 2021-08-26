@@ -1,0 +1,33 @@
+{
+    "name": "dapp",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "prettier": "cross-env find . \\( -name node_modules -o -name contracts -o -name __generated__ -o -name .next \\) -prune -or \\( -name '*.js' -o -name '*.jsx' -o -name '*.tsx' -o -name '*.ts' -o -name '*.tsx' -o -name '*.ts' -o -name '*.html' -o -name '*.scss' -o -name '*.css' -o -name '*.json' -o -name '*.md' \\) -print | xargs prettier --write"
+    },
+    "dependencies": {
+        "next": "11.1.0",
+        "react": "17.0.2",
+        "react-dom": "17.0.2"
+    },
+    "devDependencies": {
+        "@types/react": "17.0.19",
+        "@typescript-eslint/eslint-plugin": "^4.29.3",
+        "cross-env": "^7.0.3",
+        "eslint": "7.32.0",
+        "eslint-config-airbnb-typescript": "^14.0.0",
+        "eslint-config-next": "11.1.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.24.2",
+        "eslint-plugin-jsx-a11y": "^6.4.1",
+        "eslint-plugin-prettier": "^3.4.1",
+        "eslint-plugin-react": "^7.24.0",
+        "eslint-plugin-react-hooks": "^4.2.0",
+        "prettier": "^2.3.2",
+        "typescript": "4.3.5"
+    }
+}
