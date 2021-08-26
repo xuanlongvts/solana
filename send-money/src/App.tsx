@@ -36,7 +36,9 @@ const useStyles = makeStyles({
 function App() {
     const classes = useStyles();
 
-    const [dark, setDarkState] = useState<boolean>(useMediaQuery('(prefers-color-scheme: dark)'));
+    const getDark = useMediaQuery('(prefers-color-scheme: dark)');
+
+    const [dark, setDarkState] = useState<boolean>(getDark);
     const [transactions, setTransactions] = useState<Array<TransactionWithSignature>>();
     const [loadingConn, setLoadingConn] = useState<boolean>(false);
     const conn = useRef<Connection>();
@@ -58,6 +60,10 @@ function App() {
             }
         });
     }, []);
+
+    useEffect(() => {
+        setDarkState(getDark);
+    }, [getDark]);
 
     const didSendMoney = () => {
         conn.current &&
