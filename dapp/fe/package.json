@@ -4,11 +4,9 @@
     "private": true,
     "scripts": {
         "dev": "next dev -p 3002",
-        "qc": "cross-env NODE_ENV=qc next dev",
-        "uat": "cross-env NODE_ENV=uat next dev",
+        "test": "cross-env NODE_ENV=test next dev",
         "build-dev": "cross-env NODE_ENV=dev next build",
-        "build-qc": "cross-env NODE_ENV=qc next build",
-        "build-uat": "cross-env NODE_ENV=uat next build",
+        "build-test": "cross-env NODE_ENV=test next build",
         "build-production": "cross-env NODE_ENV=production next build",
         "start": "next start",
         "lint": "next lint",

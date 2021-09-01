@@ -3,11 +3,15 @@ import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/core/styles';
 import CleanCSS from 'clean-css';
 
+import themes from 'themes';
+import { darkThemeModes } from 'themes/const';
+
 export default class MyDocument extends Document {
     render() {
         return (
             <Html lang="vi">
                 <Head>
+                    <meta name="theme-color" content={themes(darkThemeModes.light).palette.primary.main} />
                     <link
                         rel="stylesheet"
                         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"

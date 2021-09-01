@@ -1,9 +1,9 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
+
+import ConnectPage from 'components/01-connect-cluster';
 
 const Home: NextPage = () => {
-    return <div>Home</div>;
+    return <ConnectPage />;
 };
 
 export default Home;

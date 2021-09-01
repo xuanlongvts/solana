@@ -33,6 +33,38 @@ export default css.global`
     }
 
     #__next {
-        padding-top: 56px;
+        display: flex;
+        height: 100vh;
+    }
+    aside {
+        background: linear-gradient(253deg, #00ffa3, #dc1fff);
+        max-width: 450px;
+        min-width: 350px;
+        padding: 15px 0;
+        height: 100%;
+        width: 30%;
+        overflow: auto;
+    }
+
+    main {
+        width: 100%;
+    }
+
+    header {
+        height: 57px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 15px;
+        padding-left: 5px;
+        /* border-bottom: 1px solid; */
+    }
+
+    section {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 57px);
+        justify-content: space-between;
     }
 `;

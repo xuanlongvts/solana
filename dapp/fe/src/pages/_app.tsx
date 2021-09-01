@@ -1,7 +1,6 @@
 import { useState, useEffect, FC } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Router from 'next/router';
-import { useSelector } from 'react-redux';
 
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,6 +13,8 @@ import ENV, { envName } from '_config';
 import LoadingApp from '_commComp/loadingApp';
 import { appLoadingActions } from '_commComp/loadingApp/slice';
 import { selectModeType } from 'themes/darkMode/slice/selector';
+import Nav from '_commComp/sidebar';
+import Header from '_commComp/header';
 
 enum routerEvents {
     start = 'routeChangeStart',
@@ -61,8 +62,11 @@ const App = ({ Component, pageProps }: T_APP) => {
                 {globalStyled}
             </style>
 
-            <Component {...pageProps} />
-
+            <Nav />
+            <main>
+                <Header />
+                <Component {...pageProps} />
+            </main>
             <LoadingApp />
         </ThemeProvider>
     );
