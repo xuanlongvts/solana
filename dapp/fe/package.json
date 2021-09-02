@@ -20,6 +20,7 @@
         "@material-ui/pickers": "^3.3.10",
         "@material-ui/styles": "^4.11.4",
         "@reduxjs/toolkit": "^1.6.1",
+        "@solana/web3.js": "^1.24.1",
         "@styled-jsx/plugin-sass": "^4.0.1",
         "@types/clean-css": "^4.2.5",
         "@types/react-redux": "^7.1.18",
