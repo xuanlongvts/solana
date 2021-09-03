@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             background: 'linear-gradient(253deg,#00FFA3,#DC1FFF)',
-            textTransform: 'inherit',
+            textTransform: 'initial',
         },
     }),
 );

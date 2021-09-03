@@ -6,10 +6,10 @@ import Alert from '@material-ui/lab/Alert';
 import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
-
 import axios from 'axios';
 
 import ButtonActs from '_commComp/btn';
+import SidebarConfig from '_commComp/sidebar/consts';
 
 const ConnectPage: NextPage = () => {
     const [version, setVersion] = useState<string | null>(null);
@@ -49,7 +49,7 @@ const ConnectPage: NextPage = () => {
                 </Alert>
             ) : null}
 
-            <ButtonActs nextLink="/create-account" />
+            <ButtonActs nextLink={SidebarConfig[0].link} />
         </section>
     );
 };
