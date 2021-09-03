@@ -43,13 +43,13 @@ const ConnectPage: NextPage = () => {
                 <Alert severity="success" variant="outlined" style={{ alignItems: 'center' }}>
                     Connected to Solana: <Chip avatar={<Avatar>v</Avatar>} label={version} variant="outlined" />
                 </Alert>
-            ) : (
+            ) : version !== null ? (
                 <Alert severity="error" variant="outlined">
                     Not connected to Solana!
                 </Alert>
-            )}
+            ) : null}
 
-            <ButtonActs nextLink="https://google.com.vn" />
+            <ButtonActs nextLink="/create-account" />
         </section>
     );
 };
