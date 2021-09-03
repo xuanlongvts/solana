@@ -1,4 +1,4 @@
-const env = process.env.ENV;
+const ENV = require('../../env.json').ENV;
 
 export enum ENUM_envName {
     dev = 'dev',
@@ -7,8 +7,9 @@ export enum ENUM_envName {
 }
 
 export enum SOLANA_PROTOCOLS {
-    RPC = 'HUB_RPC',
-    WS = 'HUB_WS',
+    API_SERVER = 'API_SERVER',
+    HUB_RPC = 'HUB_RPC',
+    HUB_WS = 'HUB_WS',
 }
 
 type T_envName = {
@@ -24,23 +25,24 @@ export const envName: T_envName = {
 
 export const Config = {
     [envName.dev]: {
-        API_SERVER: 'https://api.devnet.solana.com',
-        HUB_RPC: 'https://solana--devnet--rpc.datahub.figment.io/apikey',
-        HUB_WS: 'wss://solana--devnet--ws.datahub.figment.io',
-        HUB_API_KEY: '',
+        [SOLANA_PROTOCOLS.API_SERVER]: 'https://api.devnet.solana.com',
+        [SOLANA_PROTOCOLS.HUB_RPC]: 'https://solana--devnet--rpc.datahub.figment.io/apikey',
+        [SOLANA_PROTOCOLS.HUB_WS]: 'wss://solana--devnet--ws.datahub.figment.io',
     },
     [envName.test]: {
-        API_SERVER: 'https://api.testnet.solana.com',
-        HUB_RPC: '',
-        HUB_WS: '',
-        HUB_API_KEY: '',
+        [SOLANA_PROTOCOLS.API_SERVER]: 'https://api.testnet.solana.com',
+        [SOLANA_PROTOCOLS.HUB_RPC]: '',
+        [SOLANA_PROTOCOLS.HUB_WS]: '',
     },
     [envName.production]: {
-        API_SERVER: 'https://api.mainnet-beta.solana.com',
-        HUB_RPC: 'https://solana--devnet--rpc.datahub.figment.io/apikey',
-        HUB_WS: 'wss://solana--devnet--ws.datahub.figment.io',
-        HUB_API_KEY: '',
+        [SOLANA_PROTOCOLS.API_SERVER]: 'https://api.mainnet-beta.solana.com',
+        [SOLANA_PROTOCOLS.HUB_RPC]: 'https://solana--devnet--rpc.datahub.figment.io/apikey',
+        [SOLANA_PROTOCOLS.HUB_WS]: 'wss://solana--devnet--ws.datahub.figment.io',
     },
 };
 
-export default env;
+export const getConfig = (envParams = ENV, protocol = SOLANA_PROTOCOLS.API_SERVER) => {
+    return Config[envParams as string][protocol];
+};
+
+export default ENV;

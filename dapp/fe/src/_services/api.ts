@@ -1,4 +1,4 @@
-import ENV, { Config, ENUM_envName } from '_config';
+import ENV, { getConfig, envName } from '_config';
 import API from '.';
 
 const singleton = Symbol('key for first');
@@ -10,8 +10,7 @@ const ProviderApi = (detectEnv = ENV, headersConfig = null, restParams = {}) => 
             if (enforcer !== singletonEnforcer) {
                 throw new Error('Cannot construct singleton');
             }
-
-            super(Config[detectEnv || ENUM_envName.dev], headersConfig, restParams);
+            super(getConfig(detectEnv ?? envName.dev), headersConfig, restParams);
         }
 
         static get getInstance() {
