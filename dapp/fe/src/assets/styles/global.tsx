@@ -67,4 +67,28 @@ export default css.global`
         height: calc(100% - 57px);
         justify-content: space-between;
     }
+
+    kbd {
+        font: 11px Consolas, Liberation Mono, Menlo, monospace;
+        color: #444d56;
+        border: 1px solid #d1d5da;
+        padding: 5px;
+        box-shadow: inset 0 -1px 0 #d1d5da;
+        line-height: 10px;
+        border-radius: 3px;
+        vertical-align: middle;
+        background-color: #fafbfc;
+    }
+
+    code {
+        display: inline-block;
+        padding: 5px;
+        direction: ltr;
+        font-size: 0.85em;
+        font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+        line-height: 1.4;
+        border-radius: 2px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: #fff;
+    }
 `;

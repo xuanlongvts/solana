@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-
+import NoSsr from '@material-ui/core/NoSsr';
 import Switch from '@material-ui/core/Switch';
 
 import { darkThemeModes } from '../const';
@@ -16,7 +16,11 @@ const DarkMode = () => {
         dispatch(actions.changeDarkModeType());
     };
 
-    return <Switch checked={darkState === darkThemeModes.dark} onChange={handleThemeChange} />;
+    return (
+        <NoSsr>
+            <Switch checked={darkState === darkThemeModes.dark} onChange={handleThemeChange} />
+        </NoSsr>
+    );
 };
 
 export default DarkMode;

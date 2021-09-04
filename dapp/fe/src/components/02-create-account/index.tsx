@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import type { NextPage } from 'next';
+
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
-import Chip from '@material-ui/core/Chip';
-import Avatar from '@material-ui/core/Avatar';
-import Box from '@material-ui/core/Box';
+import NoSsr from '@material-ui/core/NoSsr';
+
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import axios from 'axios';
@@ -15,6 +15,10 @@ import axios from 'axios';
 import useSpacing from 'assets/styles/useSpacing';
 import ButtonActs from '_commComp/btn';
 import SidebarConfig from '_commComp/sidebar/consts';
+
+import SliceAccount from './slice';
+import * as TYPES_KEYS from './slice/types';
+import * as Selectors from './slice/selector';
 
 const styles = makeStyles((theme: Theme) => ({
     wrap: {
@@ -29,21 +33,34 @@ const styles = makeStyles((theme: Theme) => ({
 }));
 
 const ConnectPage: NextPage = () => {
-    const [fetch, setFetch] = useState<boolean>(false);
-    const [address, setAddress] = useState<string | null>(null);
-
+    const { actions } = SliceAccount();
     const classes = useSpacing();
     const classSelf = styles();
+    const dispatch = useDispatch();
+
+    const [fetch, setFetch] = useState<boolean>(false);
+
+    const errMess = useSelector(Selectors.selectErrorMess);
+    const address = useSelector(Selectors.selectAddress);
 
     const generateKeypair = async () => {
         try {
             setFetch(true);
             const result = await axios.get('/api/keypair');
-            console.log('result: ', result);
             setFetch(false);
-            setAddress(result.data.address);
+
+            const {
+                data: { address, secret },
+            } = result;
+
+            dispatch(
+                actions.setAccount({
+                    [TYPES_KEYS.ADDRESS_TO]: address,
+                    [TYPES_KEYS.ACC_KEY_PAIR]: secret.toString(),
+                }),
+            );
         } catch (err) {
-            console.log('Catch generateKeypair', err);
+            dispatch(actions.setErrorMess(err));
             setFetch(false);
         }
     };
@@ -66,40 +83,36 @@ const ConnectPage: NextPage = () => {
                         Generate a Keypair
                     </Button>
                 </div>
-                {/* <Alert severity="success" variant="outlined" className={classSelf.root}>
-                    <Typography variant="h6" gutterBottom>
-                        Keypair generated!
-                    </Typography>
-                    <Typography variant="subtitle1" gutterBottom>
-                        This is the string representation of the public key
-                    </Typography>
 
-                    <Typography variant="caption" gutterBottom>
-                        HHeZvcqm7XKdLVLmgzNVH5kTAtHurbbRcykKKPpgG8d3
-                    </Typography>
-
-                    <Typography variant="subtitle1" gutterBottom className={classes.mTop32}>
-                        Accessible (and copyable) at the top right of this page.
-                    </Typography>
-                </Alert> */}
                 {address ? (
-                    <Alert severity="success" variant="outlined" className={classSelf.root}>
-                        <Typography variant="h6" gutterBottom>
-                            Keypair generated!
-                        </Typography>
-                        <Typography variant="subtitle1" gutterBottom>
-                            This is the string representation of the public key
-                        </Typography>
+                    <NoSsr>
+                        <Alert severity="success" variant="outlined" className={classSelf.root}>
+                            <Typography variant="h6" gutterBottom>
+                                Keypair generated!
+                            </Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                This is the string representation of the public key
+                            </Typography>
 
-                        <Typography variant="caption" gutterBottom>
-                            HHeZvcqm7XKdLVLmgzNVH5kTAtHurbbRcykKKPpgG8d3
-                        </Typography>
+                            <Typography variant="caption" gutterBottom>
+                                <code>{address}</code>
+                            </Typography>
 
-                        <Typography variant="subtitle1" gutterBottom className={classes.mTop32}>
-                            Accessible (and copyable) at the top right of this page.
-                        </Typography>
-                    </Alert>
+                            <Typography variant="subtitle1" gutterBottom className={classes.mTop32}>
+                                Accessible (and copyable) at the top right of this page.
+                            </Typography>
+                        </Alert>
+                    </NoSsr>
                 ) : null}
+                {errMess && (
+                    <NoSsr>
+                        <Alert severity="error" variant="outlined" className={classSelf.root}>
+                            <Typography variant="h6" gutterBottom>
+                                {errMess}
+                            </Typography>
+                        </Alert>
+                    </NoSsr>
+                )}
             </div>
 
             <ButtonActs prevLink="/" nextLink="https://google.com.vn" />
