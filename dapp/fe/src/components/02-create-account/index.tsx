@@ -7,16 +7,16 @@ import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import NoSsr from '@material-ui/core/NoSsr';
-
 import { Theme, makeStyles } from '@material-ui/core/styles';
 
 import axios from 'axios';
 
 import useSpacing from 'assets/styles/useSpacing';
 import ButtonActs from '_commComp/btn';
+import { appLoadingActions } from '_commComp/loadingApp/slice';
 import SidebarConfig from '_commComp/sidebar/consts';
 
-import SliceAccount from './slice';
+import { accountKeypairActions } from './slice';
 import * as TYPES_KEYS from './slice/types';
 import * as Selectors from './slice/selector';
 
@@ -33,7 +33,6 @@ const styles = makeStyles((theme: Theme) => ({
 }));
 
 const ConnectPage: NextPage = () => {
-    const { actions } = SliceAccount();
     const classes = useSpacing();
     const classSelf = styles();
     const dispatch = useDispatch();
@@ -44,6 +43,7 @@ const ConnectPage: NextPage = () => {
     const address = useSelector(Selectors.selectAddress);
 
     const generateKeypair = async () => {
+        dispatch(appLoadingActions.loadingOpen());
         try {
             setFetch(true);
             const result = await axios.get('/api/keypair');
@@ -53,14 +53,16 @@ const ConnectPage: NextPage = () => {
                 data: { address, secret },
             } = result;
 
+            dispatch(appLoadingActions.loadingClose());
             dispatch(
-                actions.setAccount({
+                accountKeypairActions.setAccount({
                     [TYPES_KEYS.ADDRESS_TO]: address,
                     [TYPES_KEYS.ACC_KEY_PAIR]: secret.toString(),
                 }),
             );
         } catch (err) {
-            dispatch(actions.setErrorMess(err));
+            dispatch(appLoadingActions.loadingClose());
+            dispatch(accountKeypairActions.setErrorMess(err));
             setFetch(false);
         }
     };
@@ -115,7 +117,7 @@ const ConnectPage: NextPage = () => {
                 )}
             </div>
 
-            <ButtonActs prevLink="/" nextLink="https://google.com.vn" />
+            <ButtonActs prevLink={SidebarConfig[0].link} nextLink={SidebarConfig[2].link} />
         </section>
     );
 };

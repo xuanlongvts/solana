@@ -35,6 +35,7 @@ export default css.global`
     #__next {
         display: flex;
         height: 100vh;
+        min-width: 1024px;
     }
     aside {
         background: linear-gradient(253deg, #00ffa3, #dc1fff);

@@ -1,12 +1,13 @@
-import { useState, MouseEvent } from 'react';
+import { useState } from 'react';
 
-import Popper from '@material-ui/core/Popper';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 import { darkThemeModes } from 'themes/const';
 import SwitchThemeMode from 'themes/darkMode';
+
+import SliceAccount from 'components/02-create-account/slice';
 
 import Stores from './storage';
 
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const Header = () => {
+    SliceAccount();
     const classes = useStyles();
     const [openAway, setOpenAway] = useState<boolean>(false);
 

@@ -49,7 +49,7 @@ const ConnectPage: NextPage = () => {
                 </Alert>
             ) : null}
 
-            <ButtonActs nextLink={SidebarConfig[0].link} />
+            <ButtonActs nextLink={SidebarConfig[1].link} />
         </section>
     );
 };

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import ArrowRight from '@material-ui/icons/ArrowRight';
@@ -15,12 +16,17 @@ type T_Btn = {
 };
 const NEXT = ({ href }: T_Btn) => {
     const classes = useStyles();
+    const router = useRouter();
+
+    const handleClick = () => {
+        router.push(href);
+    };
 
     return (
         <Button
             variant="contained"
             color="primary"
-            href={href}
+            onClick={handleClick}
             className={classes.root}
             endIcon={<ArrowRight fontSize="inherit" />}
         >

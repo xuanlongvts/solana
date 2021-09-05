@@ -1,15 +1,15 @@
 export default [
     {
         title: 'Connect to the Solana devnet cluster',
-        link: '/create-account',
+        link: '/',
     },
     {
         title: 'Create an Account/Keypair',
-        link: '/create-keypair',
+        link: '/create-account',
     },
     {
         title: 'Fund the account with SOL',
-        link: '',
+        link: '/fund-to-account',
     },
     {
         title: `Check your account's balance`,
