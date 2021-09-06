@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import type { NextPage } from 'next';
 import { useDispatch, useSelector } from 'react-redux';
-import * as Yup from 'yup';
-
+import { Keypair } from '@solana/web3.js';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
-import { Theme, makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 
 import FileCopy from '@material-ui/icons/FileCopy';
@@ -19,6 +17,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 
+import { transactionExplorer } from '_config';
 import * as Selectors from 'components/02-create-account/slice/selector';
 import { accountKeypairActions } from 'components/02-create-account/slice';
 import useSpacing from 'assets/styles/useSpacing';
@@ -28,39 +27,25 @@ import { appLoadingActions } from '_commComp/loadingApp/slice';
 import FundAccSchema, { T_HOOKS_FOMR_SEND_LAMPORTS, ENUM_FIELDS } from '_validate';
 import ButtonActs from '_commComp/btn';
 
-const TransferSolPage = () => {
+const TransferSolPage: NextPage = () => {
     const classes = useSpacing();
     const classSelf = useSectionWrap();
 
     const dispatch = useDispatch();
 
     const [fetch, setFetch] = useState<boolean>(false);
-    const [balance, setBalance] = useState<number | null>(null);
-    const [fetchGenegrateKey, setFetchGenegrateKey] = useState<boolean>(false);
+    const [hash, setHash] = useState<string | null>(null);
 
     const [address_to, setAddressTo] = useState<string | null>(null);
 
     const address = useSelector(Selectors.selectAddress);
     const key_cpy = useSelector(Selectors.selectAccoun_cpy);
+    const secretKey = useSelector(Selectors.selectAccount_Keypair);
 
     const generateKeypair = async () => {
-        dispatch(appLoadingActions.loadingOpen());
-        try {
-            setFetchGenegrateKey(true);
-            const result = await axios.get('/api/keypair');
-            setFetchGenegrateKey(false);
-
-            const {
-                data: { address },
-            } = result;
-
-            setAddressTo(address);
-
-            dispatch(appLoadingActions.loadingClose());
-        } catch (err) {
-            dispatch(appLoadingActions.loadingClose());
-            setFetchGenegrateKey(false);
-        }
+        const keypair = Keypair.generate();
+        const address = keypair.publicKey.toString();
+        setAddressTo(address);
     };
 
     const timeOutCpy = (t: number) => {
@@ -88,10 +73,18 @@ const TransferSolPage = () => {
     const onSubmitForm = (data: T_HOOKS_FOMR_SEND_LAMPORTS) => {
         dispatch(appLoadingActions.loadingOpen());
         setFetch(true);
+        const dataSend = {
+            address,
+            secret: secretKey,
+            recipient: data[ENUM_FIELDS.address_account],
+            lamports: data[ENUM_FIELDS.number_lamports],
+        };
+
         axios
-            .post('/api/balance', { ...data })
+            .post('/api/transfer', { ...dataSend })
             .then(res => {
-                setBalance(res.data);
+                console.log('res: ', res);
+                setHash(res.data);
                 setFetch(false);
                 dispatch(appLoadingActions.loadingClose());
             })
@@ -151,7 +144,6 @@ const TransferSolPage = () => {
                             variant="contained"
                             color="primary"
                             size="medium"
-                            endIcon={fetchGenegrateKey ? <CircularProgress color="inherit" size={20} /> : null}
                             style={{ textTransform: 'initial' }}
                             onClick={generateKeypair}
                         >
@@ -194,10 +186,13 @@ const TransferSolPage = () => {
                     </div>
                 </form>
 
-                {balance || balance === 0 ? (
+                {hash ? (
                     <Alert severity="success" variant="outlined" className={classSelf.alertBox}>
                         <Typography variant="subtitle1" gutterBottom>
-                            This address has a balance of <strong>{balance}</strong> SOL
+                            Address Funded!{' '}
+                            <Link href={transactionExplorer(hash)} target="_blank" rel="noreferrer">
+                                View on Solana Explorer
+                            </Link>
                         </Typography>
                     </Alert>
                 ) : null}

@@ -45,4 +45,11 @@ export const getConfig = (envParams = ENV, protocol = SOLANA_PROTOCOLS.API_SERVE
     return Config[envParams as string][protocol];
 };
 
+export const transactionExplorer = (signature: string) => {
+    let cluster = 'devnet';
+    ENV === ENUM_envName.test && (cluster = 'testnet');
+    ENV === ENUM_envName.production && (cluster = 'mainnet-beta');
+    return `https://explorer.solana.com/tx/${signature}?cluster=${cluster}`;
+};
+
 export default ENV;

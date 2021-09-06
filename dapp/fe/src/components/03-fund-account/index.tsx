@@ -8,25 +8,19 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
+import NoSsr from '@material-ui/core/NoSsr';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 
-import ENV, { ENUM_envName } from '_config';
+import { transactionExplorer } from '_config';
 import { appLoadingActions } from '_commComp/loadingApp/slice';
 import useSpacing from 'assets/styles/useSpacing';
 import useSectionWrap from 'assets/styles/sectionWrap';
 import SidebarConfig from '_commComp/sidebar/consts';
 import ButtonActs from '_commComp/btn';
 import FundAccSchema, { T_HOOKS_FOMR_SEND_LAMPORTS, ENUM_FIELDS } from '_validate';
-
-const transactionExplorer = (signature: string) => {
-    let cluster = 'devnet';
-    ENV === ENUM_envName.test && (cluster = 'testnet');
-    ENV === ENUM_envName.production && (cluster = 'mainnet-beta');
-    return `https://explorer.solana.com/tx/${signature}?cluster=${cluster}`;
-};
 
 const FundToAccountPage: NextPage = () => {
     const classes = useSpacing();
@@ -35,6 +29,7 @@ const FundToAccountPage: NextPage = () => {
 
     const [fetch, setFetch] = useState<boolean>(false);
     const [hash, setHash] = useState<string>('');
+    const [errFundAcc, setErrFundAcc] = useState<string>('');
 
     const {
         register,
@@ -58,6 +53,7 @@ const FundToAccountPage: NextPage = () => {
             })
             .catch(err => {
                 dispatch(appLoadingActions.loadingClose());
+                setErrFundAcc('Something is wrong');
                 setFetch(false);
             });
     };
@@ -132,6 +128,16 @@ const FundToAccountPage: NextPage = () => {
                             </Typography>
                         </Alert>
                     ) : null}
+
+                    {errFundAcc && (
+                        <NoSsr>
+                            <Alert severity="error" variant="outlined" className={classSelf.alertBox}>
+                                <Typography variant="h6" gutterBottom>
+                                    {errFundAcc}
+                                </Typography>
+                            </Alert>
+                        </NoSsr>
+                    )}
                 </div>
             </div>
 
