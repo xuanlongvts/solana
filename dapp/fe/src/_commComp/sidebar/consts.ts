@@ -13,11 +13,11 @@ export default [
     },
     {
         title: `Check your account's balance`,
-        link: '',
+        link: '/balance',
     },
     {
         title: 'Transfer SOL tokens between accounts',
-        link: '',
+        link: '/transfer-sol',
     },
     {
         title: 'Deploy the Program',

@@ -1,0 +1,15 @@
+import { Theme, makeStyles } from '@material-ui/core/styles';
+
+const styles = makeStyles((theme: Theme) => ({
+    wrap: {
+        height: '100%',
+        padding: `${theme.spacing(2)}px 0`,
+    },
+    alertBox: {
+        '& .MuiAlert-icon': {
+            paddingTop: 12,
+        },
+    },
+}));
+
+export default styles;

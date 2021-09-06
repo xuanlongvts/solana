@@ -1,49 +1,36 @@
 import { useState } from 'react';
 import type { NextPage } from 'next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
-import { Theme, makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 
+import ENV, { ENUM_envName } from '_config';
 import { appLoadingActions } from '_commComp/loadingApp/slice';
 import useSpacing from 'assets/styles/useSpacing';
+import useSectionWrap from 'assets/styles/sectionWrap';
 import SidebarConfig from '_commComp/sidebar/consts';
 import ButtonActs from '_commComp/btn';
+import FundAccSchema, { T_HOOKS_FOMR_SEND_LAMPORTS, ENUM_FIELDS } from '_validate';
 
-import FundAccSchema from './validateSchema';
-import { T_HOOKS_FOMR, ENUM_FIELDS } from './const';
-
-const styles = makeStyles((theme: Theme) => ({
-    wrap: {
-        height: '100%',
-        padding: `${theme.spacing(2)}px 0`,
-    },
-    root: {
-        '& .MuiAlert-icon': {
-            paddingTop: 12,
-        },
-    },
-    addFill: {
-        width: 500,
-    },
-}));
-
-export const transactionExplorer = (signature: string) => {
-    return `https://explorer.solana.com/tx/${signature}?cluster=devnet`;
+const transactionExplorer = (signature: string) => {
+    let cluster = 'devnet';
+    ENV === ENUM_envName.test && (cluster = 'testnet');
+    ENV === ENUM_envName.production && (cluster = 'mainnet-beta');
+    return `https://explorer.solana.com/tx/${signature}?cluster=${cluster}`;
 };
 
 const FundToAccountPage: NextPage = () => {
     const classes = useSpacing();
-    const classSelf = styles();
+    const classSelf = useSectionWrap();
     const dispatch = useDispatch();
 
     const [fetch, setFetch] = useState<boolean>(false);
@@ -54,12 +41,12 @@ const FundToAccountPage: NextPage = () => {
         handleSubmit,
         watch,
         formState: { errors },
-    } = useForm<T_HOOKS_FOMR>({
+    } = useForm<T_HOOKS_FOMR_SEND_LAMPORTS>({
         mode: 'onBlur',
         resolver: yupResolver(FundAccSchema),
     });
 
-    const onSubmitForm = (data: T_HOOKS_FOMR) => {
+    const onSubmitForm = (data: T_HOOKS_FOMR_SEND_LAMPORTS) => {
         dispatch(appLoadingActions.loadingOpen());
         setFetch(true);
         axios
@@ -85,7 +72,7 @@ const FundToAccountPage: NextPage = () => {
     return (
         <section>
             <Typography variant="h5" gutterBottom>
-                Fund the account with SOL
+                {SidebarConfig[2].title}
             </Typography>
 
             <div className={classSelf.wrap}>
@@ -94,7 +81,7 @@ const FundToAccountPage: NextPage = () => {
                         Paste the address you generated (you can copy it in the top right corner of the page):
                     </Typography>
                     <form className={classes.mBottom20}>
-                        <div className={classSelf.addFill}>
+                        <div style={{ width: 500 }}>
                             <TextField
                                 required
                                 fullWidth
@@ -136,7 +123,7 @@ const FundToAccountPage: NextPage = () => {
                     </form>
 
                     {hash ? (
-                        <Alert severity="success" variant="outlined" className={classSelf.root}>
+                        <Alert severity="success" variant="outlined" className={classSelf.alertBox}>
                             <Typography variant="subtitle1" gutterBottom>
                                 Address Funded!{' '}
                                 <Link href={transactionExplorer(hash)} target="_blank" rel="noreferrer">

@@ -33,7 +33,7 @@ const ConnectPage: NextPage = () => {
     return (
         <section>
             <Typography variant="h5" gutterBottom>
-                Connect to the Solana devnet cluster
+                {SidebarConfig[0].title}
             </Typography>
             {fetch ? (
                 <Box alignSelf="center">
@@ -55,3 +55,9 @@ const ConnectPage: NextPage = () => {
 };
 
 export default ConnectPage;
+
+/*
+solana-keygen pubkey ~/.config/solana/id.json
+solana balance pubkey
+
+*/
