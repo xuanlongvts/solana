@@ -8,6 +8,7 @@ import * as TYPES_KEYS from './types';
 export const initialState: TYPES_KEYS.T_ACCOUNT = {
     [TYPES_KEYS.ADDRESS_TO]: LocalStorageServices.getItem(LocalStorageKey().address_to),
     [TYPES_KEYS.ACC_KEY_PAIR]: LocalStorageServices.getItem(LocalStorageKey().account_keypair),
+    [TYPES_KEYS.PROGRAM_ID]: LocalStorageServices.getItem(LocalStorageKey().program_id),
     [TYPES_KEYS.KEY_ERR_MESS]: null,
     [TYPES_KEYS.KEY_CPY]: null,
 };
@@ -25,6 +26,10 @@ const slice = createSlice({
             state[TYPES_KEYS.KEY_ERR_MESS] = null;
             LocalStorageServices.setItem(LocalStorageKey().address_to, address_to);
             LocalStorageServices.setItem(LocalStorageKey().account_keypair, account_keypair);
+        },
+        setProgramId(state, action: PayloadAction<string>) {
+            state[TYPES_KEYS.PROGRAM_ID] = action.payload;
+            LocalStorageServices.setItem(LocalStorageKey().program_id, action.payload);
         },
         setCpy(state, action: PayloadAction<string>) {
             state[TYPES_KEYS.KEY_CPY] = action.payload;

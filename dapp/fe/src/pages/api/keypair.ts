@@ -9,8 +9,10 @@ type T_RES = {
 const KeyPair = async (_req: NextApiRequest, res: NextApiResponse<string | T_RES>) => {
     try {
         const keypair = Keypair.generate();
+
         const address = keypair?.publicKey.toString();
         const secret = JSON.stringify(Array.from(keypair?.secretKey));
+
         res.status(200).json({
             address,
             secret,

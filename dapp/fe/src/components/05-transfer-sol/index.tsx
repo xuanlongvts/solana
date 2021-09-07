@@ -198,7 +198,7 @@ const TransferSolPage: NextPage = () => {
                 ) : null}
             </div>
 
-            <ButtonActs prevLink={SidebarConfig[2].link} nextLink={SidebarConfig[4].link} />
+            <ButtonActs prevLink={SidebarConfig[3].link} nextLink={SidebarConfig[5].link} />
         </section>
     );
 };

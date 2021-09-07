@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         sub: {
             border: '1px solid',
+            width: 320,
             padding: theme.spacing(2),
             backgroundColor:
                 theme.palette.type === darkThemeModes.dark

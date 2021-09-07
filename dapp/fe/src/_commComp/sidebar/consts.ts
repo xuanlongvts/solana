@@ -21,11 +21,11 @@ export default [
     },
     {
         title: 'Deploy the Program',
-        link: '',
+        link: '/deploy-program',
     },
     {
         title: 'Create a Storage for the Program',
-        link: '',
+        link: '/create-a-storage',
     },
     {
         title: 'Get the greeting counter',

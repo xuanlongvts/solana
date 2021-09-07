@@ -57,7 +57,6 @@ const ConnectPage: NextPage = () => {
 export default ConnectPage;
 
 /*
-solana-keygen pubkey ~/.config/solana/id.json
+solana-keygen pubkey ~/.config/solana/id.json to get publickey
 solana balance pubkey
-
 */

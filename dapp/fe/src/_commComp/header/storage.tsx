@@ -48,6 +48,10 @@ const initInfor = {
         name: 'Keypair',
         val: '',
     },
+    [TYPES_KEYS.PROGRAM_ID]: {
+        name: 'Program id',
+        val: '',
+    },
 };
 
 const Storage = () => {
@@ -56,6 +60,7 @@ const Storage = () => {
 
     const address = useSelector(Selectors.selectAddress);
     const keypair = useSelector(Selectors.selectAccount_Keypair);
+    const get_program_id = useSelector(Selectors.selectProgram_id);
     const key_cpy = useSelector(Selectors.selectAccoun_cpy);
 
     let [count, setCount] = useState<number>(0);
@@ -67,7 +72,12 @@ const Storage = () => {
 
             setCount(++count);
         }
-    }, [address, keypair]);
+        console.log('get_program_id: ', get_program_id);
+        if (get_program_id) {
+            initInfor[TYPES_KEYS.PROGRAM_ID].val = get_program_id;
+            setCount(++count);
+        }
+    }, [address, keypair, get_program_id]);
 
     const timeOutCpy = (t: number) => {
         setTimeout(() => {
@@ -84,6 +94,9 @@ const Storage = () => {
     return (
         <>
             {Object.entries(initInfor).map(([k, v]) => {
+                if (!v.val) {
+                    return null;
+                }
                 return (
                     <div className={classes.eachInfo} key={k}>
                         <Typography variant="body2" gutterBottom>
