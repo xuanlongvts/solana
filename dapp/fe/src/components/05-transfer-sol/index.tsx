@@ -8,6 +8,8 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
+import NoSsr from '@material-ui/core/NoSsr';
+import clsx from 'clsx';
 
 import FileCopy from '@material-ui/icons/FileCopy';
 import DoneIcon from '@material-ui/icons/Done';
@@ -35,6 +37,7 @@ const TransferSolPage: NextPage = () => {
 
     const [fetch, setFetch] = useState<boolean>(false);
     const [hash, setHash] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
     const [address_to, setAddressTo] = useState<string | null>(null);
 
@@ -83,13 +86,17 @@ const TransferSolPage: NextPage = () => {
         axios
             .post('/api/transfer', { ...dataSend })
             .then(res => {
+                console.log('res.data: ', res.data);
                 setHash(res.data);
                 setFetch(false);
+                setError(null);
                 dispatch(appLoadingActions.loadingClose());
             })
             .catch(err => {
                 dispatch(appLoadingActions.loadingClose());
                 setFetch(false);
+                const { data } = err.response;
+                setError(data);
             });
     };
 
@@ -184,6 +191,16 @@ const TransferSolPage: NextPage = () => {
                         </div>
                     </div>
                 </form>
+
+                {error && (
+                    <NoSsr>
+                        <Alert severity="error" variant="outlined" className={clsx(classSelf.alertBox, classes.mTop16)}>
+                            <Typography variant="h6" gutterBottom>
+                                {error}
+                            </Typography>
+                        </Alert>
+                    </NoSsr>
+                )}
 
                 {hash ? (
                     <Alert severity="success" variant="outlined" className={classSelf.alertBox}>
