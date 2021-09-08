@@ -2,15 +2,17 @@ import ENV from '_config';
 
 type T_LocalStorageKey = {
     address_to: string;
-    account_keypair: string;
+    secret_key: string;
     program_id: string;
+    greeter_code: string;
     darkMode: string;
 };
 const LocalStorageKey = (detectEnv = ENV): T_LocalStorageKey => {
     return {
         address_to: `${detectEnv}_address_to`,
-        account_keypair: `${detectEnv}_account_keypair`,
+        secret_key: `${detectEnv}_secret_key`,
         program_id: `${detectEnv}_program_id`,
+        greeter_code: `${detectEnv}_greeter_code`,
         darkMode: `${detectEnv}_darkMode`,
     };
 };

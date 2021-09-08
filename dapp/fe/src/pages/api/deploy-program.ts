@@ -55,4 +55,9 @@ example: pubkey in ../program/dist/ folder: 212HwEXp9AsECJG4yzixi7sUWLkDy8LLxcD2
 	Program Id: 7db9hme4nJMw79NBVRwjwStUnZEkyuAUW2fhteScRFQM
 
 3. Copy and Paste Program Id to step 6 for check status program deploy and work
+
+
+===========
+example: Can also deploy multi times will generage different programId, we use different programId for check
+solana deploy -v --keypair /Users/lelong/Downloads/solana/wallet/keypair.json dapp.so
 */

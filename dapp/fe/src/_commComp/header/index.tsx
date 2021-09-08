@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -8,6 +9,7 @@ import { darkThemeModes } from 'themes/const';
 import SwitchThemeMode from 'themes/darkMode';
 
 import SliceAccount from 'components/02-create-account/slice';
+import * as Selectors from 'components/02-create-account/slice/selector';
 
 import Stores from './storage';
 
@@ -61,8 +63,10 @@ const Header = () => {
     const classes = useStyles();
     const [openAway, setOpenAway] = useState<boolean>(false);
 
+    const address = useSelector(Selectors.selectAddress);
+
     const handleClick = () => {
-        setOpenAway(prv => !prv);
+        address ? setOpenAway(prv => !prv) : null;
     };
 
     const handleClickAway = () => {

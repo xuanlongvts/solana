@@ -45,7 +45,7 @@ const ConnectPage: NextPage = () => {
             dispatch(
                 accountKeypairActions.setAccount({
                     [TYPES_KEYS.ADDRESS_TO]: address,
-                    [TYPES_KEYS.ACC_KEY_PAIR]: secret.toString(),
+                    [TYPES_KEYS.SECRET_KEY]: secret.toString(),
                 }),
             );
         } catch (err) {

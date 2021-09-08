@@ -40,7 +40,7 @@ const TransferSolPage: NextPage = () => {
 
     const address = useSelector(Selectors.selectAddress);
     const key_cpy = useSelector(Selectors.selectAccoun_cpy);
-    const secretKey = useSelector(Selectors.selectAccount_Keypair);
+    const secretKey = useSelector(Selectors.selectAccount_secret_key);
 
     const generateKeypair = async () => {
         const keypair = Keypair.generate();
@@ -83,7 +83,6 @@ const TransferSolPage: NextPage = () => {
         axios
             .post('/api/transfer', { ...dataSend })
             .then(res => {
-                console.log('res: ', res);
                 setHash(res.data);
                 setFetch(false);
                 dispatch(appLoadingActions.loadingClose());

@@ -44,8 +44,8 @@ const initInfor = {
         name: 'Address',
         val: '',
     },
-    [TYPES_KEYS.ACC_KEY_PAIR]: {
-        name: 'Keypair',
+    [TYPES_KEYS.SECRET_KEY]: {
+        name: 'Secret key',
         val: '',
     },
     [TYPES_KEYS.PROGRAM_ID]: {
@@ -59,7 +59,7 @@ const Storage = () => {
     const dispatch = useDispatch();
 
     const address = useSelector(Selectors.selectAddress);
-    const keypair = useSelector(Selectors.selectAccount_Keypair);
+    const keypair = useSelector(Selectors.selectAccount_secret_key);
     const get_program_id = useSelector(Selectors.selectProgram_id);
     const key_cpy = useSelector(Selectors.selectAccoun_cpy);
 
@@ -68,11 +68,11 @@ const Storage = () => {
     useEffect(() => {
         if (address && keypair) {
             initInfor[TYPES_KEYS.ADDRESS_TO].val = address;
-            initInfor[TYPES_KEYS.ACC_KEY_PAIR].val = keypair;
+            initInfor[TYPES_KEYS.SECRET_KEY].val = keypair;
 
             setCount(++count);
         }
-        console.log('get_program_id: ', get_program_id);
+
         if (get_program_id) {
             initInfor[TYPES_KEYS.PROGRAM_ID].val = get_program_id;
             setCount(++count);

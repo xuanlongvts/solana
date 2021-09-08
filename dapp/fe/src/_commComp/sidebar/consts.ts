@@ -29,7 +29,7 @@ export default [
     },
     {
         title: 'Get the greeting counter',
-        link: '',
+        link: '/greeting-counter',
     },
     {
         title: 'Send a greeting to program',
