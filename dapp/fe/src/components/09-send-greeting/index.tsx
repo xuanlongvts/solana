@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme: Theme) =>
             color: '#fff',
             backgroundColor: green[500],
         },
+        boxShowNum: {
+            display: 'flex',
+            height: 50,
+            alignItems: 'center',
+        },
     }),
 );
 
@@ -52,7 +57,7 @@ const SendGreetingPage: NextPage = () => {
 
     useEffect(() => {
         setFetch(true);
-
+        console.log('txhash: ', txhash);
         axios
             .post('/api/get-greetings', { greeterCode })
             .then(res => {
@@ -65,7 +70,7 @@ const SendGreetingPage: NextPage = () => {
                 const { data } = err.response;
                 setError(data);
             });
-    }, []);
+    }, [txhash]);
 
     const handleSubmit = () => {
         setResetting(true);
@@ -93,15 +98,17 @@ const SendGreetingPage: NextPage = () => {
                 {SidebarConfig[8].title}
             </Typography>
             <div className={classSelf.wrap}>
-                <div className={classes.mBottom20}>
+                <div className={clsx(classes.mBottom20, colors.boxShowNum)}>
                     <Typography variant="body2" gutterBottom>
                         Number of greetings:
                     </Typography>
-                    {fetch ? (
-                        <CircularProgress color="inherit" size={20} />
-                    ) : (
-                        <Avatar className={colors.green}>{greeterCount}</Avatar>
-                    )}
+                    <div style={{ marginLeft: 20 }}>
+                        {fetch ? (
+                            <CircularProgress color="inherit" size={20} />
+                        ) : (
+                            <Avatar className={colors.green}>{greeterCount}</Avatar>
+                        )}
+                    </div>
                 </div>
 
                 <Button

@@ -35,6 +35,7 @@ const GetGreetingCounterPage: NextPage = () => {
         axios
             .post('/api/get-greetings', { greeterCode })
             .then(res => {
+                console.log('res.data: ', res.data);
                 setGreeterCount(res.data);
                 setError(null);
                 setFetch(false);
