@@ -33,6 +33,6 @@ export default [
     },
     {
         title: 'Send a greeting to program',
-        link: '',
+        link: '/send-greeting',
     },
 ];
