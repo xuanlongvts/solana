@@ -52,8 +52,9 @@ const FundToAccountPage: NextPage = () => {
                 dispatch(appLoadingActions.loadingClose());
             })
             .catch(err => {
+                const { data } = err.response;
+                setErrFundAcc(data);
                 dispatch(appLoadingActions.loadingClose());
-                setErrFundAcc('Something is wrong');
                 setFetch(false);
             });
     };

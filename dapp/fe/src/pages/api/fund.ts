@@ -14,7 +14,7 @@ const fund = async (req: NextApiRequest, res: NextApiResponse<string>) => {
         res.status(200).json(hash);
     } catch (err) {
         console.log('Catch api fund: ', err);
-        res.status(500).json('airdrop failed');
+        res.status(500).json('Airdrop failed');
     }
 };
 
