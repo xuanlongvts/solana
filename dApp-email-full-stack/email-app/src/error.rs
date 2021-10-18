@@ -6,6 +6,10 @@ pub enum MailError {
 	/// Invalid Instruction
 	#[error("Invalid Instruction")]
 	InvalidInstruction,
+
+	/// Account Is Not Writable
+	#[error("Account Is Not Writable")]
+	NotWriteable,
 }
 
 impl From<MailError> for ProgramError {
