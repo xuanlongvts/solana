@@ -3,11 +3,14 @@ use crate::instruction::EMailInstruction;
 use crate::state::{DataLength, Email, EmailAccount};
 use borsh::{BorshDeserialize, BorshSerialize};
 use solana_program::{
-	account_info::AccountInfo, entrypoint::ProgramResult, msg, program_error::ProgramError,
-	pubkey::Pubkey,
+	account_info::AccountInfo, borsh::get_instance_packed_len, entrypoint::ProgramResult, msg,
+	program_error::ProgramError, pubkey::Pubkey,
 };
+use std::convert::TryFrom;
 
 pub struct Processor;
+
+const OFFSET: usize = 4;
 
 impl Processor {
 	pub fn process(
@@ -21,6 +24,10 @@ impl Processor {
 			EMailInstruction::InitAccount => {
 				msg!("Instruction: InitAccount");
 				Self::process_init_account(&accounts[0], program_id)
+			}
+			EMailInstruction::SendEmail { mail } => {
+				msg!("Instruction: Send Email");
+				Self::process_send_mail(&accounts, &mail, &program_id)
 			}
 		}
 	}
@@ -48,7 +55,84 @@ impl Processor {
 			inbox: vec![welcome_mail],
 			sent: Vec::new(),
 		};
-		mail_account.serialize(&mut &mut account.data.borrow_mut()[..])?;
+		let data_length = DataLength {
+			length: u32::try_from(get_instance_packed_len(&mail_account)?).unwrap(),
+		};
+
+		// [data_length, mail_account, 0, 0, 0, 0, 0, ..]; structer email
+		data_length.serialize(&mut &mut account.data.borrow_mut()[..OFFSET])?;
+		mail_account.serialize(&mut &mut account.data.borrow_mut()[OFFSET..])?;
+
+		Ok(())
+	}
+
+	fn process_send_mail(
+		accounts: &[AccountInfo],
+		email: &Email,
+		program_id: &Pubkey,
+	) -> ProgramResult {
+		// [data_length, mail_account, 0, 0, 0, 0, 0, ..]; structer email
+		let sender_account = &accounts[0];
+		let receiver_account = &accounts[1];
+		if !sender_account.is_writable || !receiver_account.is_writable {
+			return Err(NotWriteable.into());
+		}
+
+		if sender_account.owner != program_id || receiver_account.owner != program_id {
+			return Err(ProgramError::IncorrectProgramId);
+		}
+
+		// ------------ for sender_account
+
+		// Deserialize this instance from a slice of bytes.
+		let data_length = DataLength::try_from_slice(&sender_account.data.borrow()[..OFFSET])?;
+
+		let mut sender_data;
+		if data_length.length > 0 {
+			let length =
+				usize::try_from(data_length.length + u32::try_from(OFFSET).unwrap()).unwrap();
+
+			// try_from_slice (Deseriallize data)
+			sender_data =
+				EmailAccount::try_from_slice(&sender_account.data.borrow()[OFFSET..length])?;
+		} else {
+			sender_data = EmailAccount {
+				inbox: Vec::new(),
+				sent: Vec::new(),
+			};
+		}
+		sender_data.sent.push(email.clone());
+		let data_length = DataLength {
+			// Get the packed length for the serialized form of this object instance
+			// get_instance_packed_len ====> OK(n);
+			// try_from  ====> u32::try_from(n) = n
+			length: u32::try_from(get_instance_packed_len(&sender_data)?).unwrap(),
+		};
+		data_length.serialize(&mut &mut sender_account.data.borrow_mut()[..OFFSET])?; // convert data
+		sender_data.serialize(&mut &mut sender_account.data.borrow_mut()[OFFSET..])?;
+
+		// ------------ for receiver_account
+		let data_length = DataLength::try_from_slice(&receiver_account.data.borrow()[..OFFSET])?;
+
+		let mut receiver_data;
+		if data_length.length > 0 {
+			let length =
+				usize::try_from(data_length.length + u32::try_from(OFFSET).unwrap()).unwrap();
+
+			receiver_data =
+				EmailAccount::try_from_slice(&receiver_account.data.borrow()[OFFSET..length])?;
+		} else {
+			receiver_data = EmailAccount {
+				inbox: Vec::new(),
+				sent: Vec::new(),
+			}
+		}
+		receiver_data.inbox.push(email.clone());
+		let data_length = DataLength {
+			length: u32::try_from(get_instance_packed_len(&receiver_data)?).unwrap(),
+		};
+		data_length.serialize(&mut &mut receiver_account.data.borrow_mut()[..OFFSET])?;
+		receiver_data.serialize(&mut &mut receiver_account.data.borrow_mut()[OFFSET..])?;
 
 		Ok(())
 	}
