@@ -137,3 +137,96 @@ impl Processor {
 		Ok(())
 	}
 }
+
+#[cfg(test)]
+mod test {
+	use super::*;
+	use solana_program::clock::Epoch;
+
+	#[test]
+	fn test_init_account() {
+		let program_id = Pubkey::default();
+		let key = Pubkey::default();
+		let mut lamports = 0;
+		let mut data = [0; 500];
+		let account = AccountInfo::new(
+			&key,
+			true,
+			true,
+			&mut lamports,
+			&mut data,
+			&program_id,
+			false,
+			Epoch::default(),
+		);
+
+		Processor::process_init_account(&account, &program_id).unwrap();
+
+		// println!("account: {:?}", &account.data.borrow()[..OFFSET]);
+		let data_length = DataLength::try_from_slice(&account.data.borrow()[..OFFSET]).unwrap();
+		let limit = usize::try_from(data_length.length + OFFSET as u32).unwrap();
+		// println!("data_length: {:?}, \t limit: {:?}", data_length, limit);
+		let mail_account =
+			EmailAccount::try_from_slice(&account.data.borrow()[OFFSET..limit]).unwrap();
+
+		assert_eq!(mail_account.inbox[0].subject, "Welcome to Solana Mail");
+	}
+
+	#[test]
+	fn test_send_mail() {
+		let program_id = Pubkey::default();
+		let key = Pubkey::default();
+		let mut lamports = 0;
+		let mut sender_data = [0; 500];
+
+		let sender_account = AccountInfo::new(
+			&key,
+			true,
+			true,
+			&mut lamports,
+			&mut sender_data,
+			&program_id,
+			false,
+			Epoch::default(),
+		);
+
+		let mut receiver_data = [0; 500];
+		let mut lamports = 0;
+
+		let receiver_account = AccountInfo::new(
+			&key,
+			true,
+			true,
+			&mut lamports,
+			&mut receiver_data,
+			&program_id,
+			false,
+			Epoch::default(),
+		);
+
+		let accounts = vec![sender_account.clone(), receiver_account.clone()];
+
+		let mail = Email {
+			id: String::from("00000000-0000-0000-0000-000000000000"),
+			from_address: sender_account.key.to_string(),
+			to_address: receiver_account.key.to_string(),
+			subject: String::from("Hi Long!!!"),
+			body: String::from("Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quos ut labore, debitis assumenda, dolorem nulla facere soluta exercitationem excepturi provident ipsam reprehenderit repellat quisquam corrupti commodi fugiat iusto quae voluptates!"),
+			send_date: String::from("20/10/2021, 09:00:00 am")
+		};
+		Processor::process_send_mail(&accounts, &mail, &program_id).unwrap();
+		let data_length =
+			DataLength::try_from_slice(&sender_account.data.borrow()[..OFFSET]).unwrap();
+		let limit = usize::try_from(data_length.length + OFFSET as u32).unwrap();
+		let mail_account =
+			EmailAccount::try_from_slice(&sender_account.data.borrow()[OFFSET..limit]).unwrap();
+		assert_eq!(mail_account.sent[0].subject, "Hi Long!!!");
+
+		let data_length =
+			DataLength::try_from_slice(&receiver_account.data.borrow()[..OFFSET]).unwrap();
+		let limit = usize::try_from(data_length.length + OFFSET as u32).unwrap();
+		let mail_account =
+			EmailAccount::try_from_slice(&receiver_account.data.borrow()[OFFSET..limit]).unwrap();
+		assert_eq!(mail_account.inbox[0].subject, "Hi Long!!!");
+	}
+}
