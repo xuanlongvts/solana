@@ -10,3 +10,9 @@ borsh = "0.9.1"
 borsh-derive = "0.9.1"
 solana-program = "1.8.0"
 thiserror = "1.0.30"
+
+[features]
+test-bpf = []
+
+[lib]
+crate-type = ["cdylib", "lib"]

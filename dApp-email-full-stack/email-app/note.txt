@@ -1,0 +1,10 @@
+Deploy the program to a local cluster so lets set that up.
+
+Note: if we want to deploy to devnet, we set devnet at step 1: solana config set --url https://api.devnet.solana.com  (https://docs.solana.com/clusters)
+
+testnet: solana config set --url https://api.testnet.solana.com
+
+1. solana config set --url localhost
+2. solana-test-validator
+3. sudo yarn build
+4. solana program deploy dist/email_app.so
