@@ -16,11 +16,14 @@
         "prettier": "cross-env find . \\( -name node_modules -o -name contracts -o -name __generated__ -o -name .next \\) -prune -or \\( -name '*.js' -o -name '*.jsx' -o -name '*.tsx' -o -name '*.ts' -o -name '*.tsx' -o -name '*.ts' -o -name '*.html' -o -name '*.scss' -o -name '*.css' -o -name '*.json' -o -name '*.md' \\) -print | xargs prettier --write"
     },
     "dependencies": {
+        "@emotion/cache": "^11.5.0",
         "@emotion/react": "^11.5.0",
+        "@emotion/server": "^11.4.0",
         "@emotion/styled": "^11.3.0",
         "@hookform/resolvers": "^2.8.2",
         "@mui/icons-material": "^5.0.4",
         "@mui/material": "^5.0.4",
+        "@mui/styles": "^5.0.1",
         "@reduxjs/toolkit": "^1.6.2",
         "@solana/web3.js": "^1.30.0",
         "@styled-jsx/plugin-sass": "^4.0.1",
