@@ -8,9 +8,9 @@ import StoreApp from 'app/_redux/configureStore';
 import LoadingApp from 'app/_commComp/loadingApp';
 
 import Routes from 'app/_routers';
-import reportWebVitals from './reportWebVitals';
 
 import '_styles/_index.scss';
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
     <Provider store={StoreApp()}>
