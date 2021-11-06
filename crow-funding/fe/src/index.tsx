@@ -1,14 +1,29 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import { Provider } from 'react-redux';
+import CssBaseline from '@mui/material/CssBaseline';
+
+import ThemeProviderContainer from 'styles/theme/ThemeProvider';
+import StoreApp from 'app/_redux/configureStore';
+import LoadingApp from 'app/_commComp/loadingApp';
+
+import Routes from 'app/_routers';
 import reportWebVitals from './reportWebVitals';
 
 import '_styles/_index.scss';
 
 ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
+    <Provider store={StoreApp()}>
+        <ThemeProviderContainer>
+            <StrictMode>
+                <CssBaseline />
+
+                <Routes />
+
+                <LoadingApp />
+            </StrictMode>
+        </ThemeProviderContainer>
+    </Provider>,
     document.getElementById('root'),
 );
 
