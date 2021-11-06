@@ -9,13 +9,16 @@ import { Connection } from '@solana/web3.js';
 import { getTransactions, TransactionWithSignature } from '_coreActions/transaction';
 import { initWallet, WalletAdapter } from '_coreActions/wallet';
 import Header from 'app/_commComp/header';
+import useSpacing from '_styles/useSpacing';
 
 // import Header from 'app/_commComp/header';
 import HomePage from 'app/pages/home';
 import CreateCampainPage from 'app/pages/createCampain';
-import history from './history';
+import RoutersPath from './consts';
 
 function App() {
+    const spacing = useSpacing();
+
     const [transactions, setTransactions] = useState<Array<TransactionWithSignature>>();
     const [loadingConn, setLoadingConn] = useState<boolean>(false);
     const conn = useRef<Connection>();
@@ -41,19 +44,25 @@ function App() {
     return (
         <BrowserRouter>
             <Header />
-            <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/create-campain" element={<CreateCampainPage />} />
+            <Container maxWidth="md" className={spacing.mTop24}>
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <Routes>
+                            <Route path={RoutersPath.rHome} element={<HomePage />} />
+                            <Route path={RoutersPath.rCreateCampain} element={<CreateCampainPage />} />
 
-                <Route
-                    path="*"
-                    element={
-                        <main style={{ padding: '1rem' }}>
-                            <p>There's nothing here!</p>
-                        </main>
-                    }
-                />
-            </Routes>
+                            <Route
+                                path="*"
+                                element={
+                                    <div style={{ padding: '1rem' }}>
+                                        <p>There's nothing here!</p>
+                                    </div>
+                                }
+                            />
+                        </Routes>
+                    </Grid>
+                </Grid>
+            </Container>
         </BrowserRouter>
     );
 }

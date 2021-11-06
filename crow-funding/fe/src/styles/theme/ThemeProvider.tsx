@@ -1,7 +1,7 @@
 import { ReactChild, Children, forwardRef } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Link, { LinkProps } from '@mui/material/Link';
-import { Link as RouterLink, LinkProps as RouterLinkProps, MemoryRouter as Router } from 'react-router-dom';
+import { LinkProps } from '@mui/material/Link';
+import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
 import { createTheme, ThemeProvider, Theme } from '@mui/material/styles';
 import { useSelector } from 'react-redux';
 
