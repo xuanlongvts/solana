@@ -1,0 +1,13 @@
+[programs.localnet]
+build_space_epic = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "/Users/lelong/.config/solana/id.json"
+
+[scripts]
+test = "node tests/build_space_epic.js"
+
