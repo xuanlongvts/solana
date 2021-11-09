@@ -1,11 +1,11 @@
-[programs.localnet]
-build_space_epic = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+[programs.devnet]
+build_space_epic = "8ixv5FpQEV9MpHMpD3xZP8ttC8BFpRory2M8BHfxVXmH"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/Users/lelong/.config/solana/id.json"
 
 [scripts]
