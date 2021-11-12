@@ -9,7 +9,7 @@
     ],
     "rules": {
         "no-console": 1,
-        "prettier/prettier": 2,
+        "prettier/prettier": 0,
         "@typescript-eslint/explicit-module-boundary-types": 0,
         "@typescript-eslint/no-explicit-any": 0
     }
