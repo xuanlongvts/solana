@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable no-console */
 import Wallet from '@project-serum/sol-wallet-adapter';
-import { Connection, SystemProgram, Transaction, PublicKey, TransactionInstruction } from '@solana/web3.js';
+import { Connection, Transaction, PublicKey, TransactionInstruction } from '@solana/web3.js';
 import EventEmitter from 'eventemitter3';
 
 export interface WalletAdapter extends EventEmitter {
@@ -37,26 +37,4 @@ export const signAndSendTransaction = async (wallet: WalletAdapter, trans: Trans
     const signedTrans = await wallet.signTransaction(trans);
     const signature = await connect.sendRawTransaction(signedTrans.serialize());
     return signature;
-};
-
-export const sendMoney = async (destPubkeyStr: string, lamports: number): Promise<any> => {
-    try {
-        const destPubkey = new PublicKey(destPubkeyStr);
-        // const walletAccountInfor = await connect.getAccountInfo(wallet!.publicKey!);
-        // const receiverAccountInfor = await connect.getAccountInfo(destPubkey);
-        const instruction = SystemProgram.transfer({
-            fromPubkey: wallet!.publicKey!,
-            toPubkey: destPubkey,
-            lamports,
-        });
-
-        const trans = await setWalletTransaction(instruction);
-        const signature = await signAndSendTransaction(wallet, trans);
-        console.log('trans: ', trans);
-        const result = await connect.confirmTransaction(signature, 'singleGossip');
-        return result ? result : false;
-    } catch (err) {
-        console.warn('Catch err: ', err);
-        return false;
-    }
 };
