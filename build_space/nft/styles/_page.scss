@@ -1,0 +1,8 @@
+@import './setting';
+@import './app';
+
+.collections {
+    display: flex;
+    padding: 50px 0;
+    justify-content: space-around;
+}

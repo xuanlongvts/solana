@@ -1,0 +1,19 @@
+{
+    "name": "NAME_OF_NFT",
+    "symbol": "",
+    "image": "ball_2.png",
+    "properties": {
+        "files": [
+            {
+                "uri": "ball_2.png",
+                "type": "image/png"
+            }
+        ],
+        "creators": [
+            {
+                "address": "INSERT_CREATOR_WALLET_ADDRESS_HERE",
+                "share": 100
+            }
+        ]
+    }
+}

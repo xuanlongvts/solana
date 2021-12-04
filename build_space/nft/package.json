@@ -1,0 +1,33 @@
+{
+    "name": "nft",
+    "private": true,
+    "scripts": {
+        "dev": "cross-env next dev -p 3002",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "prettier": "cross-env find . \\( -name node_modules -o -name contracts -o -name __generated__ -o -name .next \\) -prune -or \\( -name '*.js' -o -name '*.jsx' -o -name '*.tsx' -o -name '*.ts' -o -name '*.tsx' -o -name '*.ts' -o -name '*.html' -o -name '*.scss' -o -name '*.css' -o -name '*.json' -o -name '*.md' \\) -print | xargs prettier --write"
+    },
+    "dependencies": {
+        "@metaplex/js": "^4.7.0",
+        "@project-serum/anchor": "^0.18.2",
+        "@solana/web3.js": "^1.31.0",
+        "@styled-jsx/plugin-sass": "^4.0.2",
+        "next": "12.0.5",
+        "react": "17.0.2",
+        "react-dom": "17.0.2",
+        "sass": "^1.44.0"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "eslint": "8.4.0",
+        "eslint-config-next": "12.0.5",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.25.3",
+        "eslint-plugin-jsx-a11y": "^6.5.1",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-react": "^7.27.1",
+        "eslint-plugin-react-hooks": "^4.3.0",
+        "prettier": "^2.5.0"
+    }
+}
