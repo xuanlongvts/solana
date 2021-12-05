@@ -3,9 +3,11 @@ import Head from 'next/head';
 
 import Image from 'next/image';
 
-import Ball_0 from '../assets/ball_0.png';
-import Ball_1 from '../assets/ball_1.png';
-import Ball_2 from '../assets/ball_2.png';
+import CandyMachine from '../comp/CandyMachine';
+
+import Ball_0 from '../assets/0.png';
+import Ball_1 from '../assets/1.png';
+import Ball_2 from '../assets/2.png';
 
 export default function Home() {
     const [walletAddress, setWalletAddress] = useState(null);
@@ -69,14 +71,27 @@ export default function Home() {
                         <p className="sub-text">NFT drop machine with fair mint</p>
                         {!walletAddress && renderNotConnectedContainer()}
                     </div>
-
-                    <div className="collections">
-                        <Image src={Ball_0} alt="Ball 1" quality={100} width={236} height={235} />
-                        <Image src={Ball_1} alt="Ball 2" quality={100} width={301} height={336} />
-                        <Image src={Ball_2} alt="Ball 3" quality={100} width={320} height={303} />
-                    </div>
+                    {walletAddress && <CandyMachine walletAddress={window?.solana} />}
+                    {/* <div className="collections">
+                        <div>
+                            <Image src={Ball_0} alt="Ball 1" quality={100} width={236} height={236} />
+                        </div>
+                        <div>
+                            <Image src={Ball_1} alt="Ball 2" quality={100} width={301} height={336} />
+                        </div>
+                        <div>
+                            <Image src={Ball_2} alt="Ball 3" quality={100} width={320} height={303} />
+                        </div>
+                    </div> */}
                 </div>
             </section>
         </main>
     );
 }
+
+// 1. upload to Arweave: ts-node metaplex/js/packages/cli/src/candy-machine-cli.ts upload ./assets --env devnet --keypair ~/.config/solana/devnet.json
+// 2. verify: ts-node metaplex/js/packages/cli/src/candy-machine-cli.ts verify --keypair ~/.config/solana/devnet.json
+// 3. deploy to devnet: ts-node metaplex/js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env devnet --keypair ~/.config/solana/devnet.json -p 1
+// 4. update date: ts-node metaplex/js/packages/cli/src/candy-machine-cli.ts update_candy_machine --date "4 Dec 2021 15:30:00 GMT" --env devnet --keypair ~/.config/solana/devnet.json
+
+// 5. Count down: ts-node metaplex/js/packages/cli/src/candy-machine-cli.ts update_candy_machine --date "1 Dec 2022 00:12:00 GMT" --env devnet --keypair ~/.config/solana/devnet.json
