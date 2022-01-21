@@ -1,6 +1,8 @@
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import clsx from 'clsx';
+
 import Header from 'app/_commComp/header';
 import useSpacing from '_styles/useSpacing';
 
@@ -14,7 +16,7 @@ function App() {
     return (
         <BrowserRouter>
             <Header />
-            <Container maxWidth="md" className={spacing.mTop24}>
+            <Container maxWidth="xl" className={clsx(spacing.mTop24, spacing.pBottom28)}>
                 <Grid container spacing={3}>
                     <Grid item xs={12}>
                         <Routes>

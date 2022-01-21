@@ -12,7 +12,7 @@ import {
 import { deserialize, serialize, Schema } from 'borsh';
 
 import ENV, { ENUM_envName, getConfig } from '_config';
-import { T_InforCampaiin } from '../comps/createCampain/consts';
+import { T_InforCampaiin } from 'app/comps/createCampain/consts';
 
 const getUrl = getConfig(ENV ?? ENUM_envName.dev);
 const wallet = new Wallet('https://www.sollet.io', getUrl);

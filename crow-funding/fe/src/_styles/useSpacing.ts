@@ -32,6 +32,9 @@ const useSpacing = makeStyles((theme: Theme) => ({
     mBottom56: {
         marginBottom: `${theme.spacing(7)} !important`,
     },
+    pBottom28: {
+        paddingBottom: `${theme.spacing(3.5)} !important`,
+    },
 }));
 
 export default useSpacing;

@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { getAllCampaigns, I_RESULT_ALL_CAMPAINS } from 'app/solana';
 import { appLoadingActions } from 'app/_commComp/loadingApp/slice';
-
+import AllCampains from './card';
 import { useCampainsTypeSlice, campainsTypeActions } from './slice';
-import * as TYPES_KEYS from './slice/types';
+
 import * as Selectors from './slice/selector';
 
 const Home = (): ReactElement => {
@@ -24,7 +24,12 @@ const Home = (): ReactElement => {
         });
     }, []);
 
-    return <section>Home</section>;
+    return (
+        <section>
+            <h2>All Campains</h2>
+            {getAllCampains.length ? <AllCampains datas={getAllCampains} /> : null}
+        </section>
+    );
 };
 
 export default Home;
