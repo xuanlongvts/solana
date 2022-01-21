@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { CreateCampain } from 'app/solana';
 import { appLoadingActions } from 'app/_commComp/loadingApp/slice';

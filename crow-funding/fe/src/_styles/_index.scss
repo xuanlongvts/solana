@@ -24,6 +24,10 @@ body {
     font-weight: 400;
     line-height: 1.5;
     text-align: left;
+
+    > iframe {
+        display: none;
+    }
 }
 
 #root {
@@ -46,8 +50,3 @@ body {
         display: inline-block;
     }
 }
-
-// .all_campains {
-//     // display: flex;
-//     // justify-content:
-// }
