@@ -1,15 +1,21 @@
-import { ReactElement, useState, useEffect } from 'react';
+import { ReactElement } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { CreateCampain } from 'app/solana';
-import { getAllCampaigns } from 'app/sol_test';
+import { appLoadingActions } from 'app/_commComp/loadingApp/slice';
+
 import { names, T_InforCampaiin } from './consts';
 import { CampainSchema } from './validate';
 
 const CreateCampainComp = (): ReactElement => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const {
         register,
         handleSubmit,
@@ -21,16 +27,13 @@ const CreateCampainComp = (): ReactElement => {
     });
 
     const onSubmitForm = async (data: T_InforCampaiin) => {
+        dispatch(appLoadingActions.loadingOpen());
         const result = await CreateCampain(data);
-
-        console.log('onSubmitForm: ===> ', result);
+        dispatch(appLoadingActions.loadingClose());
+        if (result) {
+            navigate('/', { replace: true });
+        }
     };
-
-    useEffect(() => {
-        getAllCampaigns().then(val => {
-            console.log('getAllCampaigns: ', val);
-        });
-    }, []);
 
     const disabledBtn = !!(
         errors[names.title] ||
