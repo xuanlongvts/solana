@@ -16,7 +16,8 @@ import { T_InforCampaiin } from 'app/comps/createCampain/consts';
 
 const getUrl = getConfig(ENV ?? ENUM_envName.dev);
 const wallet = new Wallet('https://www.sollet.io', getUrl);
-const programId = new PublicKey('14B5EWiBbSDKpJUtD1sB7EL2yArW8eHdeFKFbpKq6tYE');
+// const programId = new PublicKey('14B5EWiBbSDKpJUtD1sB7EL2yArW8eHdeFKFbpKq6tYE');
+const programId = new PublicKey('7p5oLUpJR4ecu8sRAZFCfTHPxUQHi32TRKNt3WHpxvfZ');
 const connection = new Connection(getUrl, 'confirmed');
 
 const setPayerAndBlockhashTransaction = async (instructions: TransactionInstruction[]): Promise<Transaction> => {
