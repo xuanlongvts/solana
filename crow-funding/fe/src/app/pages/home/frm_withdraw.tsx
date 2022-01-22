@@ -1,8 +1,9 @@
-import { ChangeEvent } from 'react';
-
+import { useState } from 'react';
+import { PublicKey } from '@solana/web3.js';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import FormHelperText from '@mui/material/FormHelperText';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,6 +12,8 @@ import * as Yup from 'yup';
 
 import { appLoadingActions } from 'app/_commComp/loadingApp/slice';
 import useSpacing from '_styles/useSpacing';
+
+import { withdraw } from 'app/solana';
 
 enum enum_field_withdraw {
     withdraw = 'amount_withdraw',
@@ -31,9 +34,11 @@ const WithdrawSchema = Yup.object().shape({
     [enum_field_withdraw.withdraw]: WithdrawField,
 });
 
-const FrmWithDraw = () => {
+const FrmWithDraw = ({ pubId }: { pubId: PublicKey }) => {
     const dispatch = useDispatch();
     const spacing = useSpacing();
+
+    const [errWithDraw, setErrorWithDraw] = useState<string | null>(null);
 
     const {
         register,
@@ -47,7 +52,13 @@ const FrmWithDraw = () => {
 
     const onSubmitForm = async (data: T_withdraw) => {
         dispatch(appLoadingActions.loadingOpen());
-        // dispatch(appLoadingActions.loadingClose());
+        try {
+            await withdraw(pubId, Number(data[enum_field_withdraw.withdraw]));
+        } catch (e) {
+            console.log(e);
+            setErrorWithDraw("Can't with draw");
+        }
+        dispatch(appLoadingActions.loadingClose());
     };
 
     const disabledBtn = !!(errors[enum_field_withdraw.withdraw] || !watch()[enum_field_withdraw.withdraw]);
@@ -83,6 +94,11 @@ const FrmWithDraw = () => {
                         Withdraw
                     </Button>
                 </Grid>
+                {errWithDraw && (
+                    <FormHelperText error margin="dense" style={{ marginLeft: 16 }}>
+                        {errWithDraw}
+                    </FormHelperText>
+                )}
             </Grid>
         </form>
     );

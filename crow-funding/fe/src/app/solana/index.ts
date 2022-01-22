@@ -186,3 +186,90 @@ export const getAllCampaigns = async (): Promise<Array<I_RESULT_ALL_CAMPAINS>> =
     });
     return campains;
 };
+
+export const donateToCampaign = async (campaignPubKey: PublicKey, amount: number) => {
+    await checkWallet();
+
+    const seedwords = `abcdf${Math.random().toString()}`;
+    const newAccount = wallet.publicKey && (await PublicKey.createWithSeed(wallet.publicKey, seedwords, programId));
+
+    const createProgramAccount =
+        newAccount &&
+        amount &&
+        SystemProgram.createAccountWithSeed({
+            fromPubkey: wallet.publicKey,
+            newAccountPubkey: newAccount,
+            basePubkey: wallet.publicKey,
+            seed: seedwords,
+            lamports: amount,
+            space: 1,
+            programId,
+        });
+
+    const instructionToOurProgram =
+        newAccount &&
+        new TransactionInstruction({
+            keys: [
+                { pubkey: campaignPubKey, isSigner: false, isWritable: true },
+                { pubkey: newAccount, isSigner: false, isWritable: false },
+                { pubkey: wallet.publicKey, isSigner: true, isWritable: false },
+            ],
+            programId,
+            data: Buffer.alloc(1, 0x2),
+        });
+    if (createProgramAccount && instructionToOurProgram) {
+        const trans = await setPayerAndBlockhashTransaction([createProgramAccount, instructionToOurProgram]);
+        const signature = await signAndSendTransaction(trans);
+        const result = await connection.confirmTransaction(signature);
+        console.log('donateToCampaign: ===> ', result);
+    }
+};
+
+type T_Withdraw = {
+    amount: number;
+};
+class WithdrawRequest {
+    amount = 0;
+    constructor(props: T_Withdraw) {
+        if (props) {
+            this.amount = this.amount;
+        }
+    }
+
+    static schema = new Map([
+        [
+            WithdrawRequest,
+            {
+                kind: 'struct',
+                fields: [['amount', '64']],
+            },
+        ],
+    ]);
+}
+
+export const withdraw = async (campaignPubKey: PublicKey, amount: number) => {
+    await checkWallet();
+
+    const withdrawRequest = new WithdrawRequest({ amount });
+    const data = serialize(WithdrawRequest.schema, withdrawRequest);
+    const dataSend = new Uint8Array([1, ...data]);
+    const dataSendConvertToBuffer: Buffer = Buffer.from(dataSend);
+
+    const instructionToOurPrograme =
+        wallet.publicKey &&
+        new TransactionInstruction({
+            keys: [
+                { pubkey: campaignPubKey, isSigner: false, isWritable: true },
+                { pubkey: wallet.publicKey, isSigner: true, isWritable: false },
+            ],
+            programId: programId,
+            data: dataSendConvertToBuffer,
+        });
+
+    if (instructionToOurPrograme) {
+        const trans = await setPayerAndBlockhashTransaction([instructionToOurPrograme]);
+        const signature = await signAndSendTransaction(trans);
+        const result = await connection.confirmTransaction(signature);
+        console.log('withdraw: ===> ', result);
+    }
+};

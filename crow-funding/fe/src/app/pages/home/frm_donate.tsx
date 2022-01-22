@@ -1,5 +1,4 @@
-import { ChangeEvent } from 'react';
-
+import { PublicKey } from '@solana/web3.js';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -11,6 +10,8 @@ import * as Yup from 'yup';
 
 import { appLoadingActions } from 'app/_commComp/loadingApp/slice';
 import useSpacing from '_styles/useSpacing';
+
+import { donateToCampaign } from 'app/solana';
 
 enum enum_field_donate {
     donate = 'amount_donate',
@@ -31,7 +32,7 @@ const DonateSchema = Yup.object().shape({
     [enum_field_donate.donate]: DonateField,
 });
 
-const FrmDonate = () => {
+const FrmDonate = ({ pubId }: { pubId: PublicKey }) => {
     const dispatch = useDispatch();
     const spacing = useSpacing();
 
@@ -47,7 +48,9 @@ const FrmDonate = () => {
 
     const onSubmitForm = async (data: T_donate) => {
         dispatch(appLoadingActions.loadingOpen());
-        // dispatch(appLoadingActions.loadingClose());
+        const lamportConvertToSol = data[enum_field_donate.donate] * 1000000000;
+        await donateToCampaign(pubId, lamportConvertToSol);
+        dispatch(appLoadingActions.loadingClose());
     };
 
     const disabledBtn = !!(errors[enum_field_donate.donate] || !watch()[enum_field_donate.donate]);
