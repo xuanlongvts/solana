@@ -12,6 +12,7 @@ import { appLoadingActions } from 'app/_commComp/loadingApp/slice';
 import useSpacing from '_styles/useSpacing';
 
 import { donateToCampaign } from 'app/solana';
+import { ONE_SOL_UNIT_LAMPORT } from './const';
 
 enum enum_field_donate {
     donate = 'amount_donate',
@@ -48,7 +49,7 @@ const FrmDonate = ({ pubId }: { pubId: PublicKey }) => {
 
     const onSubmitForm = async (data: T_donate) => {
         dispatch(appLoadingActions.loadingOpen());
-        const lamportConvertToSol = data[enum_field_donate.donate] * 1000000000;
+        const lamportConvertToSol = data[enum_field_donate.donate] * ONE_SOL_UNIT_LAMPORT;
         await donateToCampaign(pubId, lamportConvertToSol);
         dispatch(appLoadingActions.loadingClose());
     };

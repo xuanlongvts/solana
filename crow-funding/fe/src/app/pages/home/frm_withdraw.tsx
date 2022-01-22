@@ -12,8 +12,9 @@ import * as Yup from 'yup';
 
 import { appLoadingActions } from 'app/_commComp/loadingApp/slice';
 import useSpacing from '_styles/useSpacing';
-
 import { withdraw } from 'app/solana';
+
+import { ONE_SOL_UNIT_LAMPORT } from './const';
 
 enum enum_field_withdraw {
     withdraw = 'amount_withdraw',
@@ -53,7 +54,8 @@ const FrmWithDraw = ({ pubId }: { pubId: PublicKey }) => {
     const onSubmitForm = async (data: T_withdraw) => {
         dispatch(appLoadingActions.loadingOpen());
         try {
-            await withdraw(pubId, Number(data[enum_field_withdraw.withdraw]));
+            const lamportConvertToSol = Number(data[enum_field_withdraw.withdraw]) * ONE_SOL_UNIT_LAMPORT;
+            await withdraw(pubId, lamportConvertToSol);
         } catch (e) {
             console.log(e);
             setErrorWithDraw("Can't with draw");

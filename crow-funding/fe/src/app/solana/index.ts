@@ -17,7 +17,8 @@ import { T_InforCampaiin } from 'app/comps/createCampain/consts';
 const getUrl = getConfig(ENV ?? ENUM_envName.dev);
 const wallet = new Wallet('https://www.sollet.io', getUrl);
 // const programId = new PublicKey('14B5EWiBbSDKpJUtD1sB7EL2yArW8eHdeFKFbpKq6tYE');
-const programId = new PublicKey('7p5oLUpJR4ecu8sRAZFCfTHPxUQHi32TRKNt3WHpxvfZ');
+// const programId = new PublicKey('7p5oLUpJR4ecu8sRAZFCfTHPxUQHi32TRKNt3WHpxvfZ');
+const programId = new PublicKey('96bfiTMKMsidao7YtBsCyCdWLzPdiLkAvE9w6jg2hfWW');
 const connection = new Connection(getUrl, 'confirmed');
 
 const setPayerAndBlockhashTransaction = async (instructions: TransactionInstruction[]): Promise<Transaction> => {
@@ -233,16 +234,16 @@ class WithdrawRequest {
     amount = 0;
     constructor(props: T_Withdraw) {
         if (props) {
-            this.amount = this.amount;
+            this.amount = props.amount;
         }
     }
 
-    static schema = new Map([
+    static schema: Schema = new Map([
         [
             WithdrawRequest,
             {
                 kind: 'struct',
-                fields: [['amount', '64']],
+                fields: [['amount', 'u64']],
             },
         ],
     ]);
@@ -250,6 +251,7 @@ class WithdrawRequest {
 
 export const withdraw = async (campaignPubKey: PublicKey, amount: number) => {
     await checkWallet();
+    console.log('campaignPubKey: ', campaignPubKey.toString(), amount);
 
     const withdrawRequest = new WithdrawRequest({ amount });
     const data = serialize(WithdrawRequest.schema, withdrawRequest);
@@ -263,13 +265,17 @@ export const withdraw = async (campaignPubKey: PublicKey, amount: number) => {
                 { pubkey: campaignPubKey, isSigner: false, isWritable: true },
                 { pubkey: wallet.publicKey, isSigner: true, isWritable: false },
             ],
-            programId: programId,
+            programId,
             data: dataSendConvertToBuffer,
         });
 
+    console.log('instructionToOurPrograme: ', instructionToOurPrograme);
+
     if (instructionToOurPrograme) {
         const trans = await setPayerAndBlockhashTransaction([instructionToOurPrograme]);
+        console.log('trans: ', trans);
         const signature = await signAndSendTransaction(trans);
+        console.log('signature: ', signature);
         const result = await connection.confirmTransaction(signature);
         console.log('withdraw: ===> ', result);
     }

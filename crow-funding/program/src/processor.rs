@@ -104,8 +104,9 @@ impl Processor {
 
 		let input_data = WithDrawRequest::try_from_slice(&instruction_data)
 			.expect("Instruction data serialization didn't worked");
+
 		let rent_exemption = Rent::get()?.minimum_balance(writing_account.data_len());
-		if **writing_account.lamports.borrow() < rent_exemption {
+		if **writing_account.lamports.borrow() - rent_exemption < input_data.amount {
 			msg!("Insufficent balance");
 			return Err(ProgramError::InsufficientFunds);
 		}
