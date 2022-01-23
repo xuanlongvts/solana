@@ -18,7 +18,8 @@ const getUrl = getConfig(ENV ?? ENUM_envName.dev);
 const wallet = new Wallet('https://www.sollet.io', getUrl);
 // const programId = new PublicKey('14B5EWiBbSDKpJUtD1sB7EL2yArW8eHdeFKFbpKq6tYE');
 // const programId = new PublicKey('7p5oLUpJR4ecu8sRAZFCfTHPxUQHi32TRKNt3WHpxvfZ');
-const programId = new PublicKey('96bfiTMKMsidao7YtBsCyCdWLzPdiLkAvE9w6jg2hfWW');
+// const programId = new PublicKey('96bfiTMKMsidao7YtBsCyCdWLzPdiLkAvE9w6jg2hfWW');
+const programId = new PublicKey('A9YQyWoYncgJ4DikRQDFU4qca5AYsK2PDhts5Wa4JgMe');
 const connection = new Connection(getUrl, 'confirmed');
 
 const setPayerAndBlockhashTransaction = async (instructions: TransactionInstruction[]): Promise<Transaction> => {
@@ -212,9 +213,9 @@ export const donateToCampaign = async (campaignPubKey: PublicKey, amount: number
         newAccount &&
         new TransactionInstruction({
             keys: [
-                { pubkey: campaignPubKey, isSigner: false, isWritable: true },
-                { pubkey: newAccount, isSigner: false, isWritable: false },
-                { pubkey: wallet.publicKey, isSigner: true, isWritable: false },
+                { pubkey: campaignPubKey, isSigner: false, isWritable: true }, // account admin (account of programe)
+                { pubkey: newAccount, isSigner: false, isWritable: false }, // new account
+                { pubkey: wallet.publicKey, isSigner: true, isWritable: false }, // account of person donate
             ],
             programId,
             data: Buffer.alloc(1, 0x2),

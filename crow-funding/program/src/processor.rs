@@ -95,7 +95,7 @@ impl Processor {
 			return Err(ProgramError::IncorrectProgramId);
 		}
 
-		let campaign_data = CampaignDetails::try_from_slice(&writing_account.data.borrow())
+		let mut campaign_data = CampaignDetails::try_from_slice(&writing_account.data.borrow())
 			.expect("Error deserialaizing data");
 		if campaign_data.admin != *admin_account.key {
 			msg!("Only the account admin can withdraw");
@@ -113,6 +113,9 @@ impl Processor {
 
 		**writing_account.try_borrow_mut_lamports()? -= input_data.amount;
 		**admin_account.try_borrow_mut_lamports()? += input_data.amount;
+
+		campaign_data.amount_donated -= input_data.amount;
+		campaign_data.serialize(&mut &mut writing_account.data.borrow_mut()[..])?;
 
 		Ok(())
 	}
