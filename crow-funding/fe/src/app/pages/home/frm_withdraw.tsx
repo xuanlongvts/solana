@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useState } from 'react';
 import { PublicKey } from '@solana/web3.js';
 import TextField from '@mui/material/TextField';

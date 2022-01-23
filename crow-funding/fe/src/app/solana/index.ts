@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Wallet from '@project-serum/sol-wallet-adapter';
 
 import {
