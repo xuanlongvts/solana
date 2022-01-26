@@ -1,0 +1,22 @@
+Generating a new keypair
+
+For added security, enter a BIP39 passphrase
+
+NOTE! This passphrase improves security of the recovery seed phrase NOT the
+keypair file itself, which is stored as insecure plain text
+
+BIP39 Passphrase (empty for none):
+
+Wrote new keypair to keypair.json
+================================================================================
+pubkey: 457dgd3TCzPTgjzRryYsWWADwmkb7KP5E5Bxopa9jdxR
+================================================================================
+Save this seed phrase and your BIP39 passphrase to recover your new keypair:
+meadow sunny panda mechanic harvest castle cheap pilot utility over rough parade
+================================================================================
+
+solana airdrop 2 457dgd3TCzPTgjzRryYsWWADwmkb7KP5E5Bxopa9jdxR --url https://api.devnet.solana.com
+
+solana deploy --keypair wallet/keypair.json program/dist/streaming_protocol.so --url https://api.devnet.solana.com
+
+Program Id: CtvJBiypTqdV9FdiQuP62bMCoR4TG56ZEnuEhszf4faC

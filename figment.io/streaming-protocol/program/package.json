@@ -1,0 +1,11 @@
+{
+	"name": "program",
+	"version": "1.0.0",
+	"description": "solana program",
+	"main": "index.js",
+	"author": "xuanlongvts@gmail.com",
+	"license": "MIT",
+	"scripts": {
+		"build": "cargo build-bpf --manifest-path=Cargo.toml --bpf-out-dir=dist"
+	}
+}

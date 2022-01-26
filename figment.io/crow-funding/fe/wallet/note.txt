@@ -1,0 +1,22 @@
+Generating a new keypair
+
+For added security, enter a BIP39 passphrase
+
+NOTE! This passphrase improves security of the recovery seed phrase NOT the
+keypair file itself, which is stored as insecure plain text
+
+BIP39 Passphrase (empty for none): 
+
+Wrote new keypair to ./wallet/admin.json
+=========================================================================
+pubkey: 5vNT8BfHk9dEswnjMQrYSrzdWhgRgCLe1zWjzDA8ZaUy
+=========================================================================
+Save this seed phrase and your BIP39 passphrase to recover your new keypair:
+wrist truly mammal deal hello until pitch such drift easily already harsh
+=========================================================================
+
+
+solana deploy --keypair fe/wallet/admin.json program/dist/program.so --url https://api.devnet.solana.com 
+Program Id: 7p5oLUpJR4ecu8sRAZFCfTHPxUQHi32TRKNt3WHpxvfZ
+Program Id: 96bfiTMKMsidao7YtBsCyCdWLzPdiLkAvE9w6jg2hfWW
+Program Id: A9YQyWoYncgJ4DikRQDFU4qca5AYsK2PDhts5Wa4JgMe

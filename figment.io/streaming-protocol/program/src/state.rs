@@ -12,7 +12,7 @@ pub struct CreateStreamInput {
 
 #[derive(Clone, Debug, PartialEq, BorshSerialize, BorshDeserialize)]
 pub struct WithdrawInput {
-	amount: u64
+	pub amount: u64
 }
 
 #[derive(Clone, Debug, PartialEq, BorshSerialize, BorshDeserialize)]
