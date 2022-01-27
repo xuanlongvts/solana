@@ -1,0 +1,1 @@
+pub const api_dev_net = "https://api.devnet.solana.com";
