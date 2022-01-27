@@ -23,9 +23,9 @@ pub struct Stream {
 	pub start_time: i64,
 	pub end_time: i64,
 	pub receiver: String,
-	pub lamports_withdrawn: u64,
-	pub amount_second: u64,
-	pub sender: Pubkey,
+	pub lamports_withdrawn: i64,
+	pub amount_second: i64,
+	pub sender: String,
 	pub total_amount: i64,
 }
 
@@ -36,7 +36,8 @@ impl Stream {
 			Err(err) => {
 				println!(
 					"Failed to deserialize {} with error {:?}",
-					pda_pubkey.pubkey, err
+					pda_pubkey.to_string(),
+					err
 				);
 				return None;
 			}
@@ -55,11 +56,11 @@ impl Stream {
 			start_time,
 			end_time,
 			receiver: receiver.to_string(),
-			lamports_withdrawn: lamports_withdrawn as u64,
-			amount_second: amount_second as u64,
+			lamports_withdrawn: lamports_withdrawn as i64,
+			amount_second: amount_second as i64,
 			sender: sender.to_string(),
 			pda_account: pda_pubkey,
-			total_amount: (end_time - start_time) * amount_second as u64,
+			total_amount: (end_time - start_time) * amount_second as i64,
 		})
 	}
 
@@ -81,33 +82,33 @@ impl Stream {
 
 	pub fn id_is_present(id: &String, conn: &PgConnection) -> bool {
 		use crate::schema::tbl_streams::dsl::*;
-		match tbl_streams::find(id).first::<Stream>(conn) {
+		match tbl_streams.find(id).first::<Stream>(conn) {
 			Ok(_s) => true,
 			_ => false,
 		}
 	}
 
 	pub fn insert_or_update(stream: Stream, conn: &PgConnection) -> bool {
-		if Stream::id_is_present(stream.pda_account, conn) {
+		if Stream::id_is_present(&stream.pda_account, conn) {
 			use crate::schema::tbl_streams::dsl::{
 				amount_second as a_s, end_time as e_t, lamports_withdrawn as l_w,
-				pda_account as p_a, receiver as r, sender as s, streams, total_amount as t_a,
+				pda_account as p_a, receiver as r, sender as s, tbl_streams, total_amount as t_a,
 			};
 			diesel::update(tbl_streams.filter(p_a.eq(stream.pda_account)))
 				.set((
-					a_s.eq(tbl_streams.amount_second),
-					r.eq(tbl_streams.receiver),
-					s.eq(tbl_streams.sender),
-					l_w.eq(tbl_streams.lamports_withdrawn),
-					t_a.eq(tbl_streams.total_amount),
-					e_t.eq(tbl_streams.end_time),
+					a_s.eq(stream.amount_second),
+					r.eq(stream.receiver),
+					s.eq(stream.sender),
+					l_w.eq(stream.lamports_withdrawn),
+					t_a.eq(stream.total_amount),
+					e_t.eq(stream.end_time),
 				))
 				.execute(conn)
 				.is_ok()
 		} else {
 			diesel::insert_into(crate::schema::tbl_streams::table)
 				.values(&stream)
-				.excute(conn)
+				.execute(conn)
 				.is_ok()
 		}
 	}
