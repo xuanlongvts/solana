@@ -43,20 +43,11 @@ aside {
     height: 100%;
     width: 30%;
     overflow: auto;
+    position: relative;
 }
 
 main {
     width: 100%;
-}
-
-header {
-    height: 57px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 15px;
-    padding-left: 5px;
-    /* border-bottom: 1px solid; */
 }
 
 section {
@@ -89,4 +80,11 @@ code {
     border-radius: 2px;
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
+}
+
+.togleTheme {
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%);
+    left: 50%;
 }

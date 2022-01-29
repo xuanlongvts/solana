@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const ENV = require('../../env.json').ENV;
 
 export enum ENUM_envName {

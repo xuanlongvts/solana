@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
+import dynamic from 'next/dynamic';
 import { createStyles, makeStyles } from '@mui/styles';
 import { Theme } from '@mui/material/styles';
 import NoSsr from '@mui/material/NoSsr';
@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography';
 
 import { darkThemeModes } from 'themes/const';
 import navConfig from './consts';
+
+const SwitchThemeMode = dynamic(() => import('themes/darkMode'), { ssr: false });
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -55,10 +57,13 @@ const Sidebar = () => {
 
     return (
         <aside>
-            <Typography variant="h4" align="center" gutterBottom className={classes.linkLogo}>
-                <Link href="/">Solana DApp</Link>
-            </Typography>
-            <Divider />
+            <NoSsr>
+                <Typography variant="h4" align="center" gutterBottom className={classes.linkLogo}>
+                    <Link href="/">Streaming Protocol</Link>
+                </Typography>
+
+                <Divider />
+            </NoSsr>
             <List component="nav" aria-label="secondary mailbox folders">
                 {navConfig.map((i, k) => {
                     return (
@@ -75,6 +80,7 @@ const Sidebar = () => {
                     );
                 })}
             </List>
+            <SwitchThemeMode />
         </aside>
     );
 };
