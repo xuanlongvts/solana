@@ -1,9 +1,10 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
+import Typography from '@mui/material/Typography';
 
-const Home: NextPage = () => {
-    return <>aaa</>;
+import SendingComp from 'comps/01-sending';
+
+const SendingPage: NextPage = () => {
+    return <SendingComp />;
 };
 
-export default Home;
+export default SendingPage;

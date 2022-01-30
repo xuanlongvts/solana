@@ -63,24 +63,24 @@ const Sidebar = () => {
                 </Typography>
 
                 <Divider />
-            </NoSsr>
-            <List component="nav" aria-label="secondary mailbox folders">
-                {navConfig.map((i, k) => {
-                    return (
-                        <ListItemLink
-                            selected={router.pathname === i.link}
-                            key={k}
-                            onClick={() => handleClickLink(i.link)}
-                        >
-                            <NoSsr>
+
+                <List component="nav" aria-label="Nav">
+                    {navConfig.map((i, k) => {
+                        return (
+                            <ListItemLink
+                                selected={router.pathname === i.link}
+                                key={k}
+                                onClick={() => handleClickLink(i.link)}
+                            >
                                 <ListItemIcon>{k + 1}</ListItemIcon>
-                            </NoSsr>
-                            <ListItemText primary={i.title} />
-                        </ListItemLink>
-                    );
-                })}
-            </List>
-            <SwitchThemeMode />
+
+                                <ListItemText primary={i.title} />
+                            </ListItemLink>
+                        );
+                    })}
+                </List>
+                <SwitchThemeMode />
+            </NoSsr>
         </aside>
     );
 };

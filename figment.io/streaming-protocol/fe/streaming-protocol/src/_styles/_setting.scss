@@ -25,7 +25,6 @@ body {
     line-height: 1.5;
     color: var(--ink500);
     text-align: left;
-
     /* user-select: none; */
 }
 
@@ -55,7 +54,7 @@ section {
     display: flex;
     flex-direction: column;
     height: calc(100% - 57px);
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 kbd {

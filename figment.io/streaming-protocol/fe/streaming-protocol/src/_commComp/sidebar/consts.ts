@@ -5,11 +5,11 @@ const nav = [
     },
     {
         title: 'Receiving',
-        link: '/create-account',
+        link: '/receiving',
     },
     {
         title: 'Create Stream',
-        link: '/fund-to-account',
+        link: '/create-stream',
     },
 ];
 
