@@ -1,6 +1,6 @@
 export const FIELD_SENDING = 'data_sending';
 
-type T_ITEM = {
+export type T_ITEM = {
     amount_second: number;
     end_time: number;
     sender: string;
