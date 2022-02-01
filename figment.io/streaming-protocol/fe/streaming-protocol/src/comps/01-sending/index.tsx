@@ -1,22 +1,22 @@
 import { useState, SyntheticEvent, MouseEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import type { NextPage } from 'next';
+
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
-
+import Grid from '@mui/material/Grid';
 import NoSsr from '@mui/material/NoSsr';
-import Chip from '@mui/material/Chip';
 import HelpIcon from '@mui/icons-material/Help';
 import DoneIcon from '@mui/icons-material/Done';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 
 import { getStatus } from '_utils';
 
@@ -106,11 +106,16 @@ const SendingComp: NextPage = () => {
                                         <Typography sx={{ width: '60%' }}>
                                             <strong>To:</strong>
                                             <br /> {receiver}{' '}
-                                            <DoneIcon sx={{ width: 20, height: 20 }} color="success" />
+                                            <NoSsr>
+                                                <DoneIcon sx={{ width: 20, height: 20 }} color="success" />
+                                            </NoSsr>
                                         </Typography>
                                         <Typography sx={{ width: '10%' }}>
                                             <strong>Token:</strong>
-                                            <br /> SOL <DoneIcon sx={{ width: 20, height: 20 }} color="success" />
+                                            <br /> SOL{' '}
+                                            <NoSsr>
+                                                <DoneIcon sx={{ width: 20, height: 20 }} color="success" />
+                                            </NoSsr>
                                         </Typography>
                                         <div style={{ width: '10%' }}>
                                             <strong>Amount:</strong>
@@ -153,10 +158,89 @@ const SendingComp: NextPage = () => {
                                         </div>
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                        <Typography>
-                                            Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam
-                                            eget maximus est, id dignissim quam.
-                                        </Typography>
+                                        <Grid container spacing={2}>
+                                            <Grid item xs={8}>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        '& > :not(style)': {
+                                                            m: 1,
+                                                            width: '100%',
+                                                            height: 70,
+                                                        },
+                                                    }}
+                                                >
+                                                    <Paper
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        <Typography variant="caption" align="center">
+                                                            Start time <br />
+                                                            <strong>{new Date(start_time * 1000).toUTCString()}</strong>
+                                                        </Typography>
+                                                    </Paper>
+                                                    <Paper
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        <Typography variant="caption" align="center">
+                                                            End time <br />
+                                                            <strong>{new Date(end_time * 1000).toUTCString()}</strong>
+                                                        </Typography>
+                                                    </Paper>
+                                                </Box>
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        '& > :not(style)': {
+                                                            m: 1,
+                                                            width: '100%',
+                                                            height: 70,
+                                                        },
+                                                    }}
+                                                >
+                                                    <Paper
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        <Typography variant="caption" align="center">
+                                                            Withdrawn <br />
+                                                            <strong>{lamports_withdrawn}</strong>
+                                                        </Typography>
+                                                    </Paper>
+                                                    <Paper
+                                                        sx={{
+                                                            display: 'flex',
+                                                            justifyContent: 'center',
+                                                            alignItems: 'center',
+                                                        }}
+                                                    >
+                                                        <Typography variant="caption" align="center">
+                                                            Recipient <br />
+                                                            <strong>{receiver}</strong>
+                                                        </Typography>
+                                                    </Paper>
+                                                </Box>
+                                            </Grid>
+                                            <Grid
+                                                xs={4}
+                                                container
+                                                direction="row"
+                                                justifyContent="center"
+                                                alignItems="center"
+                                            >
+                                                <Button variant="contained">Close Stream</Button>
+                                            </Grid>
+                                        </Grid>
                                     </AccordionDetails>
                                 </Accordion>
                             );
