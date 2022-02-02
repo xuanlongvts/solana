@@ -23,7 +23,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
 import { getStatus } from '_utils';
-// import {} from '_config';
+import { adminAddress } from '_config';
 
 import { useSendingTypeSlice } from './slice';
 import * as Selectors from './slice/selector';
@@ -42,7 +42,8 @@ const SendingComp: NextPage = () => {
 
     useEffect(() => {
         if (wallet.publicKey) {
-            dispatch(actions.getAllStreamsCall({ pubkey: wallet.publicKey.toString() }));
+            dispatch(actions.getAllStreamsCall({ pubkey: adminAddress.toString() })); // hard code for reach data
+            // dispatch(actions.getAllStreamsCall({ pubkey: wallet.publicKey.toString() }));
         }
     }, [wallet.publicKey]);
 
