@@ -1,4 +1,8 @@
+import { PublicKey } from '@solana/web3.js';
+
 export const FIELD_SENDING = 'data_sending';
+export const FIELD_PUBKEY_SUBMIT = 'pubkey_submit';
+export const FIELD_ERR_MESS = 'errMess';
 
 export type T_ITEM = {
     amount_second: number;
@@ -17,5 +21,15 @@ type DATA_SENDING = {
 };
 
 export interface I_SENDING {
+    [FIELD_PUBKEY_SUBMIT]: string | null;
+    [FIELD_ERR_MESS]: string | null;
     [FIELD_SENDING]: DATA_SENDING | null;
 }
+
+export type T_GET_ALL_STREAMS = {
+    pubkey: string;
+};
+
+export type T_GET_ALL_STREAMS_SUCCESS = {
+    result: DATA_SENDING;
+};

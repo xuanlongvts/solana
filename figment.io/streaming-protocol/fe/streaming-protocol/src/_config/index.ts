@@ -1,6 +1,9 @@
+import { PublicKey } from '@solana/web3.js';
+
 const ENV = require('../../env.json').ENV;
 
 export enum ENUM_envName {
+    local = 'local',
     dev = 'dev',
     test = 'test',
     production = 'production',
@@ -13,17 +16,24 @@ export enum SOLANA_PROTOCOLS {
 }
 
 type T_envName = {
+    local: string;
     dev: string;
     test: string;
     production: string;
 };
 export const envName: T_envName = {
+    [ENUM_envName.local]: 'local',
     [ENUM_envName.dev]: 'dev',
     [ENUM_envName.test]: 'qc',
     [ENUM_envName.production]: 'production',
 };
 
 export const Config = {
+    [envName.local]: {
+        [SOLANA_PROTOCOLS.API_SERVER]: 'http://127.0.0.1:8000',
+        [SOLANA_PROTOCOLS.HUB_RPC]: '',
+        [SOLANA_PROTOCOLS.HUB_WS]: '',
+    },
     [envName.dev]: {
         [SOLANA_PROTOCOLS.API_SERVER]: 'https://api.devnet.solana.com',
         [SOLANA_PROTOCOLS.HUB_RPC]: 'https://solana--devnet--rpc.datahub.figment.io/apikey',
@@ -40,6 +50,10 @@ export const Config = {
         [SOLANA_PROTOCOLS.HUB_WS]: 'wss://solana--devnet--ws.datahub.figment.io',
     },
 };
+
+export const programAccount = new PublicKey('DcGPfiGbubEKh1EnQ86EdMvitjhrUo8fGSgvqtFG4A9t');
+
+export const adminAddress = new PublicKey('DGqXoguiJnAy8ExJe9NuZpWrnQMCV14SdEdiMEdCfpmB');
 
 export const getConfig = (envParams = ENV, protocol = SOLANA_PROTOCOLS.API_SERVER) => {
     return Config[envParams as string][protocol];

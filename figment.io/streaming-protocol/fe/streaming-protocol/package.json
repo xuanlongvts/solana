@@ -2,9 +2,11 @@
     "name": "streaming-protocol",
     "private": true,
     "scripts": {
+        "env_local": "node ./scripts/set-environment.ts local",
         "env_dev": "node ./scripts/set-environment.ts dev",
         "env_test": "node ./scripts/set-environment.ts test",
         "env_production": "node ./scripts/set-environment.ts production",
+        "local": "cross-env yarn env_local && yarn next dev -p 3002",
         "dev": "cross-env yarn env_dev && yarn next dev -p 3002",
         "test": "cross-env yarn env_test && yarn next dev -p 3002",
         "build-dev": "cross-env yarn env_dev && yarn next build",

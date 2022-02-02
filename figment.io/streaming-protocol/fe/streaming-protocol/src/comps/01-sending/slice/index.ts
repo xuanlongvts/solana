@@ -3,7 +3,14 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { NSP_SENDING } from '_types/root_state_type';
 import { createSlice, useInjectReducer, useInjectSaga } from '_redux';
 
-import { FIELD_SENDING, I_SENDING } from './types';
+import {
+    FIELD_SENDING,
+    FIELD_PUBKEY_SUBMIT,
+    I_SENDING,
+    T_GET_ALL_STREAMS,
+    FIELD_ERR_MESS,
+    T_GET_ALL_STREAMS_SUCCESS,
+} from './types';
 import saga from './saga';
 
 const data_tmp = {
@@ -35,15 +42,28 @@ const data_tmp = {
 
 export const initialState: I_SENDING = {
     [FIELD_SENDING]: data_tmp,
+    [FIELD_PUBKEY_SUBMIT]: null,
+    [FIELD_ERR_MESS]: null,
 };
+const { [FIELD_ERR_MESS]: initErrMess, [FIELD_SENDING]: initDataUser } = initialState;
 
 const slice = createSlice({
     name: NSP_SENDING,
     initialState,
     reducers: {
-        setAllCampaigns(state, action: PayloadAction<I_SENDING>) {
-            const { [FIELD_SENDING]: data } = action.payload;
-            state[FIELD_SENDING] = data;
+        getAllStreamsCall(state, action: PayloadAction<T_GET_ALL_STREAMS>) {
+            const { pubkey } = action.payload;
+            state[FIELD_PUBKEY_SUBMIT] = pubkey;
+        },
+        getAllStreamsSuccess(state, action: PayloadAction<T_GET_ALL_STREAMS_SUCCESS>) {
+            const { result } = action.payload;
+
+            state[FIELD_ERR_MESS] = initErrMess;
+            state[FIELD_SENDING] = result;
+        },
+        getAllStreamsFailed(state, action: PayloadAction<string>) {
+            state[FIELD_ERR_MESS] = action.payload;
+            state[FIELD_SENDING] = initDataUser;
         },
     },
 });

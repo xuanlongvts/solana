@@ -1,6 +1,7 @@
-import { useState, SyntheticEvent, MouseEvent } from 'react';
+import { useState, useEffect, SyntheticEvent, MouseEvent, ReactNode } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { NextPage } from 'next';
+import { useWallet } from '@solana/wallet-adapter-react';
 
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -17,27 +18,39 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
 
 import { getStatus } from '_utils';
+// import {} from '_config';
 
 import { useSendingTypeSlice } from './slice';
 import * as Selectors from './slice/selector';
 import { T_ITEM } from './slice/types';
 
+const steps = ['Started Streaming', 'In Progress', 'Ends'];
+
 const SendingComp: NextPage = () => {
     const { actions } = useSendingTypeSlice();
     const dispatch = useDispatch();
+    const wallet = useWallet();
 
     const [expanded, setExpanded] = useState<string | false>(false);
 
     const getDataSending = useSelector(Selectors.selectDataSending);
 
-    console.log('getDataSending: ', getDataSending);
+    useEffect(() => {
+        if (wallet.publicKey) {
+            dispatch(actions.getAllStreamsCall({ pubkey: wallet.publicKey.toString() }));
+        }
+    }, [wallet.publicKey]);
 
     const handleChange = (panel: string) => (event: SyntheticEvent, isExpanded: boolean) => {
         setExpanded(isExpanded ? panel : false);
     };
 
+    // --- popoverOpen
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
     const handlePopoverOpen = (event: MouseEvent<HTMLElement>) => {
@@ -49,6 +62,14 @@ const SendingComp: NextPage = () => {
     };
 
     const open = Boolean(anchorEl);
+
+    // --- step
+    const [activeStep, setActiveStep] = useState(0);
+    const [skipped, setSkipped] = useState(new Set<number>());
+
+    const isStepSkipped = (step: number) => {
+        return skipped.has(step);
+    };
 
     return (
         <section>
@@ -89,6 +110,8 @@ const SendingComp: NextPage = () => {
                                 start_time,
                                 end_time,
                             };
+                            const start_time_show = new Date(start_time * 1000).toUTCString();
+                            const end_time_show = new Date(end_time * 1000).toUTCString();
                             return (
                                 <Accordion
                                     expanded={expanded === `panel${index}`}
@@ -179,7 +202,7 @@ const SendingComp: NextPage = () => {
                                                     >
                                                         <Typography variant="caption" align="center">
                                                             Start time <br />
-                                                            <strong>{new Date(start_time * 1000).toUTCString()}</strong>
+                                                            <strong>{start_time_show}</strong>
                                                         </Typography>
                                                     </Paper>
                                                     <Paper
@@ -191,7 +214,7 @@ const SendingComp: NextPage = () => {
                                                     >
                                                         <Typography variant="caption" align="center">
                                                             End time <br />
-                                                            <strong>{new Date(end_time * 1000).toUTCString()}</strong>
+                                                            <strong>{end_time_show}</strong>
                                                         </Typography>
                                                     </Paper>
                                                 </Box>
@@ -231,15 +254,45 @@ const SendingComp: NextPage = () => {
                                                     </Paper>
                                                 </Box>
                                             </Grid>
-                                            <Grid
-                                                xs={4}
-                                                container
-                                                direction="row"
-                                                justifyContent="center"
-                                                alignItems="center"
-                                            >
-                                                <Button variant="contained">Close Stream</Button>
+                                            <Grid xs={4} item>
+                                                <Grid
+                                                    container
+                                                    direction="row"
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                >
+                                                    <Button variant="contained">Close Stream</Button>
+                                                </Grid>
                                             </Grid>
+                                        </Grid>
+                                        <Grid>
+                                            <Box sx={{ pt: 4 }}>
+                                                <Stepper activeStep={activeStep}>
+                                                    {steps.map((label, index) => {
+                                                        const stepProps: { completed?: boolean } = {};
+                                                        const labelProps: {
+                                                            optional?: ReactNode;
+                                                        } = {};
+                                                        labelProps.optional = (
+                                                            <Typography variant="caption">
+                                                                {index === 1
+                                                                    ? start_time_show
+                                                                    : index === 2
+                                                                    ? getStatus(dataStatus)
+                                                                    : end_time_show}
+                                                            </Typography>
+                                                        );
+                                                        if (isStepSkipped(index)) {
+                                                            stepProps.completed = false;
+                                                        }
+                                                        return (
+                                                            <Step key={label} {...stepProps}>
+                                                                <StepLabel {...labelProps}>{label}</StepLabel>
+                                                            </Step>
+                                                        );
+                                                    })}
+                                                </Stepper>
+                                            </Box>
                                         </Grid>
                                     </AccordionDetails>
                                 </Accordion>
