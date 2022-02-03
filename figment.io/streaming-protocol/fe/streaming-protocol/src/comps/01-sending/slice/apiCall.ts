@@ -6,7 +6,6 @@ export const getAllStreams = (pubkey: PublicKey): Promise<any> => {
     return http()
         .fetch(`/${pubkey}`)
         .then((resp: any) => {
-            console.log('resp: ', resp);
             if (resp.status === 200) {
                 return {
                     result: resp.data,

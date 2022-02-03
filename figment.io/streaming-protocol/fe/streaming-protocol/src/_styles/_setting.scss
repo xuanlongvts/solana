@@ -47,13 +47,15 @@ aside {
 
 main {
     width: 100%;
+    overflow-y: auto;
+    padding-bottom: 20px;
 }
 
 section {
     padding: 15px;
     display: flex;
     flex-direction: column;
-    height: calc(100% - 57px);
+
     justify-content: flex-start;
 }
 
