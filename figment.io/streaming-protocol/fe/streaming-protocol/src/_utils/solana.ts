@@ -14,7 +14,10 @@ import ENV, { ENUM_envName, getConfig } from '_config';
 
 const getUrl = getConfig(ENV ?? ENUM_envName.dev);
 // const wallet = new Wallet('https://www.sollet.io', getUrl);
-export const connection = new Connection(getUrl, 'confirmed');
+// export const connection = new Connection(getUrl, 'confirmed');
+
+const cluster = 'https://api.devnet.solana.com';
+export const connection = new Connection(cluster, 'confirmed');
 
 export const setPayerAndBlockhashTransaction = async (
     instructions: TransactionInstruction[],
@@ -27,7 +30,9 @@ export const setPayerAndBlockhashTransaction = async (
     if (wallet.publicKey) {
         transaction.feePayer = wallet.publicKey;
     }
+
     const hash = await connection.getRecentBlockhash();
+
     if (hash.blockhash) {
         transaction.recentBlockhash = hash.blockhash;
     }

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, SyntheticEvent, MouseEvent, ReactNode } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import type { NextPage } from 'next';
-import { useWallet } from '@solana/wallet-adapter-react';
+import { useWallet, WalletContextState } from '@solana/wallet-adapter-react';
 import { SystemProgram, Transaction, PublicKey, TransactionInstruction, Connection } from '@solana/web3.js';
 
 import Typography from '@mui/material/Typography';
@@ -77,25 +77,24 @@ const SendingComp: NextPage = () => {
     };
 
     // --- Close Stream
-    const handleCloseStream = useCallback(async (streamId: PublicKey, receiver: PublicKey) => {
-        console.log('ddddd', wallet);
+    const handleCloseStream = async (streamId: PublicKey, receiver: PublicKey) => {
         if (wallet.publicKey) {
             const instructionToOurProgram = new TransactionInstruction({
                 keys: [
-                    { pubkey: streamId, isSigner: false, isWritable: true },
+                    { pubkey: new PublicKey(streamId), isSigner: false, isWritable: true },
                     { pubkey: wallet.publicKey, isSigner: true, isWritable: true },
-                    { pubkey: receiver, isSigner: false, isWritable: true },
+                    { pubkey: new PublicKey(receiver), isSigner: false, isWritable: true },
                 ],
                 programId: programAccount,
                 data: Buffer.alloc(1, 0x3),
             });
-            console.log(wallet, 'aaa');
-            if (instructionToOurProgram && wallet) {
-                console.log(wallet, 'bb');
-                // const trans: Transaction = await setPayerAndBlockhashTransaction([instructionToOurProgram], wallet);
-                // let signature = await wallet.sendTransaction(trans, connection);
+
+            if (instructionToOurProgram) {
+                const trans = await setPayerAndBlockhashTransaction([instructionToOurProgram], wallet);
+                let signature = await wallet.sendTransaction(trans, connection);
+                console.log('signature', signature); // error here ------ 05/02/2022
                 // const result = await connection.confirmTransaction(signature);
-                // console.log('end sendMessage', result);
+                // console.log('end sendMessage', trans);
                 // if (result) {
                 //     dispatch(actions.setCloseStreamSuccess());
                 // } else {
@@ -103,7 +102,7 @@ const SendingComp: NextPage = () => {
                 // }
             }
         }
-    }, []);
+    };
 
     return (
         <section>
@@ -146,6 +145,7 @@ const SendingComp: NextPage = () => {
                             };
                             const start_time_show = new Date(start_time * 1000).toUTCString();
                             const end_time_show = new Date(end_time * 1000).toUTCString();
+
                             return (
                                 <Accordion
                                     expanded={expanded === `panel${index}`}
