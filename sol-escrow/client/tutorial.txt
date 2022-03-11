@@ -1,0 +1,22 @@
+1. `solana config set --url http://localhost:8899`	===> switch config local
+	dev: 	https://api.devnet.solana.com
+	test:	https://api.testnet.solana.com
+	main:	https://api.mainnet-beta.solana.com
+
+2. `solana config get`	===> show all informations config
+	for example: 
+		Keypair Path: /Users/lelong/.config/solana/devnet.json	==> Account default for deploy ***.so
+
+3. `solana-test-validator`	===> start server local
+	solana balane		===> show the solana numbers of default account
+	solana airdrop 100	===> airdrop for default account
+
+4. At sol-escrow folder, `solana deploy dist/sol_escrow.so`	===> deploy sol_escrow.so to local
+	for example: 
+		Program Id: 6hXgNpTQbxp5uUfVuQqxi34cb7QmKjMtV5RRu9GMPPG8
+
+
+
+
+script in package.json
+	"setup-validator": "solana-test-validator -r --mint E2F3fsS1HpsLb2VpEgsA5ztfo83CWFWW4jWpC6FvJ6qR --bpf-program 6hXgNpTQbxp5uUfVuQqxi34cb7QmKjMtV5RRu9GMPPG8",
