@@ -30,7 +30,6 @@ const Airdrop = () => {
 
     return (
         <section>
-            {/* <h2>Airdrop</h2> */}
             {HeaderElement(LinkNavs._1.title)}
             <p>
                 <strong>airdropSignature: </strong>
@@ -40,6 +39,10 @@ const Airdrop = () => {
                 <strong>balance: </strong>
                 <span>{balance}</span>
             </p>
+            <div className="cli_command">
+                <strong>CLI: </strong>
+                <code>solana airdrop 2</code>
+            </div>
         </section>
     );
 };

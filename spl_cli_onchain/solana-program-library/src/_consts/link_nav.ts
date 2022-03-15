@@ -4,8 +4,8 @@ const LinkNav = {
         title: "01. Airdrop SOL",
     },
     _2: {
-        link: "",
-        title: "",
+        link: "/02_creating_your_own_fungible_token",
+        title: "02. Creating your own fungible token",
     },
     _3: {
         link: "",
