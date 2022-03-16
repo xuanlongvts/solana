@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import { Keypair, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { Keypair, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import {
     createMint,
     getMint,
     getOrCreateAssociatedTokenAccount,
     getAccount,
     mintTo,
+    TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 
-import { conn } from "_consts";
+import { connLocal } from "_consts";
 import LinkNavs from "_consts/link_nav";
 
 import { HeaderElement } from "_comps";
@@ -30,15 +31,15 @@ const CreateFungibleToken = () => {
     useEffect(() => {
         (async (): Promise<void> => {
             // 1. airdrop for account payer
-            const airdropSignature = await conn.requestAirdrop(
+            const airdropSignature = await connLocal.requestAirdrop(
                 payer.publicKey,
                 LAMPORTS_PER_SOL * 2
             );
-            await conn.confirmTransaction(airdropSignature);
+            await connLocal.confirmTransaction(airdropSignature);
 
             // 2. mint a token
             const mint = await createMint(
-                conn,
+                connLocal,
                 payer,
                 mintAuthority.publicKey,
                 freezeAuthority.publicKey,
@@ -48,13 +49,13 @@ const CreateFungibleToken = () => {
             setMint(mint.toBase58());
 
             // 3. get information about a mint
-            const mintInfo = await getMint(conn, mint);
+            const mintInfo = await getMint(connLocal, mint);
             console.log("mintInfo 1: ===> ", mintInfo.supply);
             setMintInfo1(Number(mintInfo.supply));
 
             // 4. retrieve the associated token account
             const tokenAccount = await getOrCreateAssociatedTokenAccount(
-                conn,
+                connLocal,
                 payer,
                 mint,
                 payer.publicKey
@@ -63,7 +64,7 @@ const CreateFungibleToken = () => {
             setTokenAccountAddress(tokenAccount.address.toBase58());
 
             const tokenAccountInfo = await getAccount(
-                conn,
+                connLocal,
                 tokenAccount.address
             );
             console.log("tokenAccountInfo 1: ===> ", tokenAccountInfo.amount);
@@ -71,7 +72,7 @@ const CreateFungibleToken = () => {
 
             // 5. Mint 100 tokens into the account:
             await mintTo(
-                conn,
+                connLocal,
                 payer,
                 mint,
                 tokenAccount.address,
@@ -79,12 +80,12 @@ const CreateFungibleToken = () => {
                 100
             );
 
-            const mintInfoAfter = await getMint(conn, mint);
+            const mintInfoAfter = await getMint(connLocal, mint);
             console.log("mintInfo 2: ===> ", mintInfoAfter.supply);
             setMintInfo2(Number(mintInfoAfter.supply));
 
             const tokenAccountInfoAfter = await getAccount(
-                conn,
+                connLocal,
                 tokenAccount.address
             );
             console.log(

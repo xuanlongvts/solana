@@ -8,12 +8,12 @@ const LinkNav = {
         title: "02. Creating your own fungible token",
     },
     _3: {
-        link: "",
-        title: "",
+        link: "/03_view_all_tokens_that_you_own",
+        title: "03. View all tokens that you own",
     },
     _4: {
-        link: "",
-        title: "",
+        link: "/04_wrap_unwrap_sol_in_a_token",
+        title: "04. Wrapping an unwrap SOL in a Token",
     },
     _5: {
         link: "",
