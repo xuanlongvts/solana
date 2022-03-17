@@ -16,16 +16,16 @@ const LinkNav = {
         title: "04. Wrapping an unwrap SOL in a Token",
     },
     _5: {
-        link: "",
-        title: "",
+        link: "/05_transferring_tokens_to_another_user",
+        title: "0.5 Transferring tokens to another user",
     },
     _6: {
-        link: "",
-        title: "",
+        link: "/06_transferring_tokens_to_a_explicit_recipient_token_account",
+        title: "0.6 Transferring tokens to an explicit recipient token account",
     },
     _7: {
-        link: "",
-        title: "",
+        link: "/07_create_a_nft",
+        title: "0.7 Create a non-fungible token",
     },
     _8: {
         link: "",
