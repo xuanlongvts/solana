@@ -39,7 +39,7 @@ const setupMint = async (
     alicePublicKey: PublicKey,
     bobPublicKey: PublicKey,
     clientKeypair: Signer
-): Promise<[PublicKey, PublicKey]> => {
+): Promise<[PublicKey, PublicKey, PublicKey]> => {
     console.log(`Creating mint ${name}...`);
     const mintPubkey = await createMintToken(clientKeypair);
     writePublicKey(mintPubkey, `mint_${name.toLowerCase()}`);
@@ -62,7 +62,7 @@ const setupMint = async (
     );
     writePublicKey(bobTokenAccount, `bob_${name.toLowerCase()}`);
 
-    return [aliceTokenAccount, bobTokenAccount];
+    return [mintPubkey, aliceTokenAccount, bobTokenAccount];
 };
 
 const setup = async () => {
@@ -93,60 +93,60 @@ const setup = async () => {
     );
     await connection.confirmTransaction(airdropSignatureClient);
 
-    const [aliceTokenAccountForX, bobTokenAccountForX] = await setupMint(
+    const [mintX, aliceTokenAccountForX, bobTokenAccountForX] = await setupMint(
         "X",
         alicePublickey,
         bobPublickey,
         clientKeypair
     );
     // console.log("Sending 50X to Alice's X TokenAccount...");
-    // await mintTo(
-    //     connection,
-    //     clientKeypair,
-    //     alicePublickey,
-    //     aliceTokenAccountForX,
-    //     clientKeypair.publicKey,
-    //     50
-    // );
+    await mintTo(
+        connection,
+        clientKeypair,
+        mintX,
+        aliceTokenAccountForX,
+        clientKeypair.publicKey,
+        50
+    );
 
-    // const [aliceTokenAccountForY, bobTokenAccountForY] = await setupMint(
-    //     "Y",
-    //     alicePublickey,
-    //     bobPublickey,
-    //     clientKeypair
-    // );
+    const [mintY, aliceTokenAccountForY, bobTokenAccountForY] = await setupMint(
+        "Y",
+        alicePublickey,
+        bobPublickey,
+        clientKeypair
+    );
     // console.log("Sending 50Y to Bob's Y TokenAccount...");
-    // await mintTo(
-    //     connection,
-    //     clientKeypair,
-    //     bobPublickey,
-    //     bobTokenAccountForY,
-    //     clientKeypair.publicKey,
-    //     50
-    // );
+    await mintTo(
+        connection,
+        clientKeypair,
+        mintY,
+        bobTokenAccountForY,
+        clientKeypair.publicKey,
+        50
+    );
 
-    // console.log("✨Setup complete✨\n");
-    // console.table([
-    //     {
-    //         "Alice Token Account X": await getTokenBalance(
-    //             aliceTokenAccountForX,
-    //             connection
-    //         ),
-    //         "Alice Token Account Y": await getTokenBalance(
-    //             aliceTokenAccountForY,
-    //             connection
-    //         ),
-    //         "Bob Token Account X": await getTokenBalance(
-    //             bobTokenAccountForX,
-    //             connection
-    //         ),
-    //         "Bob Token Account Y": await getTokenBalance(
-    //             bobTokenAccountForY,
-    //             connection
-    //         ),
-    //     },
-    // ]);
-    // console.log("");
+    console.log("✨Setup complete✨\n");
+    console.table([
+        {
+            "Alice Token Account X": await getTokenBalance(
+                aliceTokenAccountForX,
+                connection
+            ),
+            "Alice Token Account Y": await getTokenBalance(
+                aliceTokenAccountForY,
+                connection
+            ),
+            "Bob Token Account X": await getTokenBalance(
+                bobTokenAccountForX,
+                connection
+            ),
+            "Bob Token Account Y": await getTokenBalance(
+                bobTokenAccountForY,
+                connection
+            ),
+        },
+    ]);
+    console.log("");
 };
 
 setup();
