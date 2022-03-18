@@ -1,0 +1,53 @@
+1.	solana-keygen new -o ./alice.json
+	Generating a new keypair
+
+	For added security, enter a BIP39 passphrase
+
+	NOTE! This passphrase improves security of the recovery seed phrase NOT the
+	keypair file itself, which is stored as insecure plain text
+
+	BIP39 Passphrase (empty for none):
+
+	Wrote new keypair to ./alice.json
+	===============================================================================
+	pubkey: B7dykm54memGQ7iTxSuokPTdpgNDBhRcVVeQApUpJCWn
+	===============================================================================
+	Save this seed phrase and your BIP39 passphrase to recover your new keypair:
+	choose derive service gravity crime urban antique female rebel math note person
+	===============================================================================
+
+2. solana-keygen new -o ./bob.json
+	Generating a new keypair
+
+	For added security, enter a BIP39 passphrase
+
+	NOTE! This passphrase improves security of the recovery seed phrase NOT the
+	keypair file itself, which is stored as insecure plain text
+
+	BIP39 Passphrase (empty for none):
+
+	Wrote new keypair to ./bob.json
+	=============================================================================
+	pubkey: DEFP6W8tHthZiC3onndosJVQ1vgVezG7WkurQss1VazN
+	=============================================================================
+	Save this seed phrase and your BIP39 passphrase to recover your new keypair:
+	involve coral wish helmet night identify deputy museum boil body woman prison
+	=============================================================================
+
+3. solana-keygen new -o ./id.json
+	Generating a new keypair
+
+	For added security, enter a BIP39 passphrase
+
+	NOTE! This passphrase improves security of the recovery seed phrase NOT the
+	keypair file itself, which is stored as insecure plain text
+
+	BIP39 Passphrase (empty for none):
+
+	Wrote new keypair to ./id.json
+	================================================================================
+	pubkey: FnXeUt8PELHBwKTHDWNciBwQf1izdiBEnp5jNY8RHDLT
+	================================================================================
+	Save this seed phrase and your BIP39 passphrase to recover your new keypair:
+	seat elevator finger dinner measure income riot million anchor tumble shoot spin
+	================================================================================

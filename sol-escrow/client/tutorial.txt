@@ -13,10 +13,10 @@
 
 4. At sol-escrow folder, `solana deploy dist/sol_escrow.so`	===> deploy sol_escrow.so to local
 	for example: 
-		Program Id: 6hXgNpTQbxp5uUfVuQqxi34cb7QmKjMtV5RRu9GMPPG8
+		Program Id: 4KZKXkFJrhTEF53wJQUbpW4iSp9EnzdyjDtTJ3Q4VhUD
 
 
 
 
 script in package.json
-	"setup-validator": "solana-test-validator -r --mint E2F3fsS1HpsLb2VpEgsA5ztfo83CWFWW4jWpC6FvJ6qR --bpf-program 6hXgNpTQbxp5uUfVuQqxi34cb7QmKjMtV5RRu9GMPPG8",
+	"setup-validator": "solana-test-validator -r --mint FnXeUt8PELHBwKTHDWNciBwQf1izdiBEnp5jNY8RHDLT --bpf-program 4KZKXkFJrhTEF53wJQUbpW4iSp9EnzdyjDtTJ3Q4VhUD ../dist/sol_escrow.so",

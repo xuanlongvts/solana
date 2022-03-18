@@ -9,10 +9,18 @@
         "@solana/buffer-layout": "^4.0.0",
         "@solana/spl-token": "^0.2.0",
         "@solana/web3.js": "^1.36.0",
-        "bn.js": "^5.2.0"
+        "bn.js": "^5.2.0",
+        "mz": "^2.7.0",
+        "yaml": "^1.10.2"
     },
     "devDependencies": {
+        "@tsconfig/recommended": "^1.0.1",
+        "@types/eslint": "^8.4.1",
+        "@types/eslint-plugin-prettier": "^3.1.0",
         "@types/bs58": "^4.0.1",
+        "@types/mz": "^2.7.4",
+        "@types/prettier": "^2.4.4",
+        "@types/yaml": "^1.9.7",
         "@typescript-eslint/eslint-plugin": "^5.14.0",
         "@typescript-eslint/parser": "^5.14.0",
         "eslint": "^8.10.0",
@@ -20,16 +28,10 @@
         "eslint-plugin-prettier": "^4.0.0",
         "eslint-plugin-unused-imports": "^2.0.0",
         "prettier": "^2.5.1",
+        "ts-node": "^10.7.0",
         "typescript": "^4.6.2"
     },
     "scripts": {
-        "compile": "tsc -p ./tsconfig.json",
-        "setup-validator": "solana-test-validator --mint E2F3fsS1HpsLb2VpEgsA5ztfo83CWFWW4jWpC6FvJ6qR --bpf-program 6hXgNpTQbxp5uUfVuQqxi34cb7QmKjMtV5RRu9GMPPG8",
-        "setup": "yarn compile && node build/setup.js",
-        "setup-alice": "yarn compile && node build/setup.js && node build/alice.js",
-        "alice": "yarn compile && node build/alice.js",
-        "bob": "yarn compile && node build/bob.js",
-        "alice-bob": "yarn compile && node build/alice.js && node build/bob.js",
-        "all": "yarn compile && node build/setup.js && node build/alice.js && node build/bob.js"
+        "setup": "ts-node src/setup.ts"
     }
 }

@@ -1,7 +1,10 @@
 import { Connection, Keypair, PublicKey } from "@solana/web3.js";
-import * as fs from "fs";
+// import * as fs from "fs";
+import fs from "mz/fs";
 
 const Buffer = require("@solana/buffer-layout");
+
+import { NAME_FOLDER } from "./const";
 
 export interface EscrowLayout {
     isInitialized: number;
@@ -10,8 +13,6 @@ export interface EscrowLayout {
     initializerTempTokenAccountPubkey: Uint8Array;
     expectedAmount: Uint8Array;
 }
-
-const NAME_FOLDER = "accounts";
 
 const pathFilePub = (name: string): string =>
     `./${NAME_FOLDER}/${name}_pub.json`;
