@@ -28,12 +28,12 @@ const LinkNav = {
         title: "0.7 Create a non-fungible token",
     },
     _8: {
-        link: "",
-        title: "",
+        link: "/08_mint_with_multisig_authority",
+        title: "08. Mint with multisig authority",
     },
     _9: {
-        link: "",
-        title: "",
+        link: "/09_offline_signing_with_multisig",
+        title: "0.9 Offline signing with multisig",
     },
     _10: {
         link: "",
