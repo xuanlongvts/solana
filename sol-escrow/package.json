@@ -5,6 +5,7 @@
 	"author": "xuanlongvts@gmail.com",
 	"license": "MIT",
 	"scripts": {
-		"build": "cargo build-bpf --manifest-path=Cargo.toml --bpf-out-dir=dist"
+		"build": "cargo build-bpf --manifest-path=Cargo.toml --bpf-out-dir=dist",
+		"deploy": "solana deploy dist/sol_escrow.so"
 	}
 }

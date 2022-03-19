@@ -128,9 +128,8 @@ const alice = async () => {
         createEscrowAccountIx,
         initEscrowIx
     );
-
-    console.log("===> Sending Alice's transaction...");
     try {
+        console.log("===> Sending Alice's transaction...");
         const aliceTx: TransactionSignature = await connection.sendTransaction(
             tx,
             [aliceKeypair, tempXTokenAccountKeypair, escrowKeypair],
@@ -138,8 +137,77 @@ const alice = async () => {
         );
         console.log("aliceTx: ", aliceTx);
     } catch (err) {
-        console.log("err ===> aliceTx: ", err);
+        console.log("Err ===> aliceTx: ", err);
     }
+
+    // NOTE: IMPORTANT, sleep to allow time to update
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const escrowAccount = await connection.getAccountInfo(
+        escrowKeypair.publicKey
+    );
+    if (!escrowAccount || !escrowAccount.data.length) {
+        console.log("Escrow state account has not been initialized properly");
+        process.exit(1);
+    }
+
+    const encodedEscrowState = escrowAccount.data;
+    const decodedEscrowState = ESCROW_ACCOUNT_DATA_LAYOUT.decode(
+        encodedEscrowState
+    ) as EscrowLayout;
+    if (!decodedEscrowState.isInitialized) {
+        console.log("Escrow state initialization flag has not set been set");
+        process.exit(1);
+    } else if (
+        !new PublicKey(decodedEscrowState.initializerPubkey).equals(
+            aliceKeypair.publicKey
+        )
+    ) {
+        console.log(
+            "InitializerPubkey has not been set correctly / not been set to Alice's public key"
+        );
+        process.exit(1);
+    } else if (
+        !new PublicKey(
+            decodedEscrowState.initializerTempTokenAccountPubkey
+        ).equals(tempXTokenAccountKeypair.publicKey)
+    ) {
+        console.log(
+            "initializerTempTokenAccountPubkey has not been set correctly / not been set to temp X token account public key"
+        );
+        process.exit(1);
+    }
+
+    console.log(
+        `Escrow success initialized. Alice offering ${terms.bobExpectedAmount}X for ${terms.aliceExpectedAmount}Y \n`
+    );
+    writePublicKey(escrowKeypair.publicKey, "escrow");
+
+    console.table([
+        {
+            "Alice Token Account X": await getTokenBalance(
+                aliceXTokenAccountPubkey,
+                connection
+            ),
+            "Alice Token Account Y": await getTokenBalance(
+                aliceYTokenAccountPubkey,
+                connection
+            ),
+            "Bob Token Account X": await getTokenBalance(
+                getPublickey("bob_x"),
+                connection
+            ),
+            "Bob Token Account Y": await getTokenBalance(
+                getPublickey("bob_y"),
+                connection
+            ),
+            "Temporary Token Account X": await getTokenBalance(
+                tempXTokenAccountKeypair.publicKey,
+                connection
+            ),
+        },
+    ]);
+    console.log("");
 };
 
 alice();
