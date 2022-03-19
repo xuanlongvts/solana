@@ -4,16 +4,10 @@ import { createMint, createAccount, mintTo } from "@solana/spl-token";
 import {
     connection,
     establishConnection,
-    getConfig,
     ACC_PATH,
     createKeypairFromFile,
 } from "./const";
-import {
-    getKeypair,
-    getPublickey,
-    getTokenBalance,
-    writePublicKey,
-} from "./utils";
+import { getPublickey, getTokenBalance, writePublicKey } from "./utils";
 
 const createMintToken = async (payer: Signer): Promise<PublicKey> => {
     // Create new token mint
@@ -146,7 +140,13 @@ const setup = async () => {
             ),
         },
     ]);
-    console.log("");
+    /*
+    ┌─────────┬───────────────────────┬───────────────────────┬─────────────────────┬─────────────────────┐
+    │ (index) │ Alice Token Account X │ Alice Token Account Y │ Bob Token Account X │ Bob Token Account Y │
+    ├─────────┼───────────────────────┼───────────────────────┼─────────────────────┼─────────────────────┤
+    │    0    │          50           │           0           │          0          │         50          │
+    └─────────┴───────────────────────┴───────────────────────┴─────────────────────┴─────────────────────┘
+    */
 };
 
 setup();

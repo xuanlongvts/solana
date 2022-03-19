@@ -4,8 +4,6 @@ import path from "path";
 import os from "os";
 import yaml from "yaml";
 
-let payer: Keypair;
-
 export const NAME_FOLDER = "accounts";
 
 export const connection = new Connection("http://127.0.0.1:8899", "confirmed");

@@ -29,7 +29,10 @@ export const getPublickey = (name: string): PublicKey => {
 };
 
 export const getPrivateKey = (name: string): Uint8Array => {
-    return Uint8Array.from(JSON.parse(transformString(name)));
+    const pathFile = fs.readFileSync(
+        `./${NAME_FOLDER}/${name}.json`
+    ) as unknown as string;
+    return Uint8Array.from(JSON.parse(pathFile));
 };
 
 export const getKeypair = (name: string): Keypair => {
