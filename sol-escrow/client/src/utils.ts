@@ -52,7 +52,7 @@ export const getProgramId = () => {
     }
 };
 
-type T_terms = {
+export type T_terms = {
     aliceExpectedAmount: number;
     bobExpectedAmount: number;
 };

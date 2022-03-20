@@ -2,7 +2,6 @@ import {
     AccountLayout,
     TOKEN_PROGRAM_ID,
     createInitializeAccountInstruction,
-    createTransferCheckedInstruction,
     createTransferInstruction,
 } from "@solana/spl-token";
 
@@ -22,22 +21,22 @@ import {
     ESCROW_ACCOUNT_DATA_LAYOUT,
     writePublicKey,
     getPublickey,
-    getPrivateKey,
     getKeypair,
     getProgramId,
     getTerms,
     getTokenBalance,
+    T_terms,
 } from "./utils";
 import { connection } from "./const";
 
 const alice = async () => {
-    const escrowProgramId = getProgramId();
-    const terms = getTerms();
+    const escrowProgramId: PublicKey = getProgramId();
+    const terms: T_terms = getTerms();
 
-    const aliceXTokenAccountPubkey = getPublickey("alice_x");
-    const aliceYTokenAccountPubkey = getPublickey("alice_y");
-    const X_TokenMintPubkey = getPublickey("mint_x");
-    const aliceKeypair = getKeypair("alice");
+    const aliceXTokenAccountPubkey: PublicKey = getPublickey("alice_x");
+    const aliceYTokenAccountPubkey: PublicKey = getPublickey("alice_y");
+    const X_TokenMintPubkey: PublicKey = getPublickey("mint_x");
+    const aliceKeypair: Keypair = getKeypair("alice");
 
     const tempXTokenAccountKeypair = new Keypair();
 

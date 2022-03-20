@@ -32,9 +32,9 @@
         "typescript": "^4.6.2"
     },
     "scripts": {
-        "validator": "solana-test-validator --mint FnXeUt8PELHBwKTHDWNciBwQf1izdiBEnp5jNY8RHDLT --bpf-program 9X2LWv9Y19apw2eVw1QU8VbCFZE6gtf84kYG874BdrgV ../dist/sol_escrow.so",
+        "dev-validator": "solana-test-validator",
         "setup": "ts-node src/setup.ts",
-        "alice": "yarn setup && ts-node src/alice.ts",
+        "alice": "ts-node src/alice.ts",
         "bob": "ts-node src/bob.ts",
         "all": "yarn setup && yarn alice && yarn bob"
     }
