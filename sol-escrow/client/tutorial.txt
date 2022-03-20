@@ -13,10 +13,8 @@
 
 4. At sol-escrow folder, `solana deploy dist/sol_escrow.so`	===> deploy sol_escrow.so to local
 	for example: 
-		Program Id: 4KZKXkFJrhTEF53wJQUbpW4iSp9EnzdyjDtTJ3Q4VhUD
+		Program Id: 22dqe9dDXgkvMTy5atRnXmo51mgHoKde3wCcZ3vA6qGp
+	Note: Each deploy has a different programId
 
-
-
-
-script in package.json
-	"setup-validator": "solana-test-validator -r --mint FnXeUt8PELHBwKTHDWNciBwQf1izdiBEnp5jNY8RHDLT --bpf-program 4KZKXkFJrhTEF53wJQUbpW4iSp9EnzdyjDtTJ3Q4VhUD ../dist/sol_escrow.so",
+5. Copy `Program Id` to `client/account/program_pub.json`
+6. At command line run: sudo yarn all
