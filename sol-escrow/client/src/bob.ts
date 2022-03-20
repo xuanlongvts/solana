@@ -142,12 +142,8 @@ const Bob = async () => {
         }
     );
 
-    // sleep to allow time update
+    // sleep to allow time update to reset escrowStateAccountPubkey account
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    const tmp: AccountInfo<Buffer> | null = await connection.getAccountInfo(
-        escrowStateAccountPubkey
-    );
 
     if ((await connection.getAccountInfo(escrowStateAccountPubkey)) !== null) {
         console.log("Err: Escrow account has not been closed");
