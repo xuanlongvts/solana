@@ -11,6 +11,8 @@
 	solana balane		===> show the solana numbers of default account
 	solana airdrop 100	===> airdrop for default account
 
+	note: solana-test-validator -r (-r will reset all the informations that set before)
+
 4. At sol-escrow folder, `solana deploy dist/sol_escrow.so`	===> deploy sol_escrow.so to local
 	for example: 
 		Program Id: 22dqe9dDXgkvMTy5atRnXmo51mgHoKde3wCcZ3vA6qGp

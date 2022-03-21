@@ -48,7 +48,7 @@ export const getPayer = async (): Promise<Keypair> => {
     }
 };
 
-// Create a Keypair from a secret key stored in file as bytes' array
+// Create a Keypair from a secret key stored in file as byte's array
 export const createKeypairFromFile = async (
     filePath: string
 ): Promise<Keypair> => {

@@ -1,18 +1,10 @@
-import {
-    AccountLayout,
-    TOKEN_PROGRAM_ID,
-    createInitializeAccountInstruction,
-    createTransferInstruction,
-} from "@solana/spl-token";
+import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 
 import {
     Keypair,
     PublicKey,
-    SystemProgram,
-    SYSVAR_RENT_PUBKEY,
     Transaction,
     TransactionInstruction,
-    TransactionSignature,
     AccountInfo,
 } from "@solana/web3.js";
 const BN = require("bn.js");
@@ -22,7 +14,6 @@ const BN = require("bn.js");
 import {
     EscrowLayout,
     ESCROW_ACCOUNT_DATA_LAYOUT,
-    writePublicKey,
     getPublickey,
     getKeypair,
     getProgramId,

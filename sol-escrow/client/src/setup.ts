@@ -1,4 +1,4 @@
-import { LAMPORTS_PER_SOL, Signer, PublicKey, Keypair } from "@solana/web3.js";
+import { LAMPORTS_PER_SOL, Signer, PublicKey } from "@solana/web3.js";
 import { createMint, createAccount, mintTo } from "@solana/spl-token";
 
 import {
