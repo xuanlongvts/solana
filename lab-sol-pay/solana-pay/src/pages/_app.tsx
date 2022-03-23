@@ -1,7 +1,6 @@
 import { useState, useEffect, FC, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Router from 'next/router';
-import { AppProps } from 'next/app';
 
 import Head from 'next/head';
 import { ThemeProvider } from '@mui/material/styles';
@@ -49,7 +48,6 @@ type T_APP = {
     pageProps: any;
     emotionCache?: EmotionCache;
 };
-
 const App = (props: T_APP) => {
     const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
@@ -106,7 +104,7 @@ const App = (props: T_APP) => {
                 <WalletProvider wallets={wallets} autoConnect>
                     <WalletModalProvider>
                         <Head>
-                            <title>Streaming Protocol on Solana</title>
+                            <title>Pay on Solana</title>
                             <meta name="viewport" content="initial-scale=1, width=device-width" />
                         </Head>
                         <ThemeProvider theme={theme(darkState)}>

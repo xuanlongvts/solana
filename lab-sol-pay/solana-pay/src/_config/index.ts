@@ -51,6 +51,8 @@ export const Config = {
     },
 };
 
+export const WalletRecipient = 'BYaqcY4KvRkcjXTK8REEyWvs5FVajjdTRcoADAqVSULT'; // phantom wallet of recipient
+
 export const programAccount = new PublicKey('DcGPfiGbubEKh1EnQ86EdMvitjhrUo8fGSgvqtFG4A9t');
 
 export const adminAddress = new PublicKey('DGqXoguiJnAy8ExJe9NuZpWrnQMCV14SdEdiMEdCfpmB');
