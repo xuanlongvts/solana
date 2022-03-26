@@ -19,23 +19,18 @@ header {
     align-items: center;
     text-decoration: none;
 
-    span {
-        &.img {
-            display: flex;
-            align-items: center;
-        }
-
-        &.txt {
-            display: inline-block;
-            background-color: #000;
-            width: 70px;
-            height: 45px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 42px;
-            color: white;
-            font-weight: 700;
-            font-size: 18px;
-        }
-    }
+    // span {
+    //     &.txt {
+    //         display: inline-block;
+    //         background-color: #000;
+    //         width: 70px;
+    //         height: 45px;
+    //         border-radius: 50%;
+    //         text-align: center;
+    //         line-height: 42px;
+    //         color: white;
+    //         font-weight: 700;
+    //         font-size: 18px;
+    //     }
+    // }
 }

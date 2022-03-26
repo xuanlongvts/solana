@@ -51,11 +51,56 @@ export const Config = {
     },
 };
 
+export type Digits = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
+export type Confirmations =
+    | 0
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 11
+    | 12
+    | 13
+    | 14
+    | 15
+    | 16
+    | 17
+    | 18
+    | 19
+    | 20
+    | 21
+    | 22
+    | 23
+    | 24
+    | 25
+    | 26
+    | 27
+    | 28
+    | 29
+    | 30
+    | 31
+    | 32;
+
 export const WalletRecipient = 'BYaqcY4KvRkcjXTK8REEyWvs5FVajjdTRcoADAqVSULT'; // phantom wallet of recipient
 
-export const programAccount = new PublicKey('DcGPfiGbubEKh1EnQ86EdMvitjhrUo8fGSgvqtFG4A9t');
+export const PubkeyRecipient = new PublicKey(WalletRecipient); // transform to Pubkey
 
-export const adminAddress = new PublicKey('DGqXoguiJnAy8ExJe9NuZpWrnQMCV14SdEdiMEdCfpmB');
+export const requiredConfirmations = 1;
+
+export enum PaymentStatus {
+    Pending = 'Pending',
+    Confirmed = 'Confirmed',
+    Valid = 'Valid',
+    InValid = 'InValid',
+    Finalized = 'Finalized',
+}
 
 export const getConfig = (envParams = ENV, protocol = SOLANA_PROTOCOLS.API_SERVER) => {
     return Config[envParams as string][protocol];

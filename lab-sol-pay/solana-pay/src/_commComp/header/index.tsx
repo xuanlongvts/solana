@@ -12,10 +12,7 @@ const Header = () => {
         <header>
             <Link href="/">
                 <a className="logo">
-                    <span className="img">
-                        <Image src="/imgs/sol.jpg" alt="Solana Pay" width={32} height={32} />
-                    </span>
-                    <span className="txt">Pay</span>
+                    <Image src="/imgs/SolanaPayLogo.svg" alt="Solana Pay" width={100} height={50} />
                 </a>
             </Link>
             {/* <WalletMultiButton /> */}

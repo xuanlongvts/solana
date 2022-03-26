@@ -5,6 +5,7 @@ export enum ENUM_FIELDS {
     amount = 'amount',
     message = 'message',
     memo = 'memo',
+    reference = 'reference',
 }
 
 export interface T_HOOKS_FOMR_GENE_QR_CODE {
@@ -41,7 +42,7 @@ export const messageField = Yup.string()
     .notRequired()
     .when(ENUM_FIELDS.message, {
         is: (value: string) => value?.length,
-        then: rule => rule.min(MESSAGE_FILED.min).max(MESSAGE_FILED.min),
+        then: rule => rule.min(MESSAGE_FILED.min).max(MESSAGE_FILED.max),
     });
 
 const MEMO_FILED = {
@@ -53,7 +54,7 @@ export const memoField = Yup.string()
     .notRequired()
     .when(ENUM_FIELDS.memo, {
         is: (value: string) => value?.length,
-        then: rule => rule.min(MEMO_FILED.min).max(MEMO_FILED.min),
+        then: rule => rule.min(MEMO_FILED.min).max(MEMO_FILED.max),
     });
 
 const FundAccSchema = Yup.object().shape(

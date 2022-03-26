@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -6,11 +7,14 @@ import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { WalletRecipient } from '_config';
+import { LocalStorageServices } from '_utils/localStorage';
 import FundAccSchema, { T_HOOKS_FOMR_GENE_QR_CODE, ENUM_FIELDS } from '_validate';
 import { appLoadingActions } from '_commComp/loadingApp/slice';
 
 const GenerateQr = () => {
     const dispatch = useDispatch();
+    const router = useRouter();
 
     const {
         register,
@@ -24,6 +28,22 @@ const GenerateQr = () => {
 
     const onSubmitForm = (data: T_HOOKS_FOMR_GENE_QR_CODE) => {
         dispatch(appLoadingActions.loadingOpen());
+
+        LocalStorageServices.setItemJson(ENUM_FIELDS.label, data[ENUM_FIELDS.label]);
+        LocalStorageServices.setItemJson(ENUM_FIELDS.amount, data[ENUM_FIELDS.amount]);
+
+        data[ENUM_FIELDS.message] && LocalStorageServices.setItemJson(ENUM_FIELDS.message, data[ENUM_FIELDS.message]);
+        data[ENUM_FIELDS.memo] && LocalStorageServices.setItemJson(ENUM_FIELDS.memo, data[ENUM_FIELDS.memo]);
+
+        // http://localhost:1234?recipient=8vnGQag2cPzm71URQRegJ6eKbnrPvtJ8W7Vq9BYYSGrT&label=Long+Le+pay&amount=1&message=Thanks%20for%20all%20the%20fish&memo=OrderId1234
+
+        // const url = `?recipient=${WalletRecipient}&label=${data[ENUM_FIELDS.label]}&amount=${data[ENUM_FIELDS.amount]}&message=${
+        //     data[ENUM_FIELDS.message]
+        // }&memo=${data[ENUM_FIELDS.memo]}`;
+
+        // router.push(`/02-pending${url}`);
+
+        router.push('/02-pending');
     };
 
     const disabledBtn = !!(
@@ -35,6 +55,11 @@ const GenerateQr = () => {
 
     return (
         <section className="geneQrCode">
+            <p>
+                <label>Recipient pubkey: </label>
+                <code>{WalletRecipient}</code>
+            </p>
+
             <TextField
                 required
                 fullWidth

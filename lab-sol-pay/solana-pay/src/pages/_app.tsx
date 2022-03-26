@@ -31,7 +31,6 @@ import ENV, { ENUM_envName } from '_config';
 
 import LoadingApp from '_commComp/loadingApp';
 import { appLoadingActions } from '_commComp/loadingApp/slice';
-import Nav from '_commComp/sidebar';
 import Header from '_commComp/header';
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -110,7 +109,6 @@ const App = (props: T_APP) => {
                         <ThemeProvider theme={theme(darkState)}>
                             <CssBaseline />
 
-                            {/* <Nav />s */}
                             <main>
                                 <Header />
                                 <Component {...pageProps} />
