@@ -16,8 +16,6 @@ const QRCode: FC<{ refPubkey: PublicKey }> = ({ refPubkey }) => {
     const [url, setUrl] = useState<string>('');
     const [amountSol, setAmountSol] = useState<Number>();
 
-    console.log('refPubkey, ', refPubkey.toBase58());
-
     useEffect(() => {
         const getAmount = Number(LocalStorageServices.getItemJson(ENUM_FIELDS.amount));
         const getLabel = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.label));
@@ -32,7 +30,7 @@ const QRCode: FC<{ refPubkey: PublicKey }> = ({ refPubkey }) => {
         const getMemo = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.memo));
         getMemo && (url += `&memo=${getMemo}`);
 
-        console.log('url', url);
+        // console.log('url', url);
 
         setUrl(url);
         setAmountSol(getAmount);

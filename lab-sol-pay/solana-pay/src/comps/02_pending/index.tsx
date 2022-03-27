@@ -19,6 +19,7 @@ import { LocalStorageServices } from '_utils/localStorage';
 import { ENUM_FIELDS } from '_validate';
 
 import QRCode from './qr_code';
+import Progress from './progress';
 
 const referencePubkey = Keypair.generate().publicKey; // Important for reference receiver transaction confirmed
 
@@ -32,6 +33,30 @@ const Pending = () => {
     const [reference, setReference] = useState<PublicKey>(referencePubkey);
     const [confirmations, setConfirmations] = useState<Confirmations>(0);
 
+    const progress = useMemo(() => confirmations / requiredConfirmations, [confirmations]);
+
+    // useEffect(() => {
+    //     let value = 0;
+    //     let newStatus: any = PaymentStatus.Pending;
+    //     switch (status) {
+    //         case PaymentStatus.Finalized:
+    //             value = 1;
+    //             newStatus = 'Complete';
+    //         case PaymentStatus.Confirmed:
+    //         case PaymentStatus.Valid:
+    //             if (progress >= 1) {
+    //                 value = 1;
+    //                 newStatus = 'Complete';
+    //             } else {
+    //                 value = progress;
+    //                 newStatus = Math.round(progress * 100) + '%';
+    //             }
+    //         case PaymentStatus.InValid:
+    //             value = 0;
+    //             newStatus = PaymentStatus.InValid;
+    //     }
+    // }, [status, progress]);
+
     // 1. Status pending ---> Phone Pay
     useEffect(() => {
         if (signature || status !== PaymentStatus.Pending || !reference) {
@@ -44,8 +69,6 @@ const Pending = () => {
             try {
                 signature = await findTransactionSignature(connection, referencePubkey, undefined, 'confirmed');
 
-                console.log('signature', signature);
-
                 if (!changed) {
                     clearInterval(interval);
                     setSignature(signature.signature);
@@ -57,7 +80,7 @@ const Pending = () => {
                     console.log('1. Phone Pay --->>> Error: ', err);
                 }
             }
-        }, 250);
+        }, 300);
 
         return () => {
             changed = true;
@@ -92,6 +115,9 @@ const Pending = () => {
 
                 console.warn('2.1 Phone Pay validate --->>> Error: ', err);
                 setStatus(PaymentStatus.InValid);
+                LocalStorageServices.removeAll();
+
+                router.push('/');
             }
         };
         timeout = setTimeout(run, 0);
@@ -112,8 +138,9 @@ const Pending = () => {
         const interval = setInterval(async () => {
             try {
                 const response = await connection.getSignatureStatus(signature);
-                // console.log('response.. ', response);
+
                 const status = response.value;
+                // console.log('status: ---> ', status);
                 if (!status) {
                     return;
                 }
@@ -128,16 +155,16 @@ const Pending = () => {
                     if (confirmations >= requiredConfirmations || status.confirmationStatus === 'finalized') {
                         clearInterval(interval);
                         setStatus(PaymentStatus.Finalized);
-                        console.log('---> status: ', status, confirmations);
 
                         changed = true;
-                        router.push('/03-confirm');
+                        // LocalStorageServices.removeAll();
+                        // router.push('/03-confirm');
                     }
                 }
             } catch (err: any) {
                 console.warn('3. Phone Pay consensus --->>> Error: ', err);
             }
-        }, 250);
+        }, 300);
 
         return () => {
             changed = true;
@@ -148,6 +175,8 @@ const Pending = () => {
     return (
         <section>
             <QRCode refPubkey={referencePubkey} />
+
+            <Progress status={status} progress={progress} />
         </section>
     );
 };

@@ -92,7 +92,7 @@ export const WalletRecipient = 'BYaqcY4KvRkcjXTK8REEyWvs5FVajjdTRcoADAqVSULT'; /
 
 export const PubkeyRecipient = new PublicKey(WalletRecipient); // transform to Pubkey
 
-export const requiredConfirmations = 1;
+export const requiredConfirmations = 15;
 
 export enum PaymentStatus {
     Pending = 'Pending',
