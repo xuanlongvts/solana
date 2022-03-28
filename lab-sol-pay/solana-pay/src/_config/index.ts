@@ -92,7 +92,7 @@ export const WalletRecipient = 'BYaqcY4KvRkcjXTK8REEyWvs5FVajjdTRcoADAqVSULT'; /
 
 export const PubkeyRecipient = new PublicKey(WalletRecipient); // transform to Pubkey
 
-export const requiredConfirmations = 15;
+export const requiredConfirmations = 10;
 
 export enum PaymentStatus {
     Pending = 'Pending',
@@ -100,6 +100,10 @@ export enum PaymentStatus {
     Valid = 'Valid',
     InValid = 'InValid',
     Finalized = 'Finalized',
+}
+
+export enum PROGRESS_STATUS {
+    ProgressStatus = 'ProgressStatus',
 }
 
 export const getConfig = (envParams = ENV, protocol = SOLANA_PROTOCOLS.API_SERVER) => {

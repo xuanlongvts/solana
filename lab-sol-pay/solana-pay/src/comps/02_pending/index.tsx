@@ -1,12 +1,10 @@
-import { FC, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import NoSsr from '@mui/material/NoSsr';
 
 import {
-    createTransaction,
-    encodeURL,
     findTransactionSignature,
     FindTransactionSignatureError,
-    parseURL,
     validateTransactionSignature,
     ValidateTransactionSignatureError,
 } from '@solana/pay';
@@ -14,7 +12,8 @@ import { ConfirmedSignatureInfo, Keypair, PublicKey, TransactionSignature } from
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import BigNumber from 'bignumber.js';
 
-import { PubkeyRecipient, PaymentStatus, requiredConfirmations, Confirmations } from '_config';
+import Header from '_commComp/header';
+import { PubkeyRecipient, PaymentStatus, requiredConfirmations, Confirmations, PROGRESS_STATUS } from '_config';
 import { LocalStorageServices } from '_utils/localStorage';
 import { ENUM_FIELDS } from '_validate';
 
@@ -32,30 +31,25 @@ const Pending = () => {
     const [status, setStatus] = useState<PaymentStatus>(PaymentStatus.Pending);
     const [reference, setReference] = useState<PublicKey>(referencePubkey);
     const [confirmations, setConfirmations] = useState<Confirmations>(0);
+    const [qrCodeValid, setQrCodeValid] = useState<boolean>(false);
 
     const progress = useMemo(() => confirmations / requiredConfirmations, [confirmations]);
 
-    // useEffect(() => {
-    //     let value = 0;
-    //     let newStatus: any = PaymentStatus.Pending;
-    //     switch (status) {
-    //         case PaymentStatus.Finalized:
-    //             value = 1;
-    //             newStatus = 'Complete';
-    //         case PaymentStatus.Confirmed:
-    //         case PaymentStatus.Valid:
-    //             if (progress >= 1) {
-    //                 value = 1;
-    //                 newStatus = 'Complete';
-    //             } else {
-    //                 value = progress;
-    //                 newStatus = Math.round(progress * 100) + '%';
-    //             }
-    //         case PaymentStatus.InValid:
-    //             value = 0;
-    //             newStatus = PaymentStatus.InValid;
-    //     }
-    // }, [status, progress]);
+    // F5 Browswer
+    useEffect(() => {
+        const getAmount = Number(LocalStorageServices.getItemJson(ENUM_FIELDS.amount));
+        const getLabel = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.label));
+        const getInforProgress = LocalStorageServices.getItemJson(PROGRESS_STATUS.ProgressStatus);
+        if (getAmount && getLabel) {
+            setQrCodeValid(true);
+        } else if (!getInforProgress) {
+            router.push('/');
+        }
+
+        return () => {
+            LocalStorageServices.removeAll();
+        };
+    }, []);
 
     // 1. Status pending ---> Phone Pay
     useEffect(() => {
@@ -73,6 +67,8 @@ const Pending = () => {
                     clearInterval(interval);
                     setSignature(signature.signature);
                     setStatus(PaymentStatus.Confirmed);
+
+                    LocalStorageServices.removeManyItems([ENUM_FIELDS.amount, ENUM_FIELDS.label, ENUM_FIELDS.message, ENUM_FIELDS.memo]);
                 }
             } catch (err: any) {
                 // If the RPC node doesn't have the transaction signature yet, try again
@@ -80,7 +76,7 @@ const Pending = () => {
                     console.log('1. Phone Pay --->>> Error: ', err);
                 }
             }
-        }, 300);
+        }, 100);
 
         return () => {
             changed = true;
@@ -109,7 +105,7 @@ const Pending = () => {
             } catch (err: any) {
                 if (err instanceof ValidateTransactionSignatureError && (err.message === 'not found' || err.message === 'missing meta')) {
                     console.warn('2.0 Error validate: ', err);
-                    timeout = setTimeout(run, 250);
+                    timeout = setTimeout(run, 50);
                     return;
                 }
 
@@ -157,14 +153,19 @@ const Pending = () => {
                         setStatus(PaymentStatus.Finalized);
 
                         changed = true;
-                        // LocalStorageServices.removeAll();
+                        LocalStorageServices.removeManyItems([
+                            ENUM_FIELDS.amount,
+                            ENUM_FIELDS.label,
+                            ENUM_FIELDS.message,
+                            ENUM_FIELDS.memo,
+                        ]);
                         // router.push('/03-confirm');
                     }
                 }
             } catch (err: any) {
                 console.warn('3. Phone Pay consensus --->>> Error: ', err);
             }
-        }, 300);
+        }, 100);
 
         return () => {
             changed = true;
@@ -173,11 +174,16 @@ const Pending = () => {
     }, [status, signature, connection]);
 
     return (
-        <section>
-            <QRCode refPubkey={referencePubkey} />
-
-            <Progress status={status} progress={progress} />
-        </section>
+        <NoSsr>
+            <Header />
+            <section>
+                {status === PaymentStatus.Pending && qrCodeValid ? (
+                    <QRCode refPubkey={referencePubkey} />
+                ) : (
+                    <Progress status={status} progress={progress} />
+                )}
+            </section>
+        </NoSsr>
     );
 };
 

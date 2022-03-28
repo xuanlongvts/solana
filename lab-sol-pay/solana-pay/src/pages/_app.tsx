@@ -31,7 +31,6 @@ import ENV, { ENUM_envName } from '_config';
 
 import LoadingApp from '_commComp/loadingApp';
 import { appLoadingActions } from '_commComp/loadingApp/slice';
-import Header from '_commComp/header';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -110,7 +109,6 @@ const App = (props: T_APP) => {
                             <CssBaseline />
 
                             <main>
-                                <Header />
                                 <Component {...pageProps} />
                             </main>
                             <LoadingApp />

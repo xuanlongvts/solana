@@ -1,16 +1,19 @@
 import { FC, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/router';
+
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { createQROptions } from '@solana/pay';
 import QRCodeStyling from '@solana/qr-code-styling';
-import { Keypair, PublicKey } from '@solana/web3.js';
-import BigNumber from 'bignumber.js';
+import { PublicKey } from '@solana/web3.js';
 
 import { LocalStorageServices } from '_utils/localStorage';
-import { PubkeyRecipient, WalletRecipient } from '_config';
+import { WalletRecipient } from '_config';
 import { ENUM_FIELDS } from '_validate';
 
 const QRCode: FC<{ refPubkey: PublicKey }> = ({ refPubkey }) => {
+    const router = useRouter();
+
     const matches = useMediaQuery('(max-width:450px)');
 
     const [url, setUrl] = useState<string>('');
@@ -21,7 +24,6 @@ const QRCode: FC<{ refPubkey: PublicKey }> = ({ refPubkey }) => {
         const getLabel = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.label));
 
         let url = `solana:${WalletRecipient}?amount=${getAmount}&reference=${refPubkey.toBase58()}`;
-
         getLabel && (url += `&label=${getLabel}`);
 
         const getMessage = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.message));
