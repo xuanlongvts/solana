@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import NoSsr from '@mui/material/NoSsr';
 
 import {
+    createTransaction,
     findTransactionSignature,
     FindTransactionSignatureError,
     validateTransactionSignature,
@@ -13,7 +14,7 @@ import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import BigNumber from 'bignumber.js';
 
 import Header from '_commComp/header';
-import { PubkeyRecipient, PaymentStatus, requiredConfirmations, Confirmations, PROGRESS_STATUS } from '_config';
+import { PubkeyRecipient, PaymentStatus, WalletRecipient, requiredConfirmations, Confirmations, PROGRESS_STATUS } from '_config';
 import { LocalStorageServices } from '_utils/localStorage';
 import { ENUM_FIELDS } from '_validate';
 
@@ -51,7 +52,44 @@ const Pending = () => {
         };
     }, []);
 
-    // 1. Status pending ---> Phone Pay
+    // 0. Wallet Pay on Browser
+    useEffect(() => {
+        if (publicKey && status === PaymentStatus.Pending) {
+            let changed = false;
+
+            const run = async () => {
+                try {
+                    const getAmount = new BigNumber(LocalStorageServices.getItemJson(ENUM_FIELDS.amount));
+                    const getLabel = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.label));
+                    const getMemo = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.memo));
+
+                    if (!getAmount || !getAmount) {
+                        router.push('/');
+                    }
+
+                    const splToken = undefined;
+                    const transaction = await createTransaction(connection, publicKey, PubkeyRecipient, getAmount, {
+                        splToken,
+                        reference,
+                        memo: getMemo,
+                    });
+                    if (!changed) {
+                        await sendTransaction(transaction, connection);
+                    }
+                } catch (err) {
+                    console.log('0. Wallet on Broswer Pay --->: ', err);
+                    timeout = setTimeout(run, 5000);
+                }
+            };
+            let timeout = setTimeout(run, 0);
+
+            return () => {
+                LocalStorageServices.removeAll();
+            };
+        }
+    }, [status, publicKey, sendTransaction]);
+
+    // 1. Status pending
     useEffect(() => {
         if (signature || status !== PaymentStatus.Pending || !reference) {
             return;
@@ -73,7 +111,7 @@ const Pending = () => {
             } catch (err: any) {
                 // If the RPC node doesn't have the transaction signature yet, try again
                 if (!(err instanceof FindTransactionSignatureError)) {
-                    console.log('1. Phone Pay --->>> Error: ', err);
+                    console.log('1. Error: ', err);
                 }
             }
         }, 100);
@@ -84,7 +122,7 @@ const Pending = () => {
         };
     }, [status, signature, reference, connection]);
 
-    // 2. Status confirmed, check valid informations again ---> Phone Pay
+    // 2. Status confirmed, check valid informations again
     useEffect(() => {
         const getAmount = new BigNumber(LocalStorageServices.getItemJson(ENUM_FIELDS.amount));
         if (!signature || status !== PaymentStatus.Confirmed || !getAmount) {
@@ -109,7 +147,7 @@ const Pending = () => {
                     return;
                 }
 
-                console.warn('2.1 Phone Pay validate --->>> Error: ', err);
+                console.warn('2.1 Validate --->>> Error: ', err);
                 setStatus(PaymentStatus.InValid);
                 LocalStorageServices.removeAll();
 
@@ -124,7 +162,7 @@ const Pending = () => {
         };
     }, [status, signature, reference, connection]);
 
-    // 3. Status valid, poll for confirmations until the transaction is finalized ---> Phone Pay
+    // 3. Status valid, poll for confirmations until the transaction is finalized
     useEffect(() => {
         if (!signature || status !== PaymentStatus.Valid) {
             return;
@@ -163,7 +201,7 @@ const Pending = () => {
                     }
                 }
             } catch (err: any) {
-                console.warn('3. Phone Pay consensus --->>> Error: ', err);
+                console.warn('3. Consensus --->>> Error: ', err);
             }
         }, 100);
 
