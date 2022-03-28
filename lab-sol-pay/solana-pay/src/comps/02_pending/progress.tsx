@@ -48,7 +48,7 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
                             justifyContent: 'center',
                         }}
                     >
-                        <Typography variant="caption" component="div" color="text.secondary">
+                        <Typography variant="h6" component="div" color="text.secondary">
                             {props.is_continue}
                         </Typography>
                     </Box>
@@ -72,7 +72,7 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
                         justifyContent: 'center',
                     }}
                 >
-                    <Typography variant="caption" component="div" color="text.secondary">
+                    <Typography variant="h6" component="div" color="text.secondary">
                         {props.statusmess}
                     </Typography>
                 </Box>

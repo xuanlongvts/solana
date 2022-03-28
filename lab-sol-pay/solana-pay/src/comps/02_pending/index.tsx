@@ -78,13 +78,15 @@ const Pending = () => {
                     }
                 } catch (err) {
                     console.log('0. Wallet on Broswer Pay --->: ', err);
-                    timeout = setTimeout(run, 5000);
+                    timeout = setTimeout(run, 3000);
                 }
             };
             let timeout = setTimeout(run, 0);
 
             return () => {
                 LocalStorageServices.removeAll();
+                changed = true;
+                clearTimeout(timeout);
             };
         }
     }, [status, publicKey, sendTransaction]);
@@ -101,6 +103,8 @@ const Pending = () => {
             try {
                 signature = await findTransactionSignature(connection, referencePubkey, undefined, 'confirmed');
 
+                console.log('signature: ---> ', signature);
+
                 if (!changed) {
                     clearInterval(interval);
                     setSignature(signature.signature);
@@ -114,7 +118,7 @@ const Pending = () => {
                     console.log('1. Error: ', err);
                 }
             }
-        }, 100);
+        }, 300);
 
         return () => {
             changed = true;
