@@ -1,4 +1,5 @@
-const fs = require('fs');
+// const fs = require('fs');
+
 // Obtain the environment string passed to the node script
 const environment = process.argv[2];
 // read the content of the json file

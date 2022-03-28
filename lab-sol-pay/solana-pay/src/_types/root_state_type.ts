@@ -7,11 +7,9 @@ export const NSP_THEME_MODE_MODE_THEME = 'NSP_THEME_MODE_MODE_THEME';
 import { T_DARK_MODE } from 'themes/darkMode/slice/types';
 
 export const NSP_SENDING = 'NSP_SENDING';
-import { I_SENDING } from 'comps/01-sending/slice/types';
 
 export interface RootState {
     theme: ThemeState;
     [NSP_LOADING_APP]: T_APP_LOADING;
     [NSP_THEME_MODE_MODE_THEME]?: T_DARK_MODE;
-    [NSP_SENDING]?: I_SENDING;
 }
