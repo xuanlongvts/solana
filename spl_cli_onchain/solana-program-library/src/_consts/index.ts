@@ -9,3 +9,10 @@ export const connLocal: Connection = new Connection(
     "http://127.0.0.1:8899",
     "confirmed"
 );
+
+export type T_NAV = {
+    [key: string]: {
+        link: string;
+        title: string;
+    };
+};

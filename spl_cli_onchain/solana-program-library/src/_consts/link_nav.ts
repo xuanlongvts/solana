@@ -1,4 +1,6 @@
-const LinkNav = {
+import { T_NAV } from ".";
+
+const LinkNav: T_NAV = {
     _1: {
         link: "/01_airdrop_sol",
         title: "01. Airdrop SOL",
@@ -34,46 +36,6 @@ const LinkNav = {
     _9: {
         link: "/09_offline_signing_with_multisig",
         title: "0.9 Offline signing with multisig",
-    },
-    _10: {
-        link: "",
-        title: "",
-    },
-    _11: {
-        link: "",
-        title: "",
-    },
-    _12: {
-        link: "",
-        title: "",
-    },
-    _13: {
-        link: "",
-        title: "",
-    },
-    _14: {
-        link: "",
-        title: "",
-    },
-    _15: {
-        link: "",
-        title: "",
-    },
-    _16: {
-        link: "",
-        title: "",
-    },
-    _17: {
-        link: "",
-        title: "",
-    },
-    _18: {
-        link: "",
-        title: "",
-    },
-    _19: {
-        link: "",
-        title: "",
     },
 };
 

@@ -38,10 +38,10 @@ fn _1_unpack_amount_3(input: &[u8]) {
     println!("way 3: amount: ---> {:?}", amount);
 }
 
-fn _1_unpack_amount_4(input: &[u8]) -> Result<u64, &str> {
+fn _1_unpack_amount_4(input: &[u8]) -> Result<(), &str> {
     let amount = input.get(..8).and_then(|i| i.try_into().ok()).map(u64::from_le_bytes).ok_or("Error parse u64 to bytes")?;
-
-    Ok(amount)
+    println!("way 4: amount: ---> {:?}", amount);
+    Ok(())
 }
 
 pub fn _1_main() {
@@ -57,8 +57,7 @@ pub fn _1_main() {
     _1_unpack_amount_1(&data_u8_serialize[1..]);
     _1_unpack_amount_2(&data_u8_serialize[1..]);
     _1_unpack_amount_3(&data_u8_serialize[1..]);
-    let res = _1_unpack_amount_4(&data_u8_serialize[1..]);
-    println!("way 4: amount: ---> {:?}", res);
+    _1_unpack_amount_4(&data_u8_serialize[1..]).expect("Error unpack");
 
     println!("---------- End    instruction unpack ----------");
 }

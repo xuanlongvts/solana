@@ -4,19 +4,27 @@ import Head from "next/head";
 import Link from "next/link";
 
 import LinkNav from "_consts/link_nav";
+import LinkNavCookBook from "_consts/link_nav_cook_book";
+import { T_NAV } from "_consts";
+
+const funcNavSet = (ListLinks: T_NAV): JSX.Element[] => {
+    const res = Object.entries(ListLinks).map((i, k) => {
+        return (
+            <Link key={k} href={i[1].link}>
+                <a>{i[1].title}</a>
+            </Link>
+        );
+    });
+    return res;
+};
 
 const Home: NextPage = () => {
     const [navLinks, setNavLinks] = useState<JSX.Element[]>([]);
+    const [navLinksCookBook, setNavLinksCookBook] = useState<JSX.Element[]>([]);
 
     useEffect(() => {
-        const navLinks = Object.entries(LinkNav).map((item, k) => {
-            return (
-                <Link href={item[1].link} key={k}>
-                    <a>{item[1].title}</a>
-                </Link>
-            );
-        });
-        setNavLinks(navLinks);
+        setNavLinks(funcNavSet(LinkNav));
+        setNavLinksCookBook(funcNavSet(LinkNavCookBook));
     }, []);
 
     return (
@@ -33,6 +41,9 @@ const Home: NextPage = () => {
             <main>
                 <h1>Solana Program Library</h1>
                 <nav>{navLinks}</nav>
+
+                <h1>Cook book</h1>
+                <nav>{navLinksCookBook}</nav>
             </main>
         </>
     );
