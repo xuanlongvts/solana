@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID, AccountLayout } from "@solana/spl-token";
 
-import { connLocal } from "_consts";
+import { connLocal, conn } from "_consts";
 import LinkNavs from "_consts/link_nav";
 
 import { HeaderElement } from "_comps";
