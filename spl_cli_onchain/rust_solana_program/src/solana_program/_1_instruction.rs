@@ -30,6 +30,8 @@ fn _1_unpack_amount_2(input: &[u8]) {
     println!("way 2.1: amount: ---> {:?}", amount);
 
     let amount: Option<&[u8]> = input.get(..8).and_then(|i| i.try_into().ok()); // Some([10, 20, 30, 40, 50, 60, 70, 80])
+    // try_into will force i to u8
+    // ok ---> map (Ok, Err) to (Some, None)
     println!("way 2.2: amount: ---> {:?}", amount);
 }
 

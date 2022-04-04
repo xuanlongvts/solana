@@ -752,6 +752,7 @@ dependencies = [
 name = "rust_solana_program"
 version = "0.1.0"
 dependencies = [
+ "arrayref",
  "solana-program",
 ]
 
