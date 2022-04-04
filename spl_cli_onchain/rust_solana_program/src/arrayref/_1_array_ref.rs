@@ -35,7 +35,7 @@ pub fn _1_main() {
 	write_u16(res_mut_array_refs.1, 2);
 
 	let res_mut_array_refs = mut_array_refs![&mut dst, 3, 2, 5];
-	println!("res_mut_array_refs 2: {:?}", res_mut_array_refs);
+	println!("res_mut_array_refs 2: {:?}", res_mut_array_refs); // ([0, 1, 2], [5, 8], [0, 6, 7, 8, 9])
 
 	println!("---------- End  arrayref lib ----------");
 }

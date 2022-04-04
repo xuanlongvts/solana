@@ -8,8 +8,8 @@ const LinkNav: T_NAV = {
         title: "01. Get Program Account",
     },
     _2: {
-        link: "",
-        title: "",
+        link: `${prefix}02_serializing_data`,
+        title: "02. Serializing data",
     },
     _3: {
         link: "",
