@@ -68,7 +68,7 @@ const Pending = () => {
                     const getLabel = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.label));
                     const getMemo = encodeURI(LocalStorageServices.getItemJson(ENUM_FIELDS.memo));
 
-                    if (!getAmount || !getAmount) {
+                    if (!getAmount || !getLabel) {
                         router.push('/');
                     }
 
