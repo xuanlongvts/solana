@@ -7,10 +7,10 @@ const Buffer = require("@solana/buffer-layout");
 import { NAME_FOLDER } from "./const";
 
 export interface EscrowLayout {
-    isInitialized: number;
-    initializerPubkey: Uint8Array;
-    initializerReceivingTokenAccountPubkey: Uint8Array;
-    initializerTempTokenAccountPubkey: Uint8Array;
+    isInitialized: number; // determined had Initialed or not
+    initializerPubkey: Uint8Array; // Alice's public key
+    initializerReceivingTokenAccountPubkey: Uint8Array; // Alice's Y Token Account Pubkey
+    initializerTempTokenAccountPubkey: Uint8Array; // Account tmp for save X Token
     expectedAmount: Uint8Array;
 }
 

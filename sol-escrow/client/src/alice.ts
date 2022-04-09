@@ -33,7 +33,7 @@ const alice = async () => {
     const escrowProgramId: PublicKey = getProgramId();
     const terms: T_terms = getTerms();
 
-    const aliceXTokenAccountPubkey: PublicKey = getPublickey("alice_x");
+    const aliceXTokenAccountPubkey: PublicKey = getPublickey("alice_x"); // airdrop 50 SOL at setup file
     const aliceYTokenAccountPubkey: PublicKey = getPublickey("alice_y");
     const X_TokenMintPubkey: PublicKey = getPublickey("mint_x");
     const aliceKeypair: Keypair = getKeypair("alice");
@@ -69,15 +69,16 @@ const alice = async () => {
         );
 
     const escrowKeypair = new Keypair();
-    const createEscrowAccountIx = SystemProgram.createAccount({
-        fromPubkey: aliceKeypair.publicKey,
-        newAccountPubkey: escrowKeypair.publicKey,
-        lamports: await connection.getMinimumBalanceForRentExemption(
-            ESCROW_ACCOUNT_DATA_LAYOUT.span
-        ),
-        space: ESCROW_ACCOUNT_DATA_LAYOUT.span,
-        programId: escrowProgramId,
-    });
+    const createEscrowAccountIx: TransactionInstruction =
+        SystemProgram.createAccount({
+            fromPubkey: aliceKeypair.publicKey,
+            newAccountPubkey: escrowKeypair.publicKey,
+            lamports: await connection.getMinimumBalanceForRentExemption(
+                ESCROW_ACCOUNT_DATA_LAYOUT.span
+            ),
+            space: ESCROW_ACCOUNT_DATA_LAYOUT.span,
+            programId: escrowProgramId,
+        });
     const initEscrowIx = new TransactionInstruction({
         keys: [
             {

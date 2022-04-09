@@ -102,27 +102,28 @@ impl Processor {
 	) -> ProgramResult {
 		let account_iter = &mut accounts.iter();
 
-		let acc_taker = next_account_info(account_iter)?;
+		let acc_taker = next_account_info(account_iter)?; // account 1 (bobKeypair )
 		if !acc_taker.is_signer {
 			return Err(ProgramError::MissingRequiredSignature);
 		}
 
-		let acc_takers_sending_token = next_account_info(account_iter)?;
-		let acc_takers_token_to_receive = next_account_info(account_iter)?;
+		let acc_takers_sending_token = next_account_info(account_iter)?; // account 2 (bobYTokenAccountPubkey)
+		let acc_takers_token_to_receive = next_account_info(account_iter)?; // account 3 (bobXTokenAccountPubkey)
 
-		let acc_pdas_temp_token = next_account_info(account_iter)?;
+		let acc_pdas_temp_token = next_account_info(account_iter)?; // account 4 (XTokenTempAccountPubkey)
 		let acc_pdas_temp_token_info =
 			TokenAccount::unpack(&acc_pdas_temp_token.try_borrow_data()?)?;
-		let (pda, nonce) = Pubkey::find_program_address(&[b"escrow"], program_id);
 
 		if amount_expected_by_taker != acc_pdas_temp_token_info.amount {
 			return Err(EscrowError::ExpectedAmountMismatch.into());
 		}
 
-		let acc_initializers_main = next_account_info(account_iter)?;
-		let acc_initializers_token_to_receive = next_account_info(account_iter)?;
+		let (pda, nonce) = Pubkey::find_program_address(&[b"escrow"], program_id);
 
-		let acc_escrow = next_account_info(account_iter)?;
+		let acc_initializers_main = next_account_info(account_iter)?; // account 5 (initializerAccountPubkey)
+		let acc_initializers_token_to_receive = next_account_info(account_iter)?; // account 6
+
+		let acc_escrow = next_account_info(account_iter)?; // account 7 (escrowStateAccountPubkey)
 		let escrow_info = Escrow::unpack(&acc_escrow.try_borrow_data()?)?;
 		if escrow_info.temp_token_account_pubkey != *acc_pdas_temp_token.key {
 			return Err(ProgramError::InvalidAccountData);

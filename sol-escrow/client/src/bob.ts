@@ -73,43 +73,51 @@ const Bob = async () => {
             )
         ),
         keys: [
-            { pubkey: bobKeypair.publicKey, isSigner: true, isWritable: false },
+            { pubkey: bobKeypair.publicKey, isSigner: true, isWritable: false }, // Account 1
             {
+                // Account 2
                 pubkey: bobYTokenAccountPubkey,
                 isSigner: false,
                 isWritable: true,
             },
             {
+                // Account 3
                 pubkey: bobXTokenAccountPubkey,
                 isSigner: false,
                 isWritable: true,
             },
             {
+                // Account 4
                 pubkey: escrowState.XTokenTempAccountPubkey,
                 isSigner: false,
                 isWritable: true,
             },
             {
+                // Account 5
                 pubkey: escrowState.initializerAccountPubkey,
                 isSigner: false,
                 isWritable: true,
             },
             {
+                // Account 6
                 pubkey: escrowState.initializerYTokenAccount,
                 isSigner: false,
                 isWritable: true,
             },
             {
+                // Account 7
                 pubkey: escrowStateAccountPubkey,
                 isSigner: false,
                 isWritable: true,
             },
             {
+                // Account 9
                 pubkey: TOKEN_PROGRAM_ID,
                 isSigner: false,
                 isWritable: false,
             },
             {
+                // Account 9
                 pubkey: PDA[0],
                 isSigner: false,
                 isWritable: false,
