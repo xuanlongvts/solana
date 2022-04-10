@@ -93,13 +93,13 @@ const Bob = async () => {
                 isWritable: true,
             },
             {
-                // Account 5
+                // Account 5 (Alice's public key)
                 pubkey: escrowState.initializerAccountPubkey,
                 isSigner: false,
                 isWritable: true,
             },
             {
-                // Account 6
+                // Account 6 (Alice's Y Token Account Pubkey)
                 pubkey: escrowState.initializerYTokenAccount,
                 isSigner: false,
                 isWritable: true,
@@ -111,7 +111,7 @@ const Bob = async () => {
                 isWritable: true,
             },
             {
-                // Account 9
+                // Account 8
                 pubkey: TOKEN_PROGRAM_ID,
                 isSigner: false,
                 isWritable: false,

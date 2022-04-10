@@ -120,8 +120,8 @@ impl Processor {
 
 		let (pda, nonce) = Pubkey::find_program_address(&[b"escrow"], program_id);
 
-		let acc_initializers_main = next_account_info(account_iter)?; // account 5 (initializerAccountPubkey)
-		let acc_initializers_token_to_receive = next_account_info(account_iter)?; // account 6
+		let acc_initializers_main = next_account_info(account_iter)?; // account 5 (Alice's public key)
+		let acc_initializers_token_to_receive = next_account_info(account_iter)?; // account 6 (Alice's Y Token Account Pubkey)
 
 		let acc_escrow = next_account_info(account_iter)?; // account 7 (escrowStateAccountPubkey)
 		let escrow_info = Escrow::unpack(&acc_escrow.try_borrow_data()?)?;
@@ -139,7 +139,7 @@ impl Processor {
 			return Err(ProgramError::InvalidAccountData);
 		}
 
-		let token_program = next_account_info(account_iter)?;
+		let token_program = next_account_info(account_iter)?; // account 8 (TOKEN_PROGRAM_ID)
 		let transfer_to_initializer_ix = spl_token::instruction::transfer(
 			token_program.key,
 			acc_takers_sending_token.key,
@@ -159,7 +159,7 @@ impl Processor {
 			],
 		)?;
 
-		let acc_pda = next_account_info(account_iter)?;
+		let acc_pda = next_account_info(account_iter)?; // account 9 (PDA)
 		let transfer_to_taker_ix = spl_token::instruction::transfer(
 			token_program.key,
 			acc_pdas_temp_token.key,
