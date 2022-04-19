@@ -13,7 +13,8 @@ describe("_o3_cpi", () => {
     const programMaster = anchor.workspace.O3CpiMaster as Program<O3CpiMaster>;
     const program = anchor.workspace.O3Cpi as Program<O3Cpi>;
 
-    it("Performs CPI from _o3_cpi_master to _o3_cpi.", async () => {
+    // Way 1
+    it("Way 1. Performs CPI from _o3_cpi_master to _o3_cpi.", async () => {
         // Initialize a new puppet account.
         const newPuppetAccount = anchor.web3.Keypair.generate();
         await program.rpc.initialize({
@@ -32,6 +33,35 @@ describe("_o3_cpi", () => {
                 puppetProgram: program.programId,
             },
         });
+
+        // Check the state updated.
+        const puppetAccount = await program.account.data.fetch(
+            newPuppetAccount.publicKey
+        );
+        console.log("puppetAccount: ", Number(puppetAccount.data));
+
+        assert.ok(puppetAccount.data.eq(new anchor.BN(111)));
+    });
+
+    // Way 2
+    it("Way 2. Performs CPI from _o3_cpi_master to _o3_cpi.", async () => {
+        const newPuppetAccount = anchor.web3.Keypair.generate();
+
+        await program.methods
+            .initialize()
+            .accounts({
+                puppet: newPuppetAccount.publicKey,
+                user: provider.wallet.publicKey,
+            })
+            .signers([newPuppetAccount])
+            .rpc();
+        await programMaster.methods
+            .pullStrings(new anchor.BN(111))
+            .accounts({
+                puppet: newPuppetAccount.publicKey,
+                puppetProgram: program.programId,
+            })
+            .rpc();
 
         // Check the state updated.
         const puppetAccount = await program.account.data.fetch(
