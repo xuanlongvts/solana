@@ -83,7 +83,9 @@ impl Game {
 				Some(_) => return Err(TicTacToeError::TileAlreadySet.into()),
 				None => {
 					self.board[tile.row as usize][tile.column as usize] =
-						Some(Sign::from_usize(self.current_player_index()).unwrap())
+						Some(Sign::from_usize(self.current_player_index()).unwrap());
+
+					// Sign::from_usize(self.current_player_index()).unwrap() ===> { x: {}} or { o: {}}
 				}
 			},
 			_ => return Err(TicTacToeError::TileOutOfBounds.into()),
