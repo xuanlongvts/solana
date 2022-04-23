@@ -32,3 +32,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Create .env file with content
+
+REACT_APP_CANDY_MACHINE_CONFIG=4ctYkVDjoMJ2nKsDbQAyNqncMcKsZHZxiTLZQFP7FL8n
+REACT_APP_CANDY_MACHINE_ID=A5Fhr4RG6asrqXCjtLnu4dh7cYpyXoGQMjajGtASdAP8
+REACT_APP_TREASURY_ADDRESS=8JfcMmof6EH862WqtCufDEJXjXHbhM9N5q8rqu4ng9YW
+REACT_APP_SOLANA_NETWORK=devnet
+REACT_APP_SOLANA_RPC_HOST=https://explorer-api.devnet.solana.com
