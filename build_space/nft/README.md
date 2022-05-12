@@ -35,8 +35,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Create .env file with content
 
-REACT_APP_CANDY_MACHINE_CONFIG=4ctYkVDjoMJ2nKsDbQAyNqncMcKsZHZxiTLZQFP7FL8n
-REACT_APP_CANDY_MACHINE_ID=A5Fhr4RG6asrqXCjtLnu4dh7cYpyXoGQMjajGtASdAP8
-REACT_APP_TREASURY_ADDRESS=8JfcMmof6EH862WqtCufDEJXjXHbhM9N5q8rqu4ng9YW
+REACT_APP_CANDY_MACHINE_CONFIG=4ctYkVDjoMJ2nKsDbQAyNqncMcKsZHZxiTLZQFP7FL8n // Pubkey wallet
+REACT_APP_CANDY_MACHINE_ID=A5Fhr4RG6asrqXCjtLnu4dh7cYpyXoGQMjajGtASdAP8 // Machine ID in .cache folder of metaplex
+REACT_APP_TREASURY_ADDRESS=8JfcMmof6EH862WqtCufDEJXjXHbhM9N5q8rqu4ng9YW // Pubkey in solana-keygen pubkey ~/.config/solana/devnet.json
 REACT_APP_SOLANA_NETWORK=devnet
 REACT_APP_SOLANA_RPC_HOST=https://explorer-api.devnet.solana.com
